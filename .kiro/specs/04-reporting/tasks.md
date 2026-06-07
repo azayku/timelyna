@@ -1,0 +1,21 @@
+# Tasks — Reporting & Analytics
+
+- [x] **4.1** Create `exports` table migration: `id`, `report_type`, `format`, `status`, `s3_url`, `created_by`, `expires_at`
+- [x] **4.2** Implement `ReportingRepository` with raw SQL aggregate queries for personal/team/org stats
+- [x] **4.3** Implement `ReportingService.get_personal_stats(employee_id, period)`
+- [x] **4.4** Implement `ReportingService.get_team_stats(manager_id, period)` — only direct reports
+- [x] **4.5** Implement `ReportingService.get_financial_report(filters)` — client + project breakdown with margin
+- [x] **4.6** Add `budget_warning` flag when project > 80% budget hours consumed
+- [x] **4.7** Register all reporting API routes with correct RBAC
+- [x] **4.8** Implement Celery task `generate_export(export_id, report_type, filters, format)`
+- [ ] **4.9** Integrate WeasyPrint for PDF generation from Jinja2 HTML template
+- [ ] **4.10** Implement S3 upload + signed URL generation for exports
+- [x] **4.11** `POST /api/v1/exports` route + `GET /exports/{id}/download` route
+- [x] **4.12** Unit test: personal stats aggregation (known data → known result)
+- [x] **4.13** Unit test: financial margin calculation
+- [x] **4.14** Integration test: export flow (queue → process → status → download URL)
+- [x] **4.15** Create `StatisticsPage.tsx` with 4 KPI cards + period tabs
+- [x] **4.16** Create `HoursTrendChart.tsx` (Recharts Line)
+- [x] **4.17** Create `ProjectBreakdownChart.tsx` (Recharts Pie)
+- [x] **4.18** Create `FinancialReportPage.tsx` with client accordion and budget warning indicators
+- [x] **4.19** Create `ExportButton.tsx` with polling (React Query `refetchInterval`)

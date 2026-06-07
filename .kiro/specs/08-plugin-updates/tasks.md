@@ -1,0 +1,21 @@
+# Tasks — Plugin Updates & Patches
+
+- [ ] **8.1** Migration: `releases` table
+- [ ] **8.2** Migration: `installation_history` table
+- [ ] **8.3** Celery beat task: `check_plugin_updates()` every 6h — calls publisher API per installed plugin
+- [ ] **8.4** `UpdateService.schedule_auto_install(release_id, org_id, deadline)` — Celery ETA task
+- [ ] **8.5** Celery task: `install_plugin_update(org_id, plugin_id, to_version)` with full safe install steps
+- [ ] **8.6** Implement backup step: snapshot plugin data to S3, record counts
+- [ ] **8.7** Implement schema migration runner (reads migration scripts from release ZIP)
+- [ ] **8.8** Implement rollback: restore S3 backup + revert installed_plugins record
+- [ ] **8.9** `GET /api/v1/plugins/updates` — list available updates for org
+- [ ] **8.10** `POST /api/v1/plugins/{id}/update` — trigger immediate install
+- [ ] **8.11** `POST /api/v1/plugins/{id}/rollback` body: `{ toVersion }`
+- [ ] **8.12** `GET /api/v1/plugins/{id}/installation-history`
+- [ ] **8.13** Unit test: checksum verification — valid, tampered file
+- [ ] **8.14** Unit test: auto-install scheduling — HOTFIX (1h), BUGFIX (48h), FEATURE (no auto)
+- [ ] **8.15** Integration test: install → backup → fail → auto-rollback
+- [ ] **8.16** Create `UpdateNotificationBanner.tsx` with live countdown (setInterval)
+- [ ] **8.17** Create `UpdatesPage.tsx` with install/schedule/postpone actions
+- [ ] **8.18** Create `InstallProgressModal.tsx` polling `/installation-history` every 2s
+- [ ] **8.19** Create `VersionHistoryPage.tsx` with per-version rollback button

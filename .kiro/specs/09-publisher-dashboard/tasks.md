@@ -1,0 +1,21 @@
+# Tasks — Publisher Dashboard
+
+- [ ] **9.1** Migration: `publisher_users`, `publisher_clients`, `validation_checks`, `audits` tables
+- [ ] **9.2** Separate publisher auth: `POST /publisher/auth/login` with own JWT issuer
+- [ ] **9.3** `ClientService.onboard()` — generate client_id + api_key, hash + store api_key
+- [ ] **9.4** `ClientService.rotate_api_key()` — new key, revoke old
+- [ ] **9.5** `LicenseGeneratorService.generate(plugin_id, client_id, config)` — sign JWT with publisher private key
+- [ ] **9.6** `LicenseService.revoke(license_id)` — set revoked flag in DB (detected at next phone-home)
+- [ ] **9.7** `POST /api/v1/license/validate` phone-home endpoint — check DB, log to validation_checks, return features
+- [ ] **9.8** `ReleaseService.publish(release_id)` — set status, notify targeted clients via Celery
+- [ ] **9.9** Celery beat: alert rules engine (validation failure threshold, expiry warnings)
+- [ ] **9.10** `AuditService.trigger(client_id)` — async Celery audit task (check license, plugin status, resource usage)
+- [ ] **9.11** Register all publisher routes with `require_role('publisher')`
+- [ ] **9.12** Unit test: license generation — correct payload, valid RS256 signature
+- [ ] **9.13** Unit test: phone-home — valid, revoked, expired licenses
+- [ ] **9.14** Unit test: alert rule — 3 failures triggers alert, 2 does not
+- [ ] **9.15** Create `PublisherLoginPage.tsx` (separate route `/publisher/login`)
+- [ ] **9.16** Create `ClientsListPage.tsx` + `OnboardClientModal.tsx`
+- [ ] **9.17** Create `CreateLicenseModal.tsx` with feature checkboxes + limits inputs
+- [ ] **9.18** Create `AuditDashboardPage.tsx` — validation timeline table + manual trigger
+- [ ] **9.19** Create `AlertRulesPage.tsx` — list rules, enable/disable toggles

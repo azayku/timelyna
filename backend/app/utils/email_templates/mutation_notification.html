@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mutation d'employé — TimesheetPro</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .header { background-color: #1d4ed8; padding: 24px 32px; }
+    .header h1 { color: #ffffff; margin: 0; font-size: 20px; }
+    .body { padding: 32px; color: #374151; line-height: 1.6; }
+    .body p { margin: 0 0 16px; }
+    .highlight { background-color: #eff6ff; border-left: 4px solid #1d4ed8; padding: 12px 16px; border-radius: 4px; margin: 20px 0; }
+    .highlight strong { color: #1d4ed8; }
+    .footer { background-color: #f9fafb; padding: 16px 32px; text-align: center; font-size: 12px; color: #9ca3af; border-top: 1px solid #e5e7eb; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>TimesheetPro — Mutation d'employé</h1>
+    </div>
+    <div class="body">
+      <p>Bonjour {{ manager_first_name }},</p>
+      <p>
+        Nous vous informons qu'un employé a été muté vers votre organisation
+        <strong>{{ org_name }}</strong>.
+      </p>
+      <div class="highlight">
+        <p><strong>Employé :</strong> {{ employee_name }}</p>
+        <p><strong>Organisation cible :</strong> {{ org_name }}</p>
+        {% if reason %}
+        <p><strong>Motif :</strong> {{ reason }}</p>
+        {% endif %}
+        <p><strong>Date de mutation :</strong> {{ mutated_at }}</p>
+      </div>
+      <p>
+        Cet employé est désormais rattaché à votre équipe. Vous pouvez consulter
+        son profil et ses feuilles de temps dans l'interface d'administration.
+      </p>
+      <p>Cordialement,<br />L'équipe TimesheetPro</p>
+    </div>
+    <div class="footer">
+      Cet email a été envoyé automatiquement par TimesheetPro. Merci de ne pas y répondre.
+    </div>
+  </div>
+</body>
+</html>

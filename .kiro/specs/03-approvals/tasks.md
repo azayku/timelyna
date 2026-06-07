@@ -1,0 +1,21 @@
+# Tasks — Approvals Workflow
+
+- [x] **3.1** Write Alembic migration: `approvals` table
+- [x] **3.2** Create `Approval` SQLAlchemy model
+- [x] **3.3** `ApprovalRepository`: `get_by_id`, `get_pending_for_manager`, `get_by_employee`, `create`, `update_status`
+- [x] **3.4** `ApprovalService.approve()` — auth check, status guard, batch entry update, audit log, dispatch notification
+- [x] **3.5** `ApprovalService.reject()` — same + reason validation + reset entries to draft
+- [x] **3.6** `ApprovalService.cancel()` — employee-only, pending-only, reset entries
+- [x] **3.7** Register manager approval routes: `GET`, `POST /approve`, `POST /reject`
+- [x] **3.8** Register employee submission routes: `GET /submissions`, `POST /submissions/{id}/cancel`
+- [x] **3.9** Register admin override routes (inherit same service, skip manager check)
+- [x] **3.10** Write `audit_logs` entry on every approve/reject (action, user_id, entity, before/after)
+- [x] **3.11** Unit test: approve — success, wrong manager, already approved
+- [x] **3.12** Unit test: reject — success, missing reason, wrong status
+- [x] **3.13** Unit test: cancel — success, not pending
+- [x] **3.14** Integration test: submit → approve full flow with notification dispatch
+- [x] **3.15** Create `ApprovalsPage.tsx` — table with filters (pending/all), sortable by date
+- [x] **3.16** Create `ApprovalDetail.tsx` — entry breakdown table + approve/reject actions
+- [x] **3.17** Create `RejectionModal.tsx` with textarea validation
+- [x] **3.18** Create `SubmissionsPage.tsx` — employee history with status filter + cancel button
+- [x] **3.19** Add approval count badge to sidebar ("Approvals (3)")
