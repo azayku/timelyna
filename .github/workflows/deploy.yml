@@ -188,8 +188,8 @@ jobs:
             # Build fresh images for dev.
             docker compose build --pull backend celery-worker celery-beat frontend
 
-            # Deploy/restart stack.
-            docker compose up -d
+            # Deploy/restart stack, including pgAdmin for database access on dev.
+            docker compose up -d backend celery-worker celery-beat frontend pgadmin
 
             # Run DB migrations on the live backend container.
             docker compose exec -T backend sh -lc 'cd /app/migrations && python -m alembic -c alembic.ini upgrade heads'
