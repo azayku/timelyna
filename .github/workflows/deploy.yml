@@ -149,14 +149,20 @@ jobs:
           key: ${{ secrets.OVH_SSH_KEY }}
           script: |
             set -e
+            APP_DIR="/opt/timelyna"
             REPO_URL="https://x-access-token:${{ secrets.OVH_REPO_TOKEN }}@github.com/${{ github.repository }}.git"
 
-            if [ ! -d /opt/timelyna/.git ]; then
-              rm -rf /opt/timelyna
-              git clone "$REPO_URL" /opt/timelyna
+            # Ensure target directory exists and is writable by current SSH user.
+            sudo mkdir -p "$APP_DIR"
+            sudo chown -R "$USER":"$USER" "$APP_DIR"
+
+            if [ ! -d "$APP_DIR/.git" ]; then
+              rm -rf "$APP_DIR"
+              mkdir -p "$APP_DIR"
+              git clone "$REPO_URL" "$APP_DIR"
             fi
 
-            cd /opt/timelyna
+            cd "$APP_DIR"
             git remote set-url origin "$REPO_URL"
             git fetch origin
             git checkout dev
