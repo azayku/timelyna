@@ -10,6 +10,7 @@ from unittest.mock import AsyncMock, MagicMock  # noqa: F401 — exported for te
 import bcrypt as _bcrypt
 import pytest
 import pytest_asyncio
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from app.models.base import Base
@@ -70,10 +71,25 @@ async def create_unit_tables():
 
 @pytest_asyncio.fixture
 async def db() -> AsyncGenerator[AsyncSession, None]:
-    """Yield an async session that is rolled back after each test."""
+    """Yield an isolated async session for each test.
+
+    Some services commit transactions during tests, so a simple rollback is not
+    enough to keep state isolated. We clear all tables before and after each
+    test to avoid cross-test UNIQUE collisions (e.g. employees.username).
+    """
     async with UnitSessionLocal() as session:
+        # Pre-clean in case a previous test committed data.
+        for table in reversed(Base.metadata.sorted_tables):
+            await session.execute(text(f'DELETE FROM "{table.name}"'))
+        await session.commit()
+
         yield session
+
         await session.rollback()
+        # Post-clean to guarantee isolation for the next test.
+        for table in reversed(Base.metadata.sorted_tables):
+            await session.execute(text(f'DELETE FROM "{table.name}"'))
+        await session.commit()
 
 
 # ---------------------------------------------------------------------------
