@@ -118,9 +118,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  # Job 2b: Build new Docker images on OVH after each merge/push to dev
+  # Job 2b: Build and deploy on OVH after each merge/push to dev
   build-ovh-dev-images:
-    name: Build OVH Dev Images
+    name: Build & Deploy OVH Dev
     runs-on: ubuntu-latest
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
@@ -140,7 +140,7 @@ jobs:
             echo "OVH_HOST/OVH_USER/OVH_SSH_KEY missing: skipping OVH image build for this run."
           fi
 
-      - name: Build images on OVH VPS
+      - name: Build and deploy on OVH VPS
         if: steps.ovh_cfg.outputs.configured == 'true'
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -162,12 +162,21 @@ jobs:
             git checkout dev
             git reset --hard origin/dev
 
-            # Generate fresh Docker images on OVH for the dev branch.
+            # Build fresh images for dev.
             docker compose build --pull backend celery-worker celery-beat frontend
+
+            # Deploy/restart stack.
+            docker compose up -d
+
+            # Run DB migrations on the live backend container.
+            docker compose exec -T backend alembic upgrade head
+
+            # Simple local healthcheck on VPS.
+            curl -fsS http://localhost:8000/health >/dev/null
 
       - name: OVH build skipped
         if: steps.ovh_cfg.outputs.configured != 'true'
-        run: echo "OVH build skipped because required SSH configuration is not available in this context."
+        run: echo "OVH deploy skipped because required SSH configuration is not available in this context."
 
   # Job 3: Deploy to staging (branch main)
   deploy-staging:
