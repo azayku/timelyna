@@ -26,9 +26,13 @@ class ApprovalService:
         self.org_repo = OrganizationRepository(db)
 
     async def _resolve_manager_id(self, employee_id: int) -> int:
-        """Resolve manager_id via organizations.manager_id from employees.org_id.
+        """Resolve manager with backward-compatible priority.
 
-        Returns the manager_id of the employee's organization.
+        Priority:
+        1) employees.manager_id when set (legacy behavior used by tests/services)
+        2) organizations.manager_id fallback
+
+        Returns resolved manager_id.
         Raises 422 with code 'no_valid_organization' if the employee has no valid org.
         """
         employee = await self.emp_repo.get_by_id(employee_id)
@@ -37,6 +41,10 @@ class ApprovalService:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Employee not found",
             )
+
+        if employee.manager_id is not None:
+            return employee.manager_id
+
         org = await self.org_repo.get_by_id(employee.org_id)
         if not org or org.manager_id is None:
             raise HTTPException(

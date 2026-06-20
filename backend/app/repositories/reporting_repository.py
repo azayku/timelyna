@@ -88,23 +88,34 @@ class ReportingRepository:
     async def get_weekly_trend(
         self, employee_id: int, start_date: date, end_date: date
     ) -> list[dict]:
+        # Use day-level aggregation in SQL and fold into ISO weeks in Python.
+        # This keeps compatibility with both PostgreSQL and SQLite test DB.
         result = await self.db.execute(
             text("""
                 SELECT
-                    TO_CHAR(DATE_TRUNC('week', work_date), 'IYYY-"W"IW') AS week,
+                    work_date,
                     COALESCE(SUM(hours_worked), 0) AS hours
                 FROM timesheet_entries
                 WHERE employee_id = :employee_id
                   AND work_date BETWEEN :start_date AND :end_date
                   AND deleted_at IS NULL
-                GROUP BY DATE_TRUNC('week', work_date)
-                ORDER BY DATE_TRUNC('week', work_date)
+                GROUP BY work_date
+                ORDER BY work_date
             """),
             {"employee_id": employee_id, "start_date": start_date, "end_date": end_date},
         )
+        weekly: dict[str, float] = {}
+        for row in result.mappings().all():
+            work_date = row["work_date"]
+            if isinstance(work_date, str):
+                work_date = date.fromisoformat(work_date)
+            iso_year, iso_week, _ = work_date.isocalendar()
+            week_key = f"{iso_year}-W{iso_week:02d}"
+            weekly[week_key] = weekly.get(week_key, 0.0) + float(row["hours"] or 0)
+
         return [
-            {"week": row["week"], "hours": float(row["hours"])}
-            for row in result.mappings().all()
+            {"week": week, "hours": hours}
+            for week, hours in sorted(weekly.items())
         ]
 
     async def get_team_stats(

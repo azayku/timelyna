@@ -1,7 +1,6 @@
 """Shared fixtures for unit tests — SQLite in-memory, no HTTP client needed."""
 from __future__ import annotations
 
-import asyncio
 from datetime import date, datetime, timezone
 from decimal import Decimal
 from typing import AsyncGenerator
@@ -13,6 +12,7 @@ import pytest_asyncio
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
+from app.core.limiter import login_limiter, password_reset_limiter
 from app.models.base import Base
 
 # Register all models so SQLAlchemy metadata is complete
@@ -53,11 +53,19 @@ unit_engine = create_async_engine(UNIT_TEST_DB_URL, echo=False)
 UnitSessionLocal = async_sessionmaker(unit_engine, expire_on_commit=False, class_=AsyncSession)
 
 
-@pytest_asyncio.fixture(scope="session")
-def event_loop():
-    loop = asyncio.new_event_loop()
-    yield loop
-    loop.close()
+@pytest.fixture(autouse=True)
+def disable_route_rate_limiter(monkeypatch: pytest.MonkeyPatch):
+    """Disable route-level pyrate limiter in unit tests.
+
+    Unit tests should exercise business logic deterministically without
+    cross-test throttling side effects.
+    """
+
+    async def _always_allow(*args, **kwargs):
+        return True
+
+    monkeypatch.setattr(login_limiter, "try_acquire_async", _always_allow)
+    monkeypatch.setattr(password_reset_limiter, "try_acquire_async", _always_allow)
 
 
 @pytest_asyncio.fixture(scope="session", autouse=True)

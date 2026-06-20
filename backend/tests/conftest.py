@@ -1,16 +1,17 @@
 """Shared pytest fixtures for all backend tests."""
 from __future__ import annotations
 
-import asyncio
 from datetime import date
 from typing import AsyncGenerator
 
 import pytest
 import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from app.core.database import get_db
+from app.core.limiter import login_limiter, password_reset_limiter
 from app.main import app
 from app.models.base import Base
 from app.models.employee import Employee  # noqa: F401 — register models
@@ -43,11 +44,19 @@ test_engine = create_async_engine(TEST_DATABASE_URL, echo=False)
 TestSessionLocal = async_sessionmaker(test_engine, expire_on_commit=False, class_=AsyncSession)
 
 
-@pytest_asyncio.fixture(scope="session")
-def event_loop():
-    loop = asyncio.new_event_loop()
-    yield loop
-    loop.close()
+@pytest.fixture(autouse=True)
+def disable_route_rate_limiter(monkeypatch: pytest.MonkeyPatch):
+    """Disable route-level pyrate limiter in tests.
+
+    Authentication lockout tests rely on DB-backed login attempts, not this
+    per-route limiter. Disabling it avoids cross-test 429 cascades.
+    """
+
+    async def _always_allow(*args, **kwargs):
+        return True
+
+    monkeypatch.setattr(login_limiter, "try_acquire_async", _always_allow)
+    monkeypatch.setattr(password_reset_limiter, "try_acquire_async", _always_allow)
 
 
 @pytest_asyncio.fixture(scope="session", autouse=True)
@@ -61,9 +70,23 @@ async def create_tables():
 
 @pytest_asyncio.fixture
 async def db() -> AsyncGenerator[AsyncSession, None]:
+    """Provide isolated DB state per test.
+
+    Many tests commit inside services/routes. A rollback-only strategy leaks state
+    (login attempts, employees, approvals, etc.) to subsequent tests and causes
+    cascading failures. We clear all tables before and after each test.
+    """
     async with TestSessionLocal() as session:
+        for table in reversed(Base.metadata.sorted_tables):
+            await session.execute(text(f'DELETE FROM "{table.name}"'))
+        await session.commit()
+
         yield session
+
         await session.rollback()
+        for table in reversed(Base.metadata.sorted_tables):
+            await session.execute(text(f'DELETE FROM "{table.name}"'))
+        await session.commit()
 
 
 @pytest_asyncio.fixture

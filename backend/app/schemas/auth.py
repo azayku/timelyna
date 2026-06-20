@@ -5,15 +5,24 @@ import re
 from datetime import date, datetime
 from typing import Optional
 
-from pydantic import BaseModel, EmailStr, field_validator
+from pydantic import BaseModel, EmailStr, field_validator, model_validator
 
 
 PASSWORD_RE = re.compile(r"^(?=.*[A-Z])(?=.*\d).{8,}$")
 
 
 class LoginRequest(BaseModel):
-    identifier: str  # Email or username
+    identifier: Optional[str] = None  # Email or username
+    email: Optional[str] = None  # Backward compatibility for older clients/tests
     password: str
+
+    @model_validator(mode="after")
+    def normalize_identifier(self) -> "LoginRequest":
+        if not self.identifier and self.email:
+            self.identifier = self.email
+        if not self.identifier:
+            raise ValueError("identifier is required")
+        return self
 
 
 class TokenResponse(BaseModel):

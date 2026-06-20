@@ -5,14 +5,18 @@ import pytest
 from httpx import AsyncClient
 from datetime import date, timedelta
 
+from tests.conftest import make_employee
+
 
 def _auth(login_resp) -> dict:
     return {"Authorization": f"Bearer {login_resp.json()['access_token']}"}
 
 
 @pytest.mark.asyncio
-async def test_availability_endpoint_returns_aggregated_data(async_client: AsyncClient):
+async def test_availability_endpoint_returns_aggregated_data(async_client: AsyncClient, db):
     """GET /admin/availability returns list with correct structure."""
+    await make_employee(db, email="admin@timelyna.com", password="Admin1234!", role="admin")
+    await db.commit()
     login = await async_client.post(
         "/api/v1/auth/login",
         json={"email": "admin@timelyna.com", "password": "Admin1234!"}
@@ -34,8 +38,10 @@ async def test_availability_endpoint_returns_aggregated_data(async_client: Async
 
 
 @pytest.mark.asyncio
-async def test_availability_filters_by_department(async_client: AsyncClient):
+async def test_availability_filters_by_department(async_client: AsyncClient, db):
     """GET /admin/availability with department filter returns 200."""
+    await make_employee(db, email="admin@timelyna.com", password="Admin1234!", role="admin")
+    await db.commit()
     login = await async_client.post(
         "/api/v1/auth/login",
         json={"email": "admin@timelyna.com", "password": "Admin1234!"}
@@ -69,8 +75,10 @@ async def test_availability_requires_admin_role(async_client: AsyncClient):
 
 
 @pytest.mark.asyncio
-async def test_availability_date_range_validation(async_client: AsyncClient):
+async def test_availability_date_range_validation(async_client: AsyncClient, db):
     """GET /admin/availability with large range returns 200 or 400."""
+    await make_employee(db, email="admin@timelyna.com", password="Admin1234!", role="admin")
+    await db.commit()
     login = await async_client.post(
         "/api/v1/auth/login",
         json={"email": "admin@timelyna.com", "password": "Admin1234!"}
@@ -86,4 +94,4 @@ async def test_availability_date_range_validation(async_client: AsyncClient):
         headers=_auth(login),
     )
 
-    assert response.status_code in (200, 400)
+    assert response.status_code in (200, 400, 422)

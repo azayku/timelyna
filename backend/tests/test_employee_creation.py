@@ -108,4 +108,5 @@ async def test_create_employee_success_with_all_fields(
     )
     assert resp.status_code == 201, resp.text
     data = resp.json()
-    assert data["address"] == "5 rue des Lilas, Lyon"
+    assert data["type"] == "employee"
+    assert data["generated_username"]

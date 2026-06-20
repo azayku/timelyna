@@ -76,10 +76,9 @@ def create_access_token(data: dict) -> str:
     settings = get_settings()
     payload = data.copy()
     now = datetime.now(timezone.utc)
-    payload.update({
-        "iat": now,
-        "exp": now + timedelta(hours=settings.ACCESS_TOKEN_EXPIRE_HOURS),
-    })
+    payload["iat"] = now
+    if "exp" not in payload:
+        payload["exp"] = now + timedelta(hours=settings.ACCESS_TOKEN_EXPIRE_HOURS)
     return jwt.encode(payload, get_private_key_pem(), algorithm="RS256")
 
 
