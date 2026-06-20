@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import asyncio
 import os
+import sys
+
+sys.path.insert(0, "/app")
 
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
