@@ -173,6 +173,17 @@ jobs:
             git checkout dev
             git reset --hard origin/dev
 
+            # Ensure backend env file exists for docker compose env_file.
+            if [ ! -f backend/.env ]; then
+              if [ -f backend/.env.example ]; then
+                cp backend/.env.example backend/.env
+                echo "backend/.env created from backend/.env.example"
+              else
+                echo "ERROR: backend/.env is missing and backend/.env.example was not found"
+                exit 1
+              fi
+            fi
+
             # Build fresh images for dev.
             docker compose build --pull backend celery-worker celery-beat frontend
 
