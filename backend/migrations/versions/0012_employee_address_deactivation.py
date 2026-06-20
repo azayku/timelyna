@@ -16,18 +16,25 @@ depends_on = None
 
 
 def upgrade() -> None:
-    op.add_column(
-        "employees",
-        sa.Column("address", sa.String(500), nullable=True),
-    )
-    op.add_column(
-        "employees",
-        sa.Column(
-            "deactivation_scheduled_at",
-            sa.DateTime(timezone=True),
-            nullable=True,
-        ),
-    )
+    bind = op.get_bind()
+    inspector = sa.inspect(bind)
+    existing = {c["name"] for c in inspector.get_columns("employees")}
+
+    if "address" not in existing:
+        op.add_column(
+            "employees",
+            sa.Column("address", sa.String(500), nullable=True),
+        )
+
+    if "deactivation_scheduled_at" not in existing:
+        op.add_column(
+            "employees",
+            sa.Column(
+                "deactivation_scheduled_at",
+                sa.DateTime(timezone=True),
+                nullable=True,
+            ),
+        )
 
 
 def downgrade() -> None:
