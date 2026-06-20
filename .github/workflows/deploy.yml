@@ -3,6 +3,7 @@ name: Deploy Timelyna
 on:
   push:
     branches:
+      - dev
       - main
       - production
   pull_request:
@@ -116,6 +117,38 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  # Job 2b: Build new Docker images on OVH after each merge/push to dev
+  build-ovh-dev-images:
+    name: Build OVH Dev Images
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+
+    steps:
+      - name: Build images on OVH VPS
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.OVH_HOST }}
+          username: ${{ secrets.OVH_USER }}
+          key: ${{ secrets.OVH_SSH_KEY }}
+          script: |
+            set -e
+            REPO_URL="https://x-access-token:${{ secrets.OVH_REPO_TOKEN }}@github.com/${{ github.repository }}.git"
+
+            if [ ! -d /opt/timelyna/.git ]; then
+              rm -rf /opt/timelyna
+              git clone "$REPO_URL" /opt/timelyna
+            fi
+
+            cd /opt/timelyna
+            git remote set-url origin "$REPO_URL"
+            git fetch origin
+            git checkout dev
+            git reset --hard origin/dev
+
+            # Generate fresh Docker images on OVH for the dev branch.
+            docker compose build --pull backend celery-worker celery-beat frontend
 
   # Job 3: Deploy to staging (branch main)
   deploy-staging:
