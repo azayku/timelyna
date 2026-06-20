@@ -47,7 +47,7 @@ async def test_full_weekly_workflow_submit_and_approve(
 
     # Login as employee
     login_resp = await client.post("/api/v1/auth/login", json={
-        "email": "int001emp@test.com",
+        "identifier": "int001emp@test.com",
         "password": "Pass1234",
     })
     assert login_resp.status_code == 200
@@ -85,7 +85,7 @@ async def test_full_weekly_workflow_submit_and_approve(
 
     # Login as manager
     mgr_login = await client.post("/api/v1/auth/login", json={
-        "email": "int001mgr@test.com",
+        "identifier": "int001mgr@test.com",
         "password": "Pass1234",
     })
     assert mgr_login.status_code == 200
@@ -144,7 +144,8 @@ async def test_rejection_and_resubmission_workflow(
     await db.commit()
 
     # Employee login
-    emp_login = await client.post("/api/v1/auth/login", json={"email": "int002emp@test.com", "password": "Pass1234"})
+    emp_login = await client.post("/api/v1/auth/login", json={"identifier": "int002emp@test.com", "password": "Pass1234"})
+    assert emp_login.status_code == 200
     emp_token = emp_login.json()["access_token"]
     emp_headers = {"Authorization": f"Bearer {emp_token}"}
 
@@ -177,7 +178,8 @@ async def test_rejection_and_resubmission_workflow(
     approval_id = submit_resp.json()["approval_id"]
 
     # Manager login and reject
-    mgr_login = await client.post("/api/v1/auth/login", json={"email": "int002mgr@test.com", "password": "Pass1234"})
+    mgr_login = await client.post("/api/v1/auth/login", json={"identifier": "int002mgr@test.com", "password": "Pass1234"})
+    assert mgr_login.status_code == 200
     mgr_token = mgr_login.json()["access_token"]
     mgr_headers = {"Authorization": f"Bearer {mgr_token}"}
 
@@ -232,14 +234,43 @@ async def test_proxy_admin_creates_entry_for_employee(
     client: AsyncClient, db: AsyncSession
 ):
     """Admin starts proxy session, creates entry for employee, ends session."""
+    from sqlalchemy import select
+    from app.models.module_license import ModuleLicense
+    from app.utils.module_license import generate_key
+
     admin = await make_employee(db, email="int003admin@test.com", password="Pass1234", role="admin")
     employee = await make_employee(db, email="int003emp@test.com", password="Pass1234", role="employee")
     cli = await make_client(db)
     project = await make_project(db, cli.client_id, admin.employee_id)
+
+    # Proxy routes are gated by Finance Pro license.
+    expiry = date(2099, 12, 31)
+    valid_key = generate_key(expiry=expiry)
+    lic_result = await db.execute(
+        select(ModuleLicense).where(
+            ModuleLicense.org_id == 1,
+            ModuleLicense.module_name == "finance_pro",
+        )
+    )
+    license_row = lic_result.scalar_one_or_none()
+    if license_row:
+        license_row.license_key = valid_key
+        license_row.expires_at = expiry
+    else:
+        db.add(
+            ModuleLicense(
+                org_id=1,
+                module_name="finance_pro",
+                license_key=valid_key,
+                expires_at=expiry,
+            )
+        )
+
     await db.commit()
 
     # Admin login
-    admin_login = await client.post("/api/v1/auth/login", json={"email": "int003admin@test.com", "password": "Pass1234"})
+    admin_login = await client.post("/api/v1/auth/login", json={"identifier": "int003admin@test.com", "password": "Pass1234"})
+    assert admin_login.status_code == 200
     admin_token = admin_login.json()["access_token"]
     admin_headers = {"Authorization": f"Bearer {admin_token}"}
 
@@ -317,7 +348,8 @@ async def test_employee_mutation_updates_manager(
     await db.commit()
 
     # Admin login
-    admin_login = await client.post("/api/v1/auth/login", json={"email": "int004admin@test.com", "password": "Pass1234"})
+    admin_login = await client.post("/api/v1/auth/login", json={"identifier": "int004admin@test.com", "password": "Pass1234"})
+    assert admin_login.status_code == 200
     admin_token = admin_login.json()["access_token"]
     admin_headers = {"Authorization": f"Bearer {admin_token}"}
 
@@ -330,7 +362,8 @@ async def test_employee_mutation_updates_manager(
     assert mutate_resp.status_code in (200, 201), f"Mutation failed: {mutate_resp.text}"
 
     # Employee login
-    emp_login = await client.post("/api/v1/auth/login", json={"email": "int004emp@test.com", "password": "Pass1234"})
+    emp_login = await client.post("/api/v1/auth/login", json={"identifier": "int004emp@test.com", "password": "Pass1234"})
+    assert emp_login.status_code == 200
     emp_token = emp_login.json()["access_token"]
     emp_headers = {"Authorization": f"Bearer {emp_token}"}
 
@@ -359,7 +392,8 @@ async def test_employee_mutation_updates_manager(
         approval_id = submit_resp.json()["approval_id"]
 
         # Manager 2 (new manager) should see it in pending
-        mgr2_login = await client.post("/api/v1/auth/login", json={"email": "int004mgr2@test.com", "password": "Pass1234"})
+        mgr2_login = await client.post("/api/v1/auth/login", json={"identifier": "int004mgr2@test.com", "password": "Pass1234"})
+        assert mgr2_login.status_code == 200
         mgr2_token = mgr2_login.json()["access_token"]
         mgr2_headers = {"Authorization": f"Bearer {mgr2_token}"}
 
@@ -373,7 +407,8 @@ async def test_employee_mutation_updates_manager(
         assert approval_id in approval_ids
 
         # Manager 1 (old manager) should NOT see it
-        mgr1_login = await client.post("/api/v1/auth/login", json={"email": "int004mgr1@test.com", "password": "Pass1234"})
+        mgr1_login = await client.post("/api/v1/auth/login", json={"identifier": "int004mgr1@test.com", "password": "Pass1234"})
+        assert mgr1_login.status_code == 200
         mgr1_token = mgr1_login.json()["access_token"]
         mgr1_headers = {"Authorization": f"Bearer {mgr1_token}"}
 
