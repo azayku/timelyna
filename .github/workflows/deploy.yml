@@ -132,12 +132,13 @@ jobs:
           OVH_HOST: ${{ secrets.OVH_HOST != '' && secrets.OVH_HOST || vars.OVH_HOST }}
           OVH_USER: ${{ secrets.OVH_USER != '' && secrets.OVH_USER || vars.OVH_USER }}
           OVH_SSH_KEY: ${{ secrets.OVH_SSH_KEY }}
+          OVH_REPO_TOKEN: ${{ secrets.OVH_REPO_TOKEN }}
         run: |
-          if [ -n "$OVH_HOST" ] && [ -n "$OVH_USER" ] && [ -n "$OVH_SSH_KEY" ]; then
+          if [ -n "$OVH_HOST" ] && [ -n "$OVH_USER" ] && [ -n "$OVH_SSH_KEY" ] && [ -n "$OVH_REPO_TOKEN" ]; then
             echo "configured=true" >> "$GITHUB_OUTPUT"
           else
             echo "configured=false" >> "$GITHUB_OUTPUT"
-            echo "OVH_HOST/OVH_USER/OVH_SSH_KEY missing: skipping OVH image build for this run."
+            echo "OVH_HOST/OVH_USER/OVH_SSH_KEY/OVH_REPO_TOKEN missing: skipping OVH image build for this run."
           fi
 
       - name: Build and deploy on OVH VPS
@@ -150,7 +151,10 @@ jobs:
           script: |
             set -e
             APP_DIR="/opt/timelyna"
-            REPO_URL="https://x-access-token:${{ secrets.OVH_REPO_TOKEN }}@github.com/${{ github.repository }}.git"
+            REPO_URL="https://${{ github.repository_owner }}:${{ secrets.OVH_REPO_TOKEN }}@github.com/${{ github.repository }}.git"
+
+            # Fail fast with a clear message if token cannot read the private repo.
+            git ls-remote "$REPO_URL" HEAD >/dev/null
 
             # Ensure target directory exists and is writable by current SSH user.
             sudo mkdir -p "$APP_DIR"
