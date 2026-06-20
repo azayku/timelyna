@@ -126,11 +126,26 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
 
     steps:
+      - name: Validate OVH SSH configuration
+        id: ovh_cfg
+        env:
+          OVH_HOST: ${{ secrets.OVH_HOST != '' && secrets.OVH_HOST || vars.OVH_HOST }}
+          OVH_USER: ${{ secrets.OVH_USER != '' && secrets.OVH_USER || vars.OVH_USER }}
+          OVH_SSH_KEY: ${{ secrets.OVH_SSH_KEY }}
+        run: |
+          if [ -n "$OVH_HOST" ] && [ -n "$OVH_USER" ] && [ -n "$OVH_SSH_KEY" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "OVH_HOST/OVH_USER/OVH_SSH_KEY missing: skipping OVH image build for this run."
+          fi
+
       - name: Build images on OVH VPS
+        if: steps.ovh_cfg.outputs.configured == 'true'
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.OVH_HOST }}
-          username: ${{ secrets.OVH_USER }}
+          host: ${{ secrets.OVH_HOST != '' && secrets.OVH_HOST || vars.OVH_HOST }}
+          username: ${{ secrets.OVH_USER != '' && secrets.OVH_USER || vars.OVH_USER }}
           key: ${{ secrets.OVH_SSH_KEY }}
           script: |
             set -e
@@ -149,6 +164,10 @@ jobs:
 
             # Generate fresh Docker images on OVH for the dev branch.
             docker compose build --pull backend celery-worker celery-beat frontend
+
+      - name: OVH build skipped
+        if: steps.ovh_cfg.outputs.configured != 'true'
+        run: echo "OVH build skipped because required SSH configuration is not available in this context."
 
   # Job 3: Deploy to staging (branch main)
   deploy-staging:
