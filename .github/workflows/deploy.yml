@@ -192,7 +192,7 @@ jobs:
             docker compose up -d
 
             # Run DB migrations on the live backend container.
-            docker compose exec -T backend sh -lc 'cd /app/migrations && alembic -c alembic.ini upgrade heads'
+            docker compose exec -T backend sh -lc 'cd /app/migrations && python -m alembic -c alembic.ini upgrade heads'
 
             # Simple local healthcheck on VPS.
             curl -fsS http://localhost:8000/health >/dev/null
