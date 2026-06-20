@@ -194,7 +194,15 @@ jobs:
             # Run DB migrations on the live backend container.
             docker compose exec -T backend sh -lc 'cd /app/migrations && python -m alembic -c alembic.ini upgrade heads'
 
-            # Simple local healthcheck on VPS.
+            # Wait for the API to become reachable before failing the job.
+            for attempt in $(seq 1 30); do
+              if curl -fsS http://localhost:8000/health >/dev/null; then
+                exit 0
+              fi
+              sleep 2
+            done
+
+            echo "Healthcheck failed after waiting for backend readiness"
             curl -fsS http://localhost:8000/health >/dev/null
 
       - name: OVH build skipped
