@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_TEMPLATES: dict[str, dict] = {
     "welcome_new_employee": {
-        "subject": "Bienvenue sur TimesheetPro — {{org_name}}",
+        "subject": "Bienvenue sur Timelyna — {{org_name}}",
         "html_body": (
             "<p>Bonjour {{first_name}},<br>"
             "Votre compte a été créé. Identifiant : <strong>{{username}}</strong><br>"
@@ -37,9 +37,9 @@ DEFAULT_TEMPLATES: dict[str, dict] = {
             "<p>Bonjour {{manager_first_name}},</p>"
             "<p>Rappel : <strong>{{first_name}} {{last_name}}</strong> rejoint votre équipe "
             "demain (<strong>{{hire_date}}</strong>).</p>"
-            "<p>Son compte TimesheetPro sera automatiquement activé ce soir. "
+            "<p>Son compte Timelyna sera automatiquement activé ce soir. "
             "Il/elle recevra un email de bienvenue avec ses identifiants.</p>"
-            "<p>Cordialement,<br>TimesheetPro</p>"
+            "<p>Cordialement,<br>Timelyna</p>"
         ),
         "variables": ["first_name", "last_name", "hire_date", "manager_first_name", "org_name"],
     },
@@ -58,7 +58,7 @@ DEFAULT_TEMPLATES: dict[str, dict] = {
             "<td style='padding:6px;border:1px solid #e2e8f0'><strong>{{remaining_hours}}h</strong></td></tr>"
             "</table>"
             "<p>Veuillez vérifier l'avancement et ajuster si nécessaire.</p>"
-            "<p>Cordialement,<br>TimesheetPro</p>"
+            "<p>Cordialement,<br>Timelyna</p>"
         ),
         "variables": [
             "project_name", "consumption_pct", "budget_hours",

@@ -8,7 +8,7 @@ from sqlalchemy import select
 import bcrypt
 import os
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://timesheetpro:changeme@postgres:5432/timesheetpro")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://timelyna:changeme@postgres:5432/timelyna")
 
 async def reset_admin_password():
     """Réinitialise le mot de passe du compte admin à 'admin123'."""
@@ -20,13 +20,13 @@ async def reset_admin_password():
         
         # Trouver le compte admin
         result = await db.execute(
-            select(Employee).where(Employee.email == "admin@timesheetpro.com")
+            select(Employee).where(Employee.email == "admin@timelyna.com")
         )
         admin = result.scalar_one_or_none()
         
         if not admin:
             print("❌ Compte admin introuvable!")
-            print("Email recherché: admin@timesheetpro.com")
+            print("Email recherché: admin@timelyna.com")
             return
         
         # Réinitialiser le mot de passe
@@ -39,7 +39,7 @@ async def reset_admin_password():
         print("=" * 60)
         print("✅ MOT DE PASSE ADMIN RÉINITIALISÉ AVEC SUCCÈS!")
         print("=" * 60)
-        print(f"Email:    admin@timesheetpro.com")
+        print(f"Email:    admin@timelyna.com")
         print(f"Password: {new_password}")
         print("=" * 60)
         print("\nVous pouvez maintenant vous connecter sur http://localhost")

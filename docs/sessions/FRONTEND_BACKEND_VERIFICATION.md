@@ -129,7 +129,7 @@ python test_manager_data.py
 **Si échec:** Exécuter le SQL
 ```bash
 # Avec psql
-psql -U postgres -d timesheetpro -f setup_gianni_final.sql
+psql -U postgres -d timelyna -f setup_gianni_final.sql
 
 # Ou copier-coller dans votre client SQL
 ```

@@ -1,4 +1,4 @@
-# 📱 Améliorations UX Mobile/Tablette - TimesheetPro
+# 📱 Améliorations UX Mobile/Tablette - Timelyna
 
 ## ✅ Changements effectués
 

@@ -1,5 +1,5 @@
 """
-Script de seed pour test de charge - TimesheetPro
+Script de seed pour test de charge - Timelyna
 Génère des données réalistes italiennes sur 12 mois :
 - 50 employés, 10 managers, 2 admins, 3 finance
 - 50 clients
@@ -544,7 +544,7 @@ async def create_absences(session: AsyncSession, org_id: int):
 async def main():
     """Fonction principale."""
     print("=" * 60)
-    print("🚀 SEED LOAD TEST - TimesheetPro Italia")
+    print("🚀 SEED LOAD TEST - Timelyna Italia")
     print("=" * 60)
     print(f"Configuration:")
     print(f"  - Employés: {NUM_EMPLOYEES}")

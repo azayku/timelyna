@@ -22,13 +22,13 @@ class MFAService:
         """Generate a new TOTP secret (base32 encoded)."""
         return pyotp.random_base32()
 
-    def get_totp_uri(self, secret: str, user_email: str, issuer: str = "TimesheetPro") -> str:
+    def get_totp_uri(self, secret: str, user_email: str, issuer: str = "Timelyna") -> str:
         """Generate provisioning URI for QR code scanning.
 
         Args:
             secret: Base32-encoded TOTP secret
             user_email: User's email address (displayed in authenticator app)
-            issuer: Application name (default: TimesheetPro)
+            issuer: Application name (default: Timelyna)
 
         Returns:
             otpauth:// URI string

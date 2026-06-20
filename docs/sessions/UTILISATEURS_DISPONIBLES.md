@@ -1,4 +1,4 @@
-# Utilisateurs Disponibles - TimesheetPro
+# Utilisateurs Disponibles - Timelyna
 
 ## ⚠️ IMPORTANT
 
@@ -50,7 +50,7 @@ L'ancien utilisateur `brigitte17@example.net` n'existe plus!
 ## 🔄 Pour Lister Tous les Utilisateurs
 
 ```bash
-docker exec timesheetpro-backend python list_users.py
+docker exec timelyna-backend python list_users.py
 ```
 
 ## 💡 Prochaines Étapes

@@ -1,4 +1,4 @@
-# 🎨 Refonte UX TimesheetPro - Récapitulatif Final
+# 🎨 Refonte UX Timelyna - Récapitulatif Final
 
 ## ✅ Changements complétés
 
@@ -157,7 +157,7 @@ Membre depuis: {(user as any)?.created_at ? ... : 'N/A'}
 ## 📋 Structure finale de navigation
 
 ```
-TimesheetPro
+Timelyna
 ├── Dashboard (tous profils)
 ├── Timesheet
 │   ├── Mes pointages (draft + soumis avec filtres)

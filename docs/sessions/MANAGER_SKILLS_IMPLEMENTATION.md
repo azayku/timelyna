@@ -57,14 +57,14 @@ response.append(
 
 ### Option 1: Rebuild complet (RECOMMANDÉ)
 ```bash
-cd d:\Projets\Perso\timesheetpro
+cd d:\Projets\Perso\timelyna
 
 # Arrêter et supprimer le container
 docker-compose stop backend
 docker-compose rm -f backend
 
 # Supprimer l'image
-docker rmi -f timesheetpro-backend
+docker rmi -f timelyna-backend
 
 # Rebuild sans cache
 docker-compose build --no-cache backend
@@ -78,7 +78,7 @@ Start-Sleep -Seconds 10
 
 ### Option 2: Utiliser docker-compose down/up
 ```bash
-cd d:\Projets\Perso\timesheetpro
+cd d:\Projets\Perso\timelyna
 
 # Arrêter tous les services
 docker-compose down
@@ -94,7 +94,7 @@ docker-compose up -d
 
 ### 1. Vérifier que le code est bien dans le container
 ```powershell
-docker exec timesheetpro-backend grep -A 8 "class TeamMemberResponse" /app/app/api/v1/manager.py
+docker exec timelyna-backend grep -A 8 "class TeamMemberResponse" /app/app/api/v1/manager.py
 ```
 
 **Résultat attendu**: Doit contenir `skills: list[str]`

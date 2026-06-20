@@ -33,7 +33,7 @@ async def seed():
 
     async with session_factory() as db:
         # Check if already seeded
-        existing = await db.execute(select(Employee).where(Employee.email == "admin@timesheetpro.com"))
+        existing = await db.execute(select(Employee).where(Employee.email == "admin@timelyna.com"))
         if existing.scalar_one_or_none():
             print("✓ Already seeded — skipping")
             return
@@ -42,7 +42,7 @@ async def seed():
 
         # ── Admin ──────────────────────────────────────────────────────────
         admin = Employee(
-            email="admin@timesheetpro.com",
+            email="admin@timelyna.com",
             first_name="Alice",
             last_name="Admin",
             password_hash=hash_pw("Admin1234!"),
@@ -55,7 +55,7 @@ async def seed():
 
         # ── Manager ────────────────────────────────────────────────────────
         manager = Employee(
-            email="manager@timesheetpro.com",
+            email="manager@timelyna.com",
             first_name="Marc",
             last_name="Manager",
             password_hash=hash_pw("Manager1234!"),
@@ -69,7 +69,7 @@ async def seed():
 
         # ── Employee ───────────────────────────────────────────────────────
         emp = Employee(
-            email="employee@timesheetpro.com",
+            email="employee@timelyna.com",
             first_name="Emma",
             last_name="Employee",
             password_hash=hash_pw("Employee1234!"),
@@ -83,7 +83,7 @@ async def seed():
 
         # ── Finance ────────────────────────────────────────────────────────
         finance = Employee(
-            email="finance@timesheetpro.com",
+            email="finance@timelyna.com",
             first_name="Frank",
             last_name="Finance",
             password_hash=hash_pw("Finance1234!"),
@@ -157,19 +157,19 @@ async def seed():
     print("✅ Demo accounts created:")
     print()
     print("  👤 ADMIN")
-    print("    Email   : admin@timesheetpro.com")
+    print("    Email   : admin@timelyna.com")
     print("    Password: Admin1234!")
     print()
     print("  👤 MANAGER")
-    print("    Email   : manager@timesheetpro.com")
+    print("    Email   : manager@timelyna.com")
     print("    Password: Manager1234!")
     print()
     print("  👤 EMPLOYEE")
-    print("    Email   : employee@timesheetpro.com")
+    print("    Email   : employee@timelyna.com")
     print("    Password: Employee1234!")
     print()
     print("  👤 FINANCE")
-    print("    Email   : finance@timesheetpro.com")
+    print("    Email   : finance@timelyna.com")
     print("    Password: Finance1234!")
     print()
     print("  📁 Projects: 'Website Redesign' + 'Mobile App' (client: Acme Corp)")

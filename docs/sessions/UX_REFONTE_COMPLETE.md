@@ -1,4 +1,4 @@
-# 🎨 Refonte UX TimesheetPro - Complète
+# 🎨 Refonte UX Timelyna - Complète
 
 ## 📋 Résumé des changements
 

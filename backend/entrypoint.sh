@@ -2,7 +2,7 @@
 set -e
 
 echo "Waiting for PostgreSQL..."
-until pg_isready -h postgres -p 5432 -U timesheetpro; do
+until pg_isready -h postgres -p 5432 -U timelyna; do
   sleep 1
 done
 
@@ -15,7 +15,7 @@ import asyncio, os
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy import select, text
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://timesheetpro:changeme@postgres:5432/timesheetpro")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://timelyna:changeme@postgres:5432/timelyna")
 
 async def ensure_app_config():
     engine = create_async_engine(DATABASE_URL, echo=False)

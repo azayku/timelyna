@@ -172,7 +172,7 @@ Pour appliquer toutes les modifications:
 docker-compose down
 
 # Supprimer les images
-docker rmi -f timesheetpro-backend timesheetpro-frontend
+docker rmi -f timelyna-backend timelyna-frontend
 
 # Rebuild sans cache
 docker-compose build --no-cache backend frontend
@@ -198,7 +198,7 @@ docker-compose up -d
 ### ✅ Backend
 1. GET `/api/v1/manager/organizations` → 3 organisations
 2. GET `/api/v1/manager/team` → 12 employés avec skills
-3. Vérifier les logs: `docker logs timesheetpro-backend`
+3. Vérifier les logs: `docker logs timelyna-backend`
 
 ### ✅ Dashboard
 1. Vérifier les KPIs manager (heures, employés actifs, validations)

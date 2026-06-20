@@ -6,7 +6,7 @@
 
 ### Backend ✅
 
-**Container**: `timesheetpro-backend`
+**Container**: `timelyna-backend`
 - **Status**: Running (Up 12 minutes)
 - **Port**: 8000
 - **Health**: OK
@@ -41,7 +41,7 @@ INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
 
 ### Frontend ✅
 
-**Container**: `timesheetpro-frontend`
+**Container**: `timelyna-frontend`
 - **Status**: Running (Up 7 minutes)
 - **Port**: 80
 - **Health**: OK
@@ -59,21 +59,21 @@ const BASE = import.meta.env.VITE_API_URL ?? '/api/v1'
 
 ### Autres Containers ✅
 
-**PostgreSQL** (`timesheetpro-db`):
+**PostgreSQL** (`timelyna-db`):
 - Status: Healthy
 - Port: 5432
 
-**Redis** (`timesheetpro-redis`):
+**Redis** (`timelyna-redis`):
 - Status: Healthy
 - Port: 6379
 
-**Celery Worker** (`timesheetpro-celery`):
+**Celery Worker** (`timelyna-celery`):
 - Status: Up 25 hours
 
-**Celery Beat** (`timesheetpro-celery-beat`):
+**Celery Beat** (`timelyna-celery-beat`):
 - Status: Up 25 hours
 
-**PgAdmin** (`timesheetpro-pgadmin`):
+**PgAdmin** (`timelyna-pgadmin`):
 - Status: Up 18 hours
 - Port: 5050
 
@@ -144,13 +144,13 @@ docker-compose up -d --build frontend
 
 ### Voir les logs
 ```bash
-docker logs timesheetpro-backend --tail 50
-docker logs timesheetpro-frontend --tail 50
+docker logs timelyna-backend --tail 50
+docker logs timelyna-frontend --tail 50
 ```
 
 ### Exécuter le seed script
 ```bash
-docker exec -it timesheetpro-backend python seed_load_test.py
+docker exec -it timelyna-backend python seed_load_test.py
 ```
 
 ### Restart tous les containers

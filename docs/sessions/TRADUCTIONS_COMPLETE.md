@@ -1,4 +1,4 @@
-# ✅ Traductions Complètes - TimesheetPro
+# ✅ Traductions Complètes - Timelyna
 
 ## 📊 Résumé
 
@@ -333,7 +333,7 @@ Si une clé n'existe pas dans la langue active, le système utilise :
 
 ## 🎉 Conclusion
 
-Le système de traduction de TimesheetPro est maintenant **100% complet** avec :
+Le système de traduction de Timelyna est maintenant **100% complet** avec :
 
 - ✅ **4 langues** supportées (FR, EN, IT, ES)
 - ✅ **500+ clés** de traduction

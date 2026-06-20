@@ -1,5 +1,5 @@
 /**
- * Lightweight API client for TimesheetPro.
+ * Lightweight API client for Timelyna.
  * Reads the base URL from VITE_API_URL (defaults to /api/v1).
  * JWT access_token is injected via Authorization: Bearer on every request.
  * tokenStore breaks the circular dep: authStore→apiClient→authStore.

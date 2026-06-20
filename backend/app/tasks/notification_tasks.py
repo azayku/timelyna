@@ -105,7 +105,7 @@ try:
     from app.core.config import get_settings
 
     _settings = get_settings()
-    celery_app = Celery("timesheetpro", broker=_settings.REDIS_URL)
+    celery_app = Celery("timelyna", broker=_settings.REDIS_URL)
 
     @celery_app.task(name="tasks.send_email_notification")
     def send_email_notification(to: str, subject: str, template_name: str, context: dict) -> None:

@@ -2,7 +2,7 @@
 inclusion: always
 ---
 
-# TimesheetPro — Technology Stack
+# Timelyna — Technology Stack
 
 ## Backend
 - **Framework:** FastAPI (Python 3.11+)

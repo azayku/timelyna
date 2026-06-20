@@ -1,9 +1,9 @@
 # Project Agents
 
-This file describes the specialized AI agents configured for the TimesheetPro project.
+This file describes the specialized AI agents configured for the Timelyna project.
 
 ## 📋 agent-po-timesheet
-Product Owner expert pour TimesheetProject.
+Product Owner expert pour Timelynaject.
 - **Role:** Analyse le backlog, priorise les features, découpe en User Stories.
 - **Responsibility:** Orchestration des agents techniques (frontend, backend, migration).
 - **Tooling:** Analyse des fichiers `/specs/`, gestion du `ACTION_PLAN.md`.

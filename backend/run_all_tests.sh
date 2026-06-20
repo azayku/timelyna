@@ -37,7 +37,7 @@ print_title "TEST 2: Vérification de la base de données"
 python test_manager_data.py
 if [ $? -ne 0 ]; then
     echo -e "${RED}❌ Problème avec les données de la base!${NC}"
-    echo -e "${YELLOW}Exécutez le script SQL: psql -U postgres -d timesheetpro -f setup_gianni_final.sql${NC}"
+    echo -e "${YELLOW}Exécutez le script SQL: psql -U postgres -d timelyna -f setup_gianni_final.sql${NC}"
     exit 1
 fi
 

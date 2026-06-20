@@ -1,4 +1,4 @@
-# 📋 Résumé des Modifications Finales - TimesheetPro
+# 📋 Résumé des Modifications Finales - Timelyna
 
 ## 🎯 Objectifs Atteints
 

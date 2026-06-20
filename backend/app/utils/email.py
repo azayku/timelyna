@@ -45,7 +45,7 @@ async def send_password_reset_email(
     template_name: str = "password_reset",
 ) -> None:
     """Send password reset email. Checks DB for custom template first."""
-    subject = "Réinitialisation de votre mot de passe TimesheetPro"
+    subject = "Réinitialisation de votre mot de passe Timelyna"
     body = f"Cliquez sur le lien ci-dessous pour réinitialiser votre mot de passe (valable 1 heure) :\n\n{reset_link}\n"
     
     if db:
@@ -53,7 +53,7 @@ async def send_password_reset_email(
             from app.services.email_template_service import EmailTemplateService
             template_service = EmailTemplateService(db)
             settings = get_settings()
-            org_name = getattr(settings, 'ORG_NAME', 'TimesheetPro')
+            org_name = getattr(settings, 'ORG_NAME', 'Timelyna')
             context = {
                 "first_name": first_name,
                 "last_name": last_name,
@@ -70,9 +70,9 @@ async def send_password_reset_email(
 def send_password_changed_email(to: str, lang: str = "fr") -> None:
     """Send password changed notification email."""
     subjects = {
-        "fr": "Votre mot de passe TimesheetPro a été modifié",
-        "en": "Your TimesheetPro password has been changed",
-        "it": "La tua password TimesheetPro è stata modificata",
+        "fr": "Votre mot de passe Timelyna a été modifié",
+        "en": "Your Timelyna password has been changed",
+        "it": "La tua password Timelyna è stata modificata",
     }
     bodies = {
         "fr": "Votre mot de passe a été modifié avec succès. Si vous n'êtes pas à l'origine de cette action, contactez le support.",
@@ -93,7 +93,7 @@ async def send_welcome_email(
     template_name: str = "welcome_new_employee",
 ) -> None:
     """Send welcome email to new employee. Checks DB for custom template first."""
-    subject = "Bienvenue sur TimesheetPro"
+    subject = "Bienvenue sur Timelyna"
     body = f"Votre compte a été créé. Configurez votre mot de passe ici (lien valable 24h) :\n\n{setup_link}\n"
     
     if db:
@@ -101,7 +101,7 @@ async def send_welcome_email(
             from app.services.email_template_service import EmailTemplateService
             template_service = EmailTemplateService(db)
             settings = get_settings()
-            org_name = getattr(settings, 'ORG_NAME', 'TimesheetPro')
+            org_name = getattr(settings, 'ORG_NAME', 'Timelyna')
             context = {
                 "first_name": first_name,
                 "last_name": last_name,
@@ -130,8 +130,8 @@ async def send_onboarding_reminder_email(
     body = (
         f"Bonjour {manager_first_name},\n\n"
         f"{first_name} {last_name} rejoint votre équipe demain ({hire_date}).\n"
-        f"Son compte TimesheetPro sera activé ce soir.\n\n"
-        "Cordialement,\nTimesheetPro"
+        f"Son compte Timelyna sera activé ce soir.\n\n"
+        "Cordialement,\nTimelyna"
     )
 
     if db:
@@ -139,7 +139,7 @@ async def send_onboarding_reminder_email(
             from app.services.email_template_service import EmailTemplateService
             template_service = EmailTemplateService(db)
             settings = get_settings()
-            org_name = getattr(settings, 'ORG_NAME', 'TimesheetPro')
+            org_name = getattr(settings, 'ORG_NAME', 'Timelyna')
             context = {
                 "first_name": first_name,
                 "last_name": last_name,
@@ -171,7 +171,7 @@ async def send_budget_alert_email(
         f"Bonjour {manager_first_name},\n\n"
         f"Le projet {project_name} a atteint {consumption_pct:.0f}% de son budget.\n"
         f"Budget : {budget_hours:.0f}h | Consommé : {consumed_hours:.1f}h | Restant : {remaining_hours:.1f}h\n\n"
-        "Cordialement,\nTimesheetPro"
+        "Cordialement,\nTimelyna"
     )
 
     if db:
@@ -179,7 +179,7 @@ async def send_budget_alert_email(
             from app.services.email_template_service import EmailTemplateService
             template_service = EmailTemplateService(db)
             settings = get_settings()
-            org_name = getattr(settings, 'ORG_NAME', 'TimesheetPro')
+            org_name = getattr(settings, 'ORG_NAME', 'Timelyna')
             context = {
                 "project_name": project_name,
                 "consumption_pct": f"{consumption_pct:.0f}",

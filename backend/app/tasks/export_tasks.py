@@ -34,7 +34,7 @@ try:
     from app.core.config import get_settings
 
     _settings = get_settings()
-    celery_app = Celery("timesheetpro", broker=_settings.REDIS_URL)
+    celery_app = Celery("timelyna", broker=_settings.REDIS_URL)
 
     @celery_app.task(name="tasks.generate_export")
     def generate_export(export_id: int) -> None:

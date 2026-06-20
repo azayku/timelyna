@@ -101,7 +101,7 @@ function downloadTemplate(entity: EntityType) {
     if (ws[cell]) ws[cell].s = headerStyle
   }
   XLSX.utils.book_append_sheet(wb, ws, ENTITY_LABELS[entity])
-  XLSX.writeFile(wb, `template_${entity}_timesheetpro.xlsx`, { bookType: 'xlsx', cellStyles: true })
+  XLSX.writeFile(wb, `template_${entity}_timelyna.xlsx`, { bookType: 'xlsx', cellStyles: true })
 }
 
 // ── Main component ──────────────────────────────────────────────────────────

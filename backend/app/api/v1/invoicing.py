@@ -147,7 +147,7 @@ async def download_invoice(
 <body>
   <div class="header">
     <div>
-      <h1>TimesheetPro</h1>
+      <h1>Timelyna</h1>
       <p style="color:#6b7280;margin:0">Facture professionnelle</p>
     </div>
     <div style="text-align:right">
@@ -178,7 +178,7 @@ async def download_invoice(
   </table>
 
   <p style="margin-top:40px;color:#9ca3af;font-size:12px;text-align:center">
-    Généré par TimesheetPro · {invoice['created_at'][:10]}
+    Généré par Timelyna · {invoice['created_at'][:10]}
   </p>
 </body>
 </html>"""

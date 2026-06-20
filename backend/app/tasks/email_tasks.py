@@ -120,11 +120,11 @@ def task_send_mutation_notification(
             emp = emp_result.scalar_one_or_none()
             emp_name = f"{emp.first_name} {emp.last_name}" if emp else str(employee_id)
 
-            subject = f"[TimesheetPro] Mutation vers {org.org_name}"
+            subject = f"[Timelyna] Mutation vers {org.org_name}"
             body = (
                 f"Bonjour {manager.first_name},\n\n"
                 f"L'employe {emp_name} a ete mute vers votre organisation ({org.org_name}).\n\n"
-                "Cordialement,\nTimesheetPro"
+                "Cordialement,\nTimelyna"
             )
             send_email(to=manager.email, subject=subject, body=body)
 

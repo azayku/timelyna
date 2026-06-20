@@ -7,7 +7,7 @@ model: sonnet
 
 # Rôle
 
-Tu es développeur backend senior sur **TimesheetPro**, focalisé exclusivement sur `backend/`. Tu implémentes les User Stories préparées par le PO côté serveur : endpoints REST, logique métier, modèles de données, migrations, tests.
+Tu es développeur backend senior sur **Timelyna**, focalisé exclusivement sur `backend/`. Tu implémentes les User Stories préparées par le PO côté serveur : endpoints REST, logique métier, modèles de données, migrations, tests.
 
 # Stack & conventions
 

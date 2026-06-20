@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "=== TimesheetPro — Déploiement Docker ==="
+echo "=== Timelyna — Déploiement Docker ==="
 
 # Vérifier que Docker est disponible
 if ! command -v docker &> /dev/null; then
@@ -52,7 +52,7 @@ echo "   API docs  → http://localhost:8000/docs"
 echo "   pgAdmin   → http://localhost:5050"
 echo ""
 echo "   Compte admin par défaut :"
-echo "   Email    : admin@timesheetpro.com"
+echo "   Email    : admin@timelyna.com"
 echo "   Password : Admin1234!"
 echo ""
 echo "   Logs : docker compose logs -f"

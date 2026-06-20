@@ -11,7 +11,7 @@ def create_celery_app() -> Celery:
     settings = get_settings()
 
     app = Celery(
-        "timesheetpro",
+        "timelyna",
         broker=settings.REDIS_URL,
         backend=settings.REDIS_URL,
         include=[

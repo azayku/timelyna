@@ -2,11 +2,11 @@
 inclusion: always
 ---
 
-# TimesheetPro — Project Structure
+# Timelyna — Project Structure
 
 ## Repository Layout
 ```
-timesheetpro/
+timelyna/
 ├── .kiro/
 │   ├── steering/          # Always-on project context
 │   └── specs/             # Feature specs (requirements, design, tasks)

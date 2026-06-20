@@ -617,7 +617,7 @@
     "preferencesSaved": "Préférences enregistrées"
   },
   "login": {
-    "title": "TimesheetPro",
+    "title": "Timelyna",
     "heading": "Connexion",
     "subtitle": "Connectez-vous à votre espace",
     "signIn": "Connexion",
@@ -638,7 +638,7 @@
     "hidePassword": "Masquer le mot de passe",
     "noAccount": "Vous n'avez pas encore de compte ?",
     "contactAdmin": "Contactez votre administrateur",
-    "welcomeTitle": "TimesheetPro",
+    "welcomeTitle": "Timelyna",
     "welcomeSubtitle": "Gérez vos temps et projets efficacement"
   },
   "errors": {

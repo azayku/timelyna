@@ -1,4 +1,4 @@
-# SPEC AUDIT — TimesheetPro
+# SPEC AUDIT — Timelyna
 **Date :** 2026-05-04  
 **Version :** 1.0  
 **Périmètre :** Frontend v2 + Backend FastAPI + Infrastructure Docker
@@ -45,7 +45,7 @@
 
 ### SEC-02 · CRITIQUE — Credentials admin hardcodés et loggués
 - **Fichier :** `backend/entrypoint.sh` lignes 41–54
-- **Problème :** Le script crée `admin@timesheetpro.com / Admin1234!` hardcodé et affiche le mot de passe en clair dans les logs Docker.
+- **Problème :** Le script crée `admin@timelyna.com / Admin1234!` hardcodé et affiche le mot de passe en clair dans les logs Docker.
 - **Impact :** Accès admin complet pour quiconque consulte les logs ou connaît le comportement du script.
 - **Correction :**
   - Passer par variable `ADMIN_PASSWORD` injectée au démarrage
@@ -533,4 +533,4 @@ const formatDate = (iso: string) =>
 
 ---
 
-*Fin du rapport — SPEC_AUDIT.md v1.0 — TimesheetPro 2026-05-04*
+*Fin du rapport — SPEC_AUDIT.md v1.0 — Timelyna 2026-05-04*

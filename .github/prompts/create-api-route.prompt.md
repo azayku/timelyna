@@ -1,6 +1,6 @@
 # Create API Route
 
-Create a new FastAPI route following the TimesheetPro conventions.
+Create a new FastAPI route following the Timelyna conventions.
 
 ## Context
 - Domain: {{domain}}

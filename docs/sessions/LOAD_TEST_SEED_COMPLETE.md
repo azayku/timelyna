@@ -106,7 +106,7 @@ Le script a été entièrement adapté au modèle de données actuel:
 
 ```bash
 # Option 1: Depuis le container Docker (recommandé)
-docker exec -it timesheetpro-backend-1 bash
+docker exec -it timelyna-backend-1 bash
 python seed_load_test.py
 
 # Option 2: Depuis l'hôte

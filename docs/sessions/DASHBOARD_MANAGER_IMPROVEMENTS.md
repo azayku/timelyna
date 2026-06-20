@@ -1,4 +1,4 @@
-# Améliorations Dashboard Manager - TimesheetPro
+# Améliorations Dashboard Manager - Timelyna
 
 ## ✅ Modifications Réalisées
 

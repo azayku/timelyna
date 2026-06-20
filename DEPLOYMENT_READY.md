@@ -1,4 +1,4 @@
-# 🚀 TimesheetPro — PRÊT POUR LE DÉPLOIEMENT
+# 🚀 Timelyna — PRÊT POUR LE DÉPLOIEMENT
 
 **Date :** 2026-05-04  
 **Statut :** ✅ **PRODUCTION READY**  
@@ -10,7 +10,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  TIMESHEETPRO — VALIDATION FINALE                       │
+│  TIMELYNA — VALIDATION FINALE                       │
 ├─────────────────────────────────────────────────────────┤
 │  ✅ Audit SPEC_AUDIT.md      100% (57/57 critiques)     │
 │  ✅ Sécurité                 9/10 (toutes critiques OK)  │
@@ -58,7 +58,7 @@
 ```bash
 # 1. Cloner le repository
 git clone <repo-url>
-cd timesheetpro
+cd timelyna
 
 # 2. Copier et configurer .env
 cp backend/.env.example backend/.env
@@ -89,7 +89,7 @@ openssl rand -base64 16
 
 ```env
 # backend/.env
-CORS_ALLOWED_ORIGINS=https://app.timesheetpro.com,https://www.timesheetpro.com
+CORS_ALLOWED_ORIGINS=https://app.timelyna.com,https://www.timelyna.com
 ```
 
 ### Étape 4 : Build et Déploiement
@@ -111,10 +111,10 @@ docker-compose logs -f frontend
 
 ```bash
 # Vérifier la santé de l'API
-curl https://api.timesheetpro.com/health
+curl https://api.timelyna.com/health
 
 # Vérifier le frontend
-curl https://app.timesheetpro.com
+curl https://app.timelyna.com
 
 # Vérifier les logs
 docker-compose logs --tail=100 backend
@@ -331,15 +331,15 @@ docker-compose logs -f
 
 ### Contacts
 
-- **DevOps :** devops@timesheetpro.com
-- **Sécurité :** security@timesheetpro.com
-- **Support :** support@timesheetpro.com
+- **DevOps :** devops@timelyna.com
+- **Sécurité :** security@timelyna.com
+- **Support :** support@timelyna.com
 
 ### Documentation
 
-- **API Docs :** https://api.timesheetpro.com/docs
-- **User Guide :** https://docs.timesheetpro.com
-- **Admin Guide :** https://docs.timesheetpro.com/admin
+- **API Docs :** https://api.timelyna.com/docs
+- **User Guide :** https://docs.timelyna.com
+- **Admin Guide :** https://docs.timelyna.com/admin
 
 ### Maintenance
 
@@ -378,7 +378,7 @@ docker-compose logs -f
 
 ## 🎉 Conclusion
 
-**TimesheetPro est prêt pour la production !**
+**Timelyna est prêt pour la production !**
 
 Tous les critères sont remplis :
 - ✅ Code : 100% fonctionnel

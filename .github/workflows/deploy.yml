@@ -1,4 +1,4 @@
-name: Deploy TimesheetPro
+name: Deploy Timelyna
 
 on:
   push:
@@ -125,7 +125,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     environment:
       name: staging
-      url: https://staging.timesheetpro.com
+      url: https://staging.timelyna.com
       
     steps:
       - name: Checkout code
@@ -138,7 +138,7 @@ jobs:
           username: ${{ secrets.STAGING_USER }}
           key: ${{ secrets.STAGING_SSH_KEY }}
           script: |
-            cd /opt/timesheetpro
+            cd /opt/timelyna
             git pull origin main
             docker-compose -f docker-compose.staging.yml pull
             docker-compose -f docker-compose.staging.yml up -d
@@ -147,7 +147,7 @@ jobs:
       - name: Health check
         run: |
           sleep 10
-          curl -f https://staging.timesheetpro.com/health || exit 1
+          curl -f https://staging.timelyna.com/health || exit 1
 
   # Job 4: Deploy to production (branch production)
   deploy-production:
@@ -157,7 +157,7 @@ jobs:
     if: github.ref == 'refs/heads/production'
     environment:
       name: production
-      url: https://app.timesheetpro.com
+      url: https://app.timelyna.com
       
     steps:
       - name: Checkout code
@@ -170,7 +170,7 @@ jobs:
           username: ${{ secrets.PRODUCTION_USER }}
           key: ${{ secrets.PRODUCTION_SSH_KEY }}
           script: |
-            cd /opt/timesheetpro
+            cd /opt/timelyna
             git pull origin production
             docker-compose pull
             docker-compose up -d
@@ -179,7 +179,7 @@ jobs:
       - name: Health check
         run: |
           sleep 15
-          curl -f https://app.timesheetpro.com/health || exit 1
+          curl -f https://app.timelyna.com/health || exit 1
           
       - name: Notify deployment
         uses: 8398a7/action-slack@v3
@@ -207,7 +207,7 @@ jobs:
           username: ${{ secrets.PRODUCTION_USER }}
           key: ${{ secrets.PRODUCTION_SSH_KEY }}
           script: |
-            cd /opt/timesheetpro
+            cd /opt/timelyna
             git checkout HEAD~1
             docker-compose pull
             docker-compose up -d

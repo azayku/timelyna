@@ -3,8 +3,8 @@
 ## License JWT Payload
 ```json
 {
-  "sub": "timesheetpro-app",
-  "iss": "timesheetpro-publisher",
+  "sub": "timelyna-app",
+  "iss": "timelyna-publisher",
   "licenseId": "LICENSE-APP-ORG-UUID",
   "organizationId": "ORG-ABC-123",
   "pack": "PRO",

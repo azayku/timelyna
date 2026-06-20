@@ -15,7 +15,7 @@ async def test_availability_endpoint_returns_aggregated_data(async_client: Async
     """GET /admin/availability returns list with correct structure."""
     login = await async_client.post(
         "/api/v1/auth/login",
-        json={"email": "admin@timesheetpro.com", "password": "Admin1234!"}
+        json={"email": "admin@timelyna.com", "password": "Admin1234!"}
     )
     assert login.status_code == 200
 
@@ -38,7 +38,7 @@ async def test_availability_filters_by_department(async_client: AsyncClient):
     """GET /admin/availability with department filter returns 200."""
     login = await async_client.post(
         "/api/v1/auth/login",
-        json={"email": "admin@timesheetpro.com", "password": "Admin1234!"}
+        json={"email": "admin@timelyna.com", "password": "Admin1234!"}
     )
     assert login.status_code == 200
 
@@ -73,7 +73,7 @@ async def test_availability_date_range_validation(async_client: AsyncClient):
     """GET /admin/availability with large range returns 200 or 400."""
     login = await async_client.post(
         "/api/v1/auth/login",
-        json={"email": "admin@timesheetpro.com", "password": "Admin1234!"}
+        json={"email": "admin@timelyna.com", "password": "Admin1234!"}
     )
     assert login.status_code == 200
 

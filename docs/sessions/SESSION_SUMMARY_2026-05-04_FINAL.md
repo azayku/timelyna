@@ -390,7 +390,7 @@ npm run build
 
 ## 🎉 Conclusion
 
-Cette session a significativement amélioré l'expérience utilisateur et l'accessibilité de TimesheetPro. Les nouveaux modaux modernes et la page de connexion redessinée apportent un look professionnel et moderne à l'application.
+Cette session a significativement amélioré l'expérience utilisateur et l'accessibilité de Timelyna. Les nouveaux modaux modernes et la page de connexion redessinée apportent un look professionnel et moderne à l'application.
 
 **Progression globale : 54% complété**
 

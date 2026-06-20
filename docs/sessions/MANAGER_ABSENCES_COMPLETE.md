@@ -271,7 +271,7 @@ docker-compose restart backend
 Pour rebuild complet:
 ```bash
 docker-compose down
-docker rmi -f timesheetpro-backend
+docker rmi -f timelyna-backend
 docker-compose build --no-cache backend
 docker-compose up -d
 ```

@@ -1,8 +1,8 @@
-# Informations de Connexion - TimesheetPro
+# Informations de Connexion - Timelyna
 
 ## Compte Admin par défaut
 
-**Email**: `admin@timesheetpro.com`
+**Email**: `admin@timelyna.com`
 **Mot de passe**: Le mot de passe a été défini lors de la première création du container
 
 ## Problème actuel
@@ -16,14 +16,14 @@ Le compte admin existe déjà dans la base de données mais le mot de passe n'es
 Exécutez ce script pour réinitialiser le mot de passe admin:
 
 ```bash
-docker exec -it timesheetpro-backend python - <<'EOF'
+docker exec -it timelyna-backend python - <<'EOF'
 import asyncio
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy import select
 import bcrypt
 import os
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://timesheetpro:changeme@postgres:5432/timesheetpro")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://timelyna:changeme@postgres:5432/timelyna")
 
 async def reset_admin_password():
     engine = create_async_engine(DATABASE_URL, echo=False)
@@ -32,7 +32,7 @@ async def reset_admin_password():
         from app.models.employee import Employee
         
         # Find admin
-        result = await db.execute(select(Employee).where(Employee.email == "admin@timesheetpro.com"))
+        result = await db.execute(select(Employee).where(Employee.email == "admin@timelyna.com"))
         admin = result.scalar_one_or_none()
         
         if not admin:
@@ -46,7 +46,7 @@ async def reset_admin_password():
         
         await db.commit()
         print(f"✅ Admin password reset successfully!")
-        print(f"Email: admin@timesheetpro.com")
+        print(f"Email: admin@timelyna.com")
         print(f"Password: {new_password}")
     
     await engine.dispose()
@@ -59,13 +59,13 @@ EOF
 
 ```bash
 # 1. Supprimer le compte admin existant
-docker exec -it timesheetpro-backend python - <<'EOF'
+docker exec -it timelyna-backend python - <<'EOF'
 import asyncio
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy import select, delete
 import os
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://timesheetpro:changeme@postgres:5432/timesheetpro")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://timelyna:changeme@postgres:5432/timelyna")
 
 async def delete_admin():
     engine = create_async_engine(DATABASE_URL, echo=False)
@@ -73,7 +73,7 @@ async def delete_admin():
     async with factory() as db:
         from app.models.employee import Employee
         
-        await db.execute(delete(Employee).where(Employee.email == "admin@timesheetpro.com"))
+        await db.execute(delete(Employee).where(Employee.email == "admin@timelyna.com"))
         await db.commit()
         print("✅ Admin account deleted")
     
@@ -89,13 +89,13 @@ docker-compose restart backend
 ### Solution 3: Créer un nouveau compte admin
 
 ```bash
-docker exec -it timesheetpro-backend python - <<'EOF'
+docker exec -it timelyna-backend python - <<'EOF'
 import asyncio
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 import bcrypt
 import os
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://timesheetpro:changeme@postgres:5432/timesheetpro")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://timelyna:changeme@postgres:5432/timelyna")
 
 async def create_new_admin():
     engine = create_async_engine(DATABASE_URL, echo=False)
@@ -103,7 +103,7 @@ async def create_new_admin():
     async with factory() as db:
         from app.models.employee import Employee
         
-        email = "admin2@timesheetpro.com"
+        email = "admin2@timelyna.com"
         password = "admin123"
         
         pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt(rounds=10)).decode()
@@ -133,7 +133,7 @@ EOF
 
 Une fois le mot de passe réinitialisé, vous pourrez vous connecter avec:
 
-- **Email**: `admin@timesheetpro.com`
+- **Email**: `admin@timelyna.com`
 - **Mot de passe**: `admin123`
 
 ## URL de l'application

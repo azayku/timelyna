@@ -39,13 +39,13 @@ def tokens():
     """Login all test users and return their tokens."""
     result = {}
     users = {
-        "admin": "admin@timesheetpro.com",
+        "admin": "admin@timelyna.com",
         "manager": None,
         "employee": None,
         "finance": None,
     }
     # Admin always exists
-    result["admin"] = login("admin@timesheetpro.com")
+    result["admin"] = login("admin@timelyna.com")
 
     # Try to find/create other test users
     admin_tok = result["admin"]
@@ -71,16 +71,16 @@ def admin_token(tokens):
 
 class TestAuth:
     def test_login_valid(self):
-        r = httpx.post(f"{BASE}/auth/login", json={"email": "admin@timesheetpro.com", "password": "Admin1234!"})
+        r = httpx.post(f"{BASE}/auth/login", json={"email": "admin@timelyna.com", "password": "Admin1234!"})
         assert r.status_code == 200
         assert "access_token" in r.json()
 
     def test_login_invalid(self):
-        r = httpx.post(f"{BASE}/auth/login", json={"email": "admin@timesheetpro.com", "password": "wrongpassword"})
+        r = httpx.post(f"{BASE}/auth/login", json={"email": "admin@timelyna.com", "password": "wrongpassword"})
         assert r.status_code == 401
 
     def test_login_missing_fields(self):
-        r = httpx.post(f"{BASE}/auth/login", json={"email": "admin@timesheetpro.com"})
+        r = httpx.post(f"{BASE}/auth/login", json={"email": "admin@timelyna.com"})
         assert r.status_code == 422
 
     def test_refresh_no_cookie(self):
@@ -92,7 +92,7 @@ class TestAuth:
         assert r.status_code == 204
 
     def test_password_reset_request_valid(self):
-        r = httpx.post(f"{BASE}/auth/password/reset-request", json={"email": "admin@timesheetpro.com"})
+        r = httpx.post(f"{BASE}/auth/password/reset-request", json={"email": "admin@timelyna.com"})
         assert r.status_code == 200
 
     def test_password_reset_request_unknown_email(self):

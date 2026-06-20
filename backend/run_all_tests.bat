@@ -31,7 +31,7 @@ python test_manager_data.py
 if errorlevel 1 (
     echo.
     echo [ERREUR] Probleme avec les donnees de la base!
-    echo Executez le script SQL: psql -U postgres -d timesheetpro -f setup_gianni_final.sql
+    echo Executez le script SQL: psql -U postgres -d timelyna -f setup_gianni_final.sql
     pause
     exit /b 1
 )

@@ -5,7 +5,7 @@
 set -e
 
 echo "=========================================="
-echo "TimesheetPro - Docker Testing"
+echo "Timelyna - Docker Testing"
 echo "=========================================="
 echo ""
 
@@ -22,7 +22,7 @@ echo ""
 
 # Step 2: Check if backend is healthy
 echo "[2] Testing backend health..."
-BACKEND_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/api/v1/auth/login -X POST -H "Content-Type: application/json" -d '{"email":"admin@timesheetpro.com","password":"Admin1234!"}')
+BACKEND_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/api/v1/auth/login -X POST -H "Content-Type: application/json" -d '{"email":"admin@timelyna.com","password":"Admin1234!"}')
 
 if [ "$BACKEND_STATUS" == "401" ]; then
     echo "[FAIL] Got 401 - credentials wrong or user doesn't exist"
@@ -43,7 +43,7 @@ echo ""
 echo "[4] Testing login..."
 LOGIN_RESPONSE=$(curl -s -X POST http://localhost:8000/api/v1/auth/login \
     -H "Content-Type: application/json" \
-    -d '{"email":"admin@timesheetpro.com","password":"Admin1234!"}')
+    -d '{"email":"admin@timelyna.com","password":"Admin1234!"}')
 
 TOKEN=$(echo "$LOGIN_RESPONSE" | grep -o '"access_token":"[^"]*' | cut -d'"' -f4 || true)
 
@@ -111,7 +111,7 @@ echo ""
 
 # Step 8: Check database
 echo "[8] Checking database content..."
-EMPLOYEE_COUNT=$(docker-compose exec -T postgres psql -U timesheetpro -d timesheetpro -c "SELECT COUNT(*) FROM employees;" 2>/dev/null | tail -1 | tr -d ' ')
+EMPLOYEE_COUNT=$(docker-compose exec -T postgres psql -U timelyna -d timelyna -c "SELECT COUNT(*) FROM employees;" 2>/dev/null | tail -1 | tr -d ' ')
 
 if [ ! -z "$EMPLOYEE_COUNT" ]; then
     echo "[OK] Database has $EMPLOYEE_COUNT employees"
@@ -126,7 +126,7 @@ echo "=========================================="
 echo ""
 echo "Next steps:"
 echo "1. Open http://localhost in your browser"
-echo "2. Login with: admin@timesheetpro.com / Admin1234!"
+echo "2. Login with: admin@timelyna.com / Admin1234!"
 echo "3. Try navigating to /admin/users"
 echo "4. Try navigating to /finance/invoices"
 echo ""

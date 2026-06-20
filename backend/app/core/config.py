@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     )
 
     # Database
-    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/timesheetpro"
+    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/timelyna"
 
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"
@@ -43,7 +43,7 @@ class Settings(BaseSettings):
     SMTP_PORT: int = 587
     SMTP_USER: str = ""
     SMTP_PASSWORD: str = ""
-    EMAIL_FROM: str = "noreply@timesheetpro.com"
+    EMAIL_FROM: str = "noreply@timelyna.com"
     FRONTEND_URL: str = "http://localhost:5173"
 
     # License

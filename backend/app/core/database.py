@@ -21,12 +21,12 @@ def _build_connect_args() -> dict:
         if "ssl=disable" in url.lower() or "sslmode=disable" in url.lower():
             return {
                 "ssl": False,
-                "server_settings": {"application_name": "timesheetpro"},
+                "server_settings": {"application_name": "timelyna"},
             }
         # Force SSL for production (Supabase, etc.)
         return {
             "ssl": "require",
-            "server_settings": {"application_name": "timesheetpro"},
+            "server_settings": {"application_name": "timelyna"},
         }
     return {}
 

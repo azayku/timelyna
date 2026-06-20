@@ -1,7 +1,7 @@
 # Load Test Seed Script - Instructions
 
 ## Overview
-Script de génération de données de test pour TimesheetPro avec des volumes réalistes pour tester la charge de l'application.
+Script de génération de données de test pour Timelyna avec des volumes réalistes pour tester la charge de l'application.
 
 **🇮🇹 Utilise Faker avec locale italienne** pour générer des données réalistes (noms, adresses, téléphones, sociétés).
 
@@ -23,7 +23,7 @@ Script de génération de données de test pour TimesheetPro avec des volumes r�
 ### Option 1: Depuis le container Docker (recommandé)
 ```bash
 # Entrer dans le container backend
-docker exec -it timesheetpro-backend-1 bash
+docker exec -it timelyna-backend-1 bash
 
 # Exécuter le script
 python seed_load_test.py

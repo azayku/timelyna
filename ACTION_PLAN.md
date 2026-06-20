@@ -1,4 +1,4 @@
-# Plan d'Action — Suite de l'Audit TimesheetPro
+# Plan d'Action — Suite de l'Audit Timelyna
 
 **Date :** 2026-05-04  
 **Statut actuel :** 42% complété (27/65+ items)  

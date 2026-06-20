@@ -1,4 +1,4 @@
-# ✅ Build Success Report — TimesheetPro
+# ✅ Build Success Report — Timelyna
 
 **Date :** 2026-05-04  
 **Statut :** ✅ **BUILD PASSING**
@@ -128,9 +128,9 @@ npx serve -s dist -p 3000
 ```nginx
 server {
     listen 80;
-    server_name app.timesheetpro.com;
+    server_name app.timelyna.com;
     
-    root /var/www/timesheetpro/dist;
+    root /var/www/timelyna/dist;
     index index.html;
     
     # Gzip compression
@@ -202,7 +202,7 @@ server {
 
 ## 📈 Comparaison avec les Standards
 
-| Métrique | TimesheetPro | Recommandé | Statut |
+| Métrique | Timelyna | Recommandé | Statut |
 |----------|--------------|------------|--------|
 | Bundle initial (gzip) | ~827 KB | < 1 MB | ✅ Bon |
 | Temps de build | 533ms | < 1s | ✅ Excellent |

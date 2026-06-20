@@ -18,7 +18,7 @@ async def test_create_user_generates_username(async_client: AsyncClient, db: Asy
     """Test that POST /admin/users generates username."""
     login_response = await async_client.post(
         "/api/v1/auth/login",
-        json={"email": "admin@timesheetpro.com", "password": "Admin1234!"}
+        json={"email": "admin@timelyna.com", "password": "Admin1234!"}
     )
     assert login_response.status_code == 200
     headers = _auth_headers(login_response)
@@ -46,7 +46,7 @@ async def test_deactivate_user_revokes_tokens(async_client: AsyncClient, db: Asy
     """Test that deactivating a user works."""
     login_response = await async_client.post(
         "/api/v1/auth/login",
-        json={"email": "admin@timesheetpro.com", "password": "Admin1234!"}
+        json={"email": "admin@timelyna.com", "password": "Admin1234!"}
     )
     assert login_response.status_code == 200
     headers = _auth_headers(login_response)
@@ -83,7 +83,7 @@ async def test_activate_user_allows_login(async_client: AsyncClient):
     """Test that activating a deactivated user works."""
     login_response = await async_client.post(
         "/api/v1/auth/login",
-        json={"email": "admin@timesheetpro.com", "password": "Admin1234!"}
+        json={"email": "admin@timelyna.com", "password": "Admin1234!"}
     )
     assert login_response.status_code == 200
     headers = _auth_headers(login_response)
@@ -115,7 +115,7 @@ async def test_username_collision_adds_suffix(async_client: AsyncClient):
     """Test that creating users with same name generates unique usernames."""
     login_response = await async_client.post(
         "/api/v1/auth/login",
-        json={"email": "admin@timesheetpro.com", "password": "Admin1234!"}
+        json={"email": "admin@timelyna.com", "password": "Admin1234!"}
     )
     assert login_response.status_code == 200
     headers = _auth_headers(login_response)

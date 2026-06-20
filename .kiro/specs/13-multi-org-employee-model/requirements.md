@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Cette fonctionnalité étend le modèle employé/organisation de TimesheetPro pour supporter
+Cette fonctionnalité étend le modèle employé/organisation de Timelyna pour supporter
 le multi-organisation avec gestion des compétences, affectation intelligente aux projets,
 reporting par manager, mutation d'employés entre organisations, et gestion multi-équipes.
 Le modèle existant (tables `employees`, `projects`, `skill_rates`, `org_settings`,
@@ -24,8 +24,8 @@ Le modèle existant (tables `employees`, `projects`, `skill_rates`, `org_setting
 - **Mutation** : transfert administratif d'un employé d'une organisation vers une autre.
 - **Mutation_Log** : enregistrement historique d'une mutation (table `employee_mutation_logs`).
 - **Availability_Period** : période de disponibilité d'un employé, dérivée de l'absence de chevauchement avec d'autres projets actifs.
-- **System** : le backend TimesheetPro (FastAPI + SQLAlchemy async).
-- **UI** : le frontend TimesheetPro (React + TypeScript).
+- **System** : le backend Timelyna (FastAPI + SQLAlchemy async).
+- **UI** : le frontend Timelyna (React + TypeScript).
 
 ---
 

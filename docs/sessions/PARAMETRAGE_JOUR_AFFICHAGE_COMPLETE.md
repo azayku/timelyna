@@ -176,14 +176,14 @@ WHERE org_id = 1;
 
 ```bash
 # 1. Appliquer la modification SQL
-docker exec timesheetpro-db psql -U timesheetpro -d timesheetpro \
+docker exec timelyna-db psql -U timelyna -d timelyna \
   -c "ALTER TABLE org_settings ADD COLUMN IF NOT EXISTS next_week_display_day INTEGER NOT NULL DEFAULT 2;"
 
 # 2. Rebuild les containers
 docker-compose up -d --build backend frontend
 
 # 3. (Optionnel) Assigner des projets de test
-docker exec timesheetpro-backend python assign_projects_achille.py
+docker exec timelyna-backend python assign_projects_achille.py
 ```
 
 ## Test Utilisateur

@@ -1,6 +1,6 @@
 # Create React Component
 
-Create a new React component following the TimesheetPro frontend-v2 conventions.
+Create a new React component following the Timelyna frontend-v2 conventions.
 
 ## Context
 - Name: {{name}}

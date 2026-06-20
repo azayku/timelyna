@@ -36,7 +36,7 @@ from app.models.notification_preference import NotificationPreference
 # PostgreSQL connection for Docker
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql+asyncpg://timesheetpro:changeme@localhost:5432/timesheetpro"
+    "postgresql+asyncpg://timelyna:changeme@localhost:5432/timelyna"
 )
 
 fake = Faker("fr_FR")
@@ -78,7 +78,7 @@ async def seed():
         admins = []
         for i in range(2):
             a = Employee(
-                email=f"admin{i+1}@timesheetpro.com",
+                email=f"admin{i+1}@timelyna.com",
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),
                 password_hash=hash_pw("Admin1234!"),
@@ -98,7 +98,7 @@ async def seed():
         payrolls = []
         for i in range(4):
             p = Employee(
-                email=f"payroll{i+1}@timesheetpro.com",
+                email=f"payroll{i+1}@timelyna.com",
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),
                 password_hash=hash_pw("Payroll1234!"),
@@ -354,14 +354,14 @@ async def seed():
     print("Comptes de connexion :")
     print()
     print("  ADMIN")
-    print("    admin1@timesheetpro.com / Admin1234!")
-    print("    admin2@timesheetpro.com / Admin1234!")
+    print("    admin1@timelyna.com / Admin1234!")
+    print("    admin2@timelyna.com / Admin1234!")
     print()
     print("  PAYROLL (gestionnaire de paie)")
-    print("    payroll1@timesheetpro.com / Payroll1234!")
-    print("    payroll2@timesheetpro.com / Payroll1234!")
-    print("    payroll3@timesheetpro.com / Payroll1234!")
-    print("    payroll4@timesheetpro.com / Payroll1234!")
+    print("    payroll1@timelyna.com / Payroll1234!")
+    print("    payroll2@timelyna.com / Payroll1234!")
+    print("    payroll3@timelyna.com / Payroll1234!")
+    print("    payroll4@timelyna.com / Payroll1234!")
     print()
     print("  EMPLOYEE (500 comptes)")
     print("    Mot de passe : Employee1234!")

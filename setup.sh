@@ -1,8 +1,8 @@
 #!/bin/bash
 # ============================================================================
-# TimesheetPro - Complete Docker Setup & Deployment Script
+# Timelyna - Complete Docker Setup & Deployment Script
 # ============================================================================
-# This script handles the complete setup and deployment of TimesheetPro
+# This script handles the complete setup and deployment of Timelyna
 # Usage: bash setup.sh [options]
 #
 # Options:
@@ -28,7 +28,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-PROJECT_NAME="timesheetpro"
+PROJECT_NAME="timelyna"
 DOCKER_COMPOSE_FILE="docker-compose.yml"
 BACKEND_PORT="8000"
 FRONTEND_PORT="80"
@@ -102,7 +102,7 @@ cmd_setup() {
   echo -e "  Backend:   ${BLUE}http://localhost:${BACKEND_PORT}${NC}"
   echo -e "  PgAdmin:   ${BLUE}http://localhost:5050${NC}\n"
   echo "Test Credentials:"
-  echo "  Email:    admin@timesheetpro.com"
+  echo "  Email:    admin@timelyna.com"
   echo "  Password: Admin1234!\n"
 }
 
@@ -202,10 +202,10 @@ cmd_seed() {
 
   print_success "Database seeded with test data"
   print_info "Test users created:"
-  echo "  • admin@timesheetpro.com / Admin1234!"
-  echo "  • manager@timesheetpro.com / Manager1234!"
-  echo "  • employee@timesheetpro.com / Employee1234!"
-  echo "  • finance@timesheetpro.com / Finance1234!"
+  echo "  • admin@timelyna.com / Admin1234!"
+  echo "  • manager@timelyna.com / Manager1234!"
+  echo "  • employee@timelyna.com / Employee1234!"
+  echo "  • finance@timelyna.com / Finance1234!"
 }
 
 cmd_logs() {
@@ -262,7 +262,7 @@ cmd_test() {
   print_info "Testing login endpoint..."
   LOGIN=$(curl -s -X POST http://localhost:${BACKEND_PORT}/api/v1/auth/login \
     -H "Content-Type: application/json" \
-    -d '{"email":"admin@timesheetpro.com","password":"Admin1234!"}')
+    -d '{"email":"admin@timelyna.com","password":"Admin1234!"}')
 
   if echo "$LOGIN" | grep -q "access_token"; then
     print_success "✓ Login successful"
@@ -331,7 +331,7 @@ cmd_clean() {
 cmd_help() {
   cat << 'EOF'
 ╔═══════════════════════════════════════════════════════════════════════════╗
-║                    TimesheetPro Setup Script                              ║
+║                    Timelyna Setup Script                              ║
 ║                                                                           ║
 ║  Complete Docker deployment automation                                    ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
@@ -379,10 +379,10 @@ EXAMPLES:
   bash setup.sh reset
 
 TEST CREDENTIALS:
-  Admin:    admin@timesheetpro.com / Admin1234!
-  Manager:  manager@timesheetpro.com / Manager1234!
-  Employee: employee@timesheetpro.com / Employee1234!
-  Finance:  finance@timesheetpro.com / Finance1234!
+  Admin:    admin@timelyna.com / Admin1234!
+  Manager:  manager@timelyna.com / Manager1234!
+  Employee: employee@timelyna.com / Employee1234!
+  Finance:  finance@timelyna.com / Finance1234!
 
 ACCESS POINTS:
   Frontend:  http://localhost

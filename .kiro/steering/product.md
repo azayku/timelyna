@@ -2,10 +2,10 @@
 inclusion: always
 ---
 
-# TimesheetPro — Product Overview
+# Timelyna — Product Overview
 
 ## What We're Building
-TimesheetPro is a SaaS application for managing worked hours with a **modular plugin ecosystem**. It targets SMEs of 10–500 employees who manage multi-client/multi-project engagements.
+Timelyna is a SaaS application for managing worked hours with a **modular plugin ecosystem**. It targets SMEs of 10–500 employees who manage multi-client/multi-project engagements.
 
 ## Core Value Proposition
 - Employees log hours daily/weekly on projects

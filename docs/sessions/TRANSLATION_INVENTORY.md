@@ -1,8 +1,8 @@
-# Inventaire complet des traductions - TimesheetPro
+# Inventaire complet des traductions - Timelyna
 
 ## Statut: ✅ COMPLET
 
-Ce document liste TOUS les libellés, badges, messages d'erreur, notifications et textes de l'interface utilisateur de TimesheetPro.
+Ce document liste TOUS les libellés, badges, messages d'erreur, notifications et textes de l'interface utilisateur de Timelyna.
 
 ---
 

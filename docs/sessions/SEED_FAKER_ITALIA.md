@@ -50,7 +50,7 @@ def generate_email(first_name: str, last_name: str, domain: str = "test.it") -> 
 
 ### Dans le container Docker
 ```bash
-docker exec -it timesheetpro-backend-1 bash
+docker exec -it timelyna-backend-1 bash
 pip install faker
 python seed_load_test.py
 ```
@@ -59,7 +59,7 @@ python seed_load_test.py
 ```bash
 docker-compose build backend
 docker-compose up -d backend
-docker exec -it timesheetpro-backend-1 python seed_load_test.py
+docker exec -it timelyna-backend-1 python seed_load_test.py
 ```
 
 ## 📊 Exemples de données générées

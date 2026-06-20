@@ -1,4 +1,4 @@
-const CACHE_NAME = 'timesheetpro-v1'
+const CACHE_NAME = 'timelyna-v1'
 const STATIC_ASSETS = ['/', '/index.html']
 
 self.addEventListener('install', (event) => {

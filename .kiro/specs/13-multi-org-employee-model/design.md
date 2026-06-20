@@ -2,7 +2,7 @@
 
 ## Overview
 
-Cette feature étend TimesheetPro pour supporter un modèle multi-organisation complet :
+Cette feature étend Timelyna pour supporter un modèle multi-organisation complet :
 chaque organisation est une entité structurelle avec un manager responsable, les employés
 portent des compétences, les projets déclarent des compétences requises, et un moteur de
 suggestion associe automatiquement les employés disponibles et compétents aux projets.

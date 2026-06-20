@@ -7,25 +7,25 @@
       "Bash(python -m pytest)",
       "Bash(python -m pytest tests/test_approvals.py -v)",
       "Bash(python -m pytest tests/test_auth_login.py tests/test_auth_password.py tests/test_notifications.py tests/test_multi_org.py -v)",
-      "Bash(Get-Content \"d:\\\\Projets\\\\Perso\\\\timesheetpro\\\\frontend-v2\\\\src\\\\pages\\\\AdminClientsPage.tsx\")",
+      "Bash(Get-Content \"d:\\\\Projets\\\\Perso\\\\timelyna\\\\frontend-v2\\\\src\\\\pages\\\\AdminClientsPage.tsx\")",
       "Bash(awk '{print $5, $9}')",
       "Bash(grep -v \"^$\")",
-      "Bash(Get-ChildItem -Path \"d:\\\\Projets\\\\Perso\\\\timesheetpro\" -Directory)",
+      "Bash(Get-ChildItem -Path \"d:\\\\Projets\\\\Perso\\\\timelyna\" -Directory)",
       "Bash(Select-Object Name)",
       "Bash(docker compose *)",
-      "Bash(curl -s -X POST http://localhost:8000/api/v1/auth/login -H \"Content-Type: application/json\" -d \"{\\\\\"email\\\\\":\\\\\"admin@timesheetpro.com\\\\\",\\\\\"password\\\\\":\\\\\"Admin1234!\\\\\"}\")",
+      "Bash(curl -s -X POST http://localhost:8000/api/v1/auth/login -H \"Content-Type: application/json\" -d \"{\\\\\"email\\\\\":\\\\\"admin@timelyna.com\\\\\",\\\\\"password\\\\\":\\\\\"Admin1234!\\\\\"}\")",
       "PowerShell(docker compose ps)",
       "PowerShell(docker compose logs backend --tail=80)",
       "PowerShell(docker compose exec backend curl -s http://localhost:8000/openapi.json)",
       "PowerShell(python -c \"import sys,json; routes=[r for r in json.load\\(sys.stdin\\)['paths'].keys\\(\\) if 'auth' in r.lower\\(\\)]; print\\('\\\\n'.join\\(routes\\)\\)\")",
-      "PowerShell(docker compose exec backend curl -s http://localhost:8000/api/v1/auth/login -X POST -H \"Content-Type: application/json\" -d \"{\\\\\"email\\\\\":\\\\\"admin@timesheetpro.com\\\\\",\\\\\"password\\\\\":\\\\\"Admin1234!\\\\\"}\")",
+      "PowerShell(docker compose exec backend curl -s http://localhost:8000/api/v1/auth/login -X POST -H \"Content-Type: application/json\" -d \"{\\\\\"email\\\\\":\\\\\"admin@timelyna.com\\\\\",\\\\\"password\\\\\":\\\\\"Admin1234!\\\\\"}\")",
       "PowerShell(docker compose logs backend --tail=5)",
       "Bash(xargs grep *)",
-      "Bash(Get-ChildItem -Path \"d:\\\\Projets\\\\Perso\\\\timesheetpro\" -Recurse -Filter \"*.tsx\" -ErrorAction SilentlyContinue)",
+      "Bash(Get-ChildItem -Path \"d:\\\\Projets\\\\Perso\\\\timelyna\" -Recurse -Filter \"*.tsx\" -ErrorAction SilentlyContinue)",
       "Bash(Select-Object -ExpandProperty FullName)",
-      "Bash(curl -s -X POST http://localhost/api/v1/auth/login -H \"Content-Type: application/json\" -d '{\"email\":\"admin@timesheetpro.com\",\"password\":\"Admin1234!\"}')",
+      "Bash(curl -s -X POST http://localhost/api/v1/auth/login -H \"Content-Type: application/json\" -d '{\"email\":\"admin@timelyna.com\",\"password\":\"Admin1234!\"}')",
       "Bash(python -m json.tool)",
-      "Bash(curl -s -X POST http://localhost/api/v1/auth/login -H \"Content-Type: application/json\" -d '{\"identifier\":\"admin@timesheetpro.com\",\"password\":\"Admin1234!\"}')"
+      "Bash(curl -s -X POST http://localhost/api/v1/auth/login -H \"Content-Type: application/json\" -d '{\"identifier\":\"admin@timelyna.com\",\"password\":\"Admin1234!\"}')"
     ]
   }
 }

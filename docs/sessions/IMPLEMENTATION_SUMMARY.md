@@ -1,4 +1,4 @@
-# TimesheetPro — Résumé d'Implémentation SPEC_AUDIT
+# Timelyna — Résumé d'Implémentation SPEC_AUDIT
 
 **Date :** 2026-05-04  
 **Progression :** 21/65+ items (32%)

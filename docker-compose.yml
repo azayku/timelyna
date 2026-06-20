@@ -1,27 +1,27 @@
 services:
   postgres:
     image: postgres:15-alpine
-    container_name: timesheetpro-db
+    container_name: timelyna-db
     restart: unless-stopped
     environment:
-      POSTGRES_DB: timesheetpro
-      POSTGRES_USER: timesheetpro
+      POSTGRES_DB: timelyna
+      POSTGRES_USER: timelyna
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U timesheetpro"]
+      test: ["CMD-SHELL", "pg_isready -U timelyna"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
-      - timesheetpro-network
+      - timelyna-network
 
   redis:
     image: redis:7-alpine
-    container_name: timesheetpro-redis
+    container_name: timelyna-redis
     restart: unless-stopped
     command: redis-server --appendonly yes
     volumes:
@@ -34,18 +34,18 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - timesheetpro-network
+      - timelyna-network
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: timesheetpro-backend
+    container_name: timelyna-backend
     restart: unless-stopped
     env_file:
       - ./backend/.env
     environment:
-      DATABASE_URL: postgresql+asyncpg://timesheetpro:${POSTGRES_PASSWORD:-changeme}@postgres:5432/timesheetpro?ssl=disable
+      DATABASE_URL: postgresql+asyncpg://timelyna:${POSTGRES_PASSWORD:-changeme}@postgres:5432/timelyna?ssl=disable
       REDIS_URL: redis://redis:6379/0
       FRONTEND_URL: http://localhost
     ports:
@@ -56,19 +56,19 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - timesheetpro-network
+      - timelyna-network
 
   celery-worker:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: timesheetpro-celery
+    container_name: timelyna-celery
     restart: unless-stopped
     command: celery -A app.core.celery_app worker --loglevel=info
     env_file:
       - ./backend/.env
     environment:
-      DATABASE_URL: postgresql+asyncpg://timesheetpro:${POSTGRES_PASSWORD:-changeme}@postgres:5432/timesheetpro?ssl=disable
+      DATABASE_URL: postgresql+asyncpg://timelyna:${POSTGRES_PASSWORD:-changeme}@postgres:5432/timelyna?ssl=disable
       REDIS_URL: redis://redis:6379/0
       FRONTEND_URL: http://localhost
     depends_on:
@@ -77,19 +77,19 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - timesheetpro-network
+      - timelyna-network
 
   celery-beat:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: timesheetpro-celery-beat
+    container_name: timelyna-celery-beat
     restart: unless-stopped
     command: celery -A app.core.celery_app beat --loglevel=info --scheduler celery.beat:PersistentScheduler
     env_file:
       - ./backend/.env
     environment:
-      DATABASE_URL: postgresql+asyncpg://timesheetpro:${POSTGRES_PASSWORD:-changeme}@postgres:5432/timesheetpro?ssl=disable
+      DATABASE_URL: postgresql+asyncpg://timelyna:${POSTGRES_PASSWORD:-changeme}@postgres:5432/timelyna?ssl=disable
       REDIS_URL: redis://redis:6379/0
       FRONTEND_URL: http://localhost
     depends_on:
@@ -98,7 +98,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - timesheetpro-network
+      - timelyna-network
 
   frontend:
     build:
@@ -106,33 +106,33 @@ services:
       dockerfile: Dockerfile
       args:
         VITE_API_URL: ${VITE_API_URL:-/api/v1}
-    container_name: timesheetpro-frontend
+    container_name: timelyna-frontend
     restart: unless-stopped
     ports:
       - "80:80"
     depends_on:
       - backend
     networks:
-      - timesheetpro-network
+      - timelyna-network
 
   mailpit:
     image: axllent/mailpit:latest
-    container_name: timesheetpro-mailpit
+    container_name: timelyna-mailpit
     restart: unless-stopped
     ports:
       - "1025:1025"   # SMTP
       - "8025:8025"   # Web UI
     networks:
-      - timesheetpro-network
+      - timelyna-network
     profiles:
       - dev
 
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: timesheetpro-pgadmin
+    container_name: timelyna-pgadmin
     restart: unless-stopped
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@timesheetpro.local}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@timelyna.local}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-changeme}
       PGADMIN_CONFIG_SERVER_MODE: "False"
       PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
@@ -144,7 +144,7 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     networks:
-      - timesheetpro-network
+      - timelyna-network
     profiles:
       - dev
 
@@ -154,5 +154,5 @@ volumes:
   pgadmin_data:
 
 networks:
-  timesheetpro-network:
+  timelyna-network:
     driver: bridge

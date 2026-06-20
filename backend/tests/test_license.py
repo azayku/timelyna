@@ -52,7 +52,7 @@ def make_license_token(
         priv_pem, pub_pem = make_test_keys()
     now = int(time.time())
     payload = {
-        "sub": "timesheetpro-app",
+        "sub": "timelyna-app",
         "licenseId": "TEST-LICENSE-001",
         "organizationId": "ORG-TEST",
         "pack": "PRO",

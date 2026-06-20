@@ -59,7 +59,7 @@ def emit(sql: str):
 
 def main():
     emit("-- ============================================================")
-    emit("-- TimesheetPro — Seed Data (généré par seed_sql.py)")
+    emit("-- Timelyna — Seed Data (généré par seed_sql.py)")
     emit("-- ============================================================")
     emit("BEGIN;")
     emit("")
@@ -67,7 +67,7 @@ def main():
     # ── Org Settings ──────────────────────────────────────────────────────
     emit("-- Org Settings")
     emit("INSERT INTO org_settings (org_id, org_name, standard_hours_per_day, max_hours_per_day, overtime_rate_multiplier, travel_rate_multiplier, default_currency)")
-    emit("VALUES (1, 'TimesheetPro Demo', 8.00, 24.00, 1.25, 0.50, 'EUR')")
+    emit("VALUES (1, 'Timelyna Demo', 8.00, 24.00, 1.25, 0.50, 'EUR')")
     emit("ON CONFLICT (org_id) DO NOTHING;")
     emit("")
 
@@ -76,7 +76,7 @@ def main():
     admin_pw = hash_pw("Admin1234!")
     admins = []
     for i in range(1, 3):
-        email = f"admin{i}@timesheetpro.com"
+        email = f"admin{i}@timelyna.com"
         fn = fake.first_name()
         ln = fake.last_name()
         username = f"admin{i:03d}"
@@ -90,7 +90,7 @@ def main():
     emit("-- Finance users (2)")
     finance_pw = hash_pw("Finance1234!")
     for i in range(1, 3):
-        email = f"finance{i}@timesheetpro.com"
+        email = f"finance{i}@timelyna.com"
         fn = fake.first_name()
         ln = fake.last_name()
         username = f"fin{i:03d}"
@@ -389,9 +389,9 @@ END $$;
     emit("")
     emit("-- ============================================================")
     emit("-- Comptes de connexion :")
-    emit("--   admin1@timesheetpro.com / Admin1234!")
-    emit("--   admin2@timesheetpro.com / Admin1234!")
-    emit("--   finance1@timesheetpro.com / Finance1234!")
+    emit("--   admin1@timelyna.com / Admin1234!")
+    emit("--   admin2@timelyna.com / Admin1234!")
+    emit("--   finance1@timelyna.com / Finance1234!")
     emit("--   manager (20 comptes) / Manager1234!")
     emit("--   employee (500 comptes) / Employee1234!")
     emit("-- ============================================================")

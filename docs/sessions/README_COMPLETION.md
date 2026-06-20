@@ -1,8 +1,8 @@
-# 🎉 TimesheetPro — Audit Complété à 100%
+# 🎉 Timelyna — Audit Complété à 100%
 
 ## ✅ Statut : PRODUCTION READY
 
-L'audit complet de TimesheetPro (SPEC_AUDIT.md) a été réalisé avec succès.
+L'audit complet de Timelyna (SPEC_AUDIT.md) a été réalisé avec succès.
 
 **Score global : 9.2/10** ⭐⭐⭐⭐⭐
 
@@ -90,7 +90,7 @@ TOTAL GLOBAL   : 57/65 (88%)
 
 3. **Configurer CORS production**
    ```env
-   CORS_ALLOWED_ORIGINS=https://app.timesheetpro.com
+   CORS_ALLOWED_ORIGINS=https://app.timelyna.com
    ```
 
 4. **Désactiver pgAdmin en production**
@@ -157,7 +157,7 @@ Ces items n'impactent pas la stabilité en production.
 
 ## 🎉 Conclusion
 
-**TimesheetPro est prêt pour la production !**
+**Timelyna est prêt pour la production !**
 
 Tous les objectifs critiques atteints :
 - ✅ Sécurité : 9/10

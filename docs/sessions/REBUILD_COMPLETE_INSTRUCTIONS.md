@@ -12,14 +12,14 @@ Les modifications du code ne sont pas dans les containers Docker car ils n'ont p
 
 ### Étape 1: Arrêter tous les containers
 ```powershell
-cd d:\Projets\Perso\timesheetpro
+cd d:\Projets\Perso\timelyna
 docker-compose down
 ```
 
 ### Étape 2: Supprimer les images
 ```powershell
-docker rmi -f timesheetpro-backend
-docker rmi -f timesheetpro-frontend
+docker rmi -f timelyna-backend
+docker rmi -f timelyna-frontend
 ```
 
 ### Étape 3: Rebuild TOUT sans cache
@@ -90,7 +90,7 @@ $team.Content | ConvertFrom-Json | Select-Object -First 1
 ```powershell
 docker-compose stop backend
 docker-compose rm -f backend
-docker rmi -f timesheetpro-backend
+docker rmi -f timelyna-backend
 docker-compose build --no-cache backend
 docker-compose up -d backend
 Start-Sleep -Seconds 10
@@ -100,7 +100,7 @@ Start-Sleep -Seconds 10
 ```powershell
 docker-compose stop frontend
 docker-compose rm -f frontend
-docker rmi -f timesheetpro-frontend
+docker rmi -f timelyna-frontend
 docker-compose build --no-cache frontend
 docker-compose up -d frontend
 Start-Sleep -Seconds 5
@@ -111,14 +111,14 @@ Start-Sleep -Seconds 5
 #### Vérifier backend
 ```powershell
 # Vérifier que le code est à jour
-docker exec timesheetpro-backend grep -A 3 "manager_name" /app/app/api/v1/manager.py
-docker exec timesheetpro-backend grep -A 3 "skills:" /app/app/api/v1/manager.py
+docker exec timelyna-backend grep -A 3 "manager_name" /app/app/api/v1/manager.py
+docker exec timelyna-backend grep -A 3 "skills:" /app/app/api/v1/manager.py
 ```
 
 #### Vérifier frontend
 ```powershell
 # Vérifier que le tableau est présent
-docker exec timesheetpro-frontend grep -A 5 "Desktop Table" /usr/share/nginx/html/assets/*.js
+docker exec timelyna-frontend grep -A 5 "Desktop Table" /usr/share/nginx/html/assets/*.js
 ```
 
 ## Modifications effectuées (pour référence)
@@ -151,4 +151,4 @@ docker exec timesheetpro-frontend grep -A 5 "Desktop Table" /usr/share/nginx/htm
 1. **Toujours faire `docker-compose down` avant de rebuild** pour éviter les conflits
 2. **Toujours utiliser `--no-cache`** pour forcer la reconstruction
 3. **Attendre 10-15 secondes** après `docker-compose up -d` avant de tester
-4. Si le problème persiste, **vérifier les logs**: `docker logs timesheetpro-backend --tail 50`
+4. Si le problème persiste, **vérifier les logs**: `docker logs timelyna-backend --tail 50`

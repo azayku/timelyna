@@ -1,9 +1,9 @@
-# TimesheetPro — Pilotage Project Rules
+# Timelyna — Pilotage Project Rules
 
-This document defines the core principles, architecture, and technology stack for the TimesheetPro project. All code generation and suggestions must adhere to these rules.
+This document defines the core principles, architecture, and technology stack for the Timelyna project. All code generation and suggestions must adhere to these rules.
 
 ## 🚀 Product Overview
-TimesheetPro is a SaaS application for managing worked hours with a **modular plugin ecosystem**.
+Timelyna is a SaaS application for managing worked hours with a **modular plugin ecosystem**.
 - **Targets:** SMEs of 10–500 employees.
 - **Key Flow:** Daily/weekly logs -> Manager Approval -> Finance Invoicing -> Plugin Extension.
 - **Constraints:**

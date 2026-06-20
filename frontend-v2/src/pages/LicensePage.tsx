@@ -67,7 +67,7 @@ export default function LicensePage() {
 
       {/* Status card */}
       <Card>
-        <CardHeader title={t('license.title', 'Licence')} subtitle={t('license.subtitle', 'Gérez votre licence TimesheetPro')} />
+        <CardHeader title={t('license.title', 'Licence')} subtitle={t('license.subtitle', 'Gérez votre licence Timelyna')} />
         <div className="mt-4 grid grid-cols-3 gap-4">
           <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4">
             <p className="text-xs text-slate-400 mb-2">{t('license.status', 'Statut')}</p>

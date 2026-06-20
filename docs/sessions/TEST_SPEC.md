@@ -1,4 +1,4 @@
-# TEST_SPEC.md — TimesheetPro
+# TEST_SPEC.md — Timelyna
 > Spécification complète des tests : Backend (pytest) + Frontend (Vitest)  
 > Basé sur le code existant — fonctions, services et endpoints réels
 
