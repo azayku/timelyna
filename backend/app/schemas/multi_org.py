@@ -25,7 +25,7 @@ class UpdateOrganizationRequest(BaseModel):
 class OrganizationResponse(BaseModel):
     org_id: int
     org_name: str
-    manager_id: int
+    manager_id: Optional[int] = None
     employee_count: int = 0
     created_at: Optional[str] = None
     updated_at: Optional[str] = None

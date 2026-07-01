@@ -894,5 +894,15 @@
       "rejected": "Rechazado",
       "pending": "Pendiente"
     }
+  },
+  "welcome": {
+    "greeting": "Hola"
+  },
+  "roles": {
+    "admin": "Administrador",
+    "manager": "Manager",
+    "employee": "Empleado",
+    "finance": "Finanzas",
+    "payroll": "Nómina"
   }
 }

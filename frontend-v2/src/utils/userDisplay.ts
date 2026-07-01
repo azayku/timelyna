@@ -1,10 +1,33 @@
-// Helpers to derive a display-friendly name from a user email.
-// Convention: emails are typically `firstname.lastname@domain`.
-// We split on `.` to recover both parts, then title-case each.
+// Helpers to derive a display-friendly name from a user email or AuthUser.
 
 function titleCase(s: string): string {
   if (!s) return ''
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
+}
+
+/**
+ * Returns "Prénom Nom" if first_name/last_name available, otherwise falls back to email parsing.
+ */
+export function displayNameFromUser(user: { first_name?: string; last_name?: string; email?: string } | null | undefined): string {
+  if (!user) return 'User'
+  const first = user.first_name?.trim()
+  const last = user.last_name?.trim()
+  if (first && last) return `${titleCase(first)} ${titleCase(last)}`
+  if (first) return titleCase(first)
+  if (last) return titleCase(last)
+  return displayNameFromEmail(user.email)
+}
+
+/**
+ * Returns initials from first_name/last_name if available, otherwise falls back to email.
+ */
+export function initialsFromUser(user: { first_name?: string; last_name?: string; email?: string } | null | undefined): string {
+  if (!user) return '?'
+  const first = user.first_name?.trim()
+  const last = user.last_name?.trim()
+  if (first && last) return (first[0] + last[0]).toUpperCase()
+  if (first) return first.slice(0, 2).toUpperCase()
+  return initialsFromEmail(user.email)
 }
 
 /**

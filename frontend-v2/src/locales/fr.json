@@ -229,6 +229,10 @@
     "ongoingRequests": "Demandes en cours",
     "noOrganizations": "Aucune organisation",
     "noTeamMembers": "Aucun membre d'équipe",
+    "vsLastWeek": "vs semaine dernière",
+    "thisMonthHours": "Heures ce mois",
+    "absencesPending": "Absences en attente",
+    "absencesApproved": "Absences approuvées",
     "employees": "employés",
     "employee": "employé",
     "members": "membres",
@@ -751,7 +755,8 @@
     "loadingProjects": "Chargement des projets…",
     "noActiveProjects": "Aucun projet actif assigné pour cette date.",
     "chooseProject": "— Choisir un projet —",
-    "error": "Erreur lors de la sauvegarde."
+    "error": "Erreur lors de la sauvegarde.",
+    "addType": "Ajouter un type de pointage"
   },
   "timeOffRequest": {
     "title": "Déclarer une absence",
@@ -868,6 +873,16 @@
     "tableConsumed": "Consommé (h)",
     "tableRemaining": "Restant (h)",
     "tableProgress": "Avancement"
+  },
+  "welcome": {
+    "greeting": "Bonjour"
+  },
+  "roles": {
+    "admin": "Administrateur",
+    "manager": "Manager",
+    "employee": "Employ\u00e9",
+    "finance": "Finance",
+    "payroll": "Paie"
   }
 }
 

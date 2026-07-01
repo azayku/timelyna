@@ -115,9 +115,9 @@ export default function MyProfilePage() {
   }
 
   const tabs = [
-    { id: 'profile' as TabType, label: 'Profil', icon: <User size={16} /> },
-    { id: 'security' as TabType, label: 'Sécurité', icon: <Lock size={16} /> },
-    { id: 'notifications' as TabType, label: 'Notifications', icon: <Bell size={16} /> },
+    { id: 'profile' as TabType, label: t('profile.tabs.profile', 'Profil'), icon: <User size={16} /> },
+    { id: 'security' as TabType, label: t('profile.tabs.security', 'Sécurité'), icon: <Lock size={16} /> },
+    { id: 'notifications' as TabType, label: t('profile.tabs.notifications', 'Notifications'), icon: <Bell size={16} /> },
   ]
 
   return (
@@ -128,7 +128,7 @@ export default function MyProfilePage() {
           {t('profile.title', 'Mon profil')}
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-          Gérez vos informations personnelles et préférences
+          {t('profile.subtitle', 'Gérez vos informations personnelles et préférences')}
         </p>
       </div>
 
@@ -154,18 +154,34 @@ export default function MyProfilePage() {
       {activeTab === 'profile' && (
         <div className="space-y-6">
           <Card>
-            <CardHeader title="Informations personnelles" />
+            <CardHeader title={t('profile.personalInfo', 'Informations personnelles')} />
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormInput
-                  label="Email"
+                  label={t('users.firstName', 'Prénom')}
+                  type="text"
+                  value={(user as any)?.first_name || ''}
+                  disabled
+                  className="bg-slate-50 dark:bg-slate-700 text-slate-600 dark:text-slate-400 cursor-not-allowed"
+                />
+                <FormInput
+                  label={t('users.lastName', 'Nom')}
+                  type="text"
+                  value={(user as any)?.last_name || ''}
+                  disabled
+                  className="bg-slate-50 dark:bg-slate-700 text-slate-600 dark:text-slate-400 cursor-not-allowed"
+                />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormInput
+                  label={t('profile.email', 'Email')}
                   type="email"
                   value={user?.email || ''}
                   disabled
                   className="bg-slate-50 dark:bg-slate-700 text-slate-600 dark:text-slate-400 cursor-not-allowed"
                 />
                 <FormInput
-                  label="Rôle"
+                  label={t('profile.role', 'Rôle')}
                   type="text"
                   value={user?.role || ''}
                   disabled
@@ -174,7 +190,7 @@ export default function MyProfilePage() {
               </div>
 
               <FormInput
-                label="Organisation"
+                label={t('profile.organization', 'Organisation')}
                 type="text"
                 value={(user as any)?.organization_name || 'N/A'}
                 disabled
@@ -184,7 +200,7 @@ export default function MyProfilePage() {
               <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
                 <p className="text-xs text-slate-500 dark:text-slate-400">
                   <Calendar size={12} className="inline mr-1" />
-                  Membre depuis: {(user as any)?.created_at ? new Date((user as any).created_at).toLocaleDateString('fr-FR') : 'N/A'}
+                  {t('profile.memberSince', 'Membre depuis:')} {(user as any)?.created_at ? new Date((user as any).created_at).toLocaleDateString(i18n.language) : 'N/A'}
                 </p>
               </div>
             </div>

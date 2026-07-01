@@ -8,6 +8,8 @@ export interface AuthUser {
   email: string
   role: 'employee' | 'manager' | 'admin' | 'finance' | 'payroll'
   org_id: number
+  first_name?: string
+  last_name?: string
 }
 
 interface TokenResponse {
@@ -21,6 +23,8 @@ interface JwtPayload {
   role: 'employee' | 'manager' | 'admin' | 'finance' | 'payroll'
   org_id?: number
   must_change_password?: boolean
+  first_name?: string
+  last_name?: string
 }
 
 interface AuthState {
@@ -53,6 +57,8 @@ export const useAuthStore = create<AuthState>()(
           email: payload.sub,
           role: payload.role,
           org_id: payload.org_id ?? 1,
+          first_name: payload.first_name,
+          last_name: payload.last_name,
         }
         tokenStore.set(data.access_token)
         set({ isAuthenticated: true, user })

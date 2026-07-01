@@ -194,6 +194,11 @@
     "daysRemaining": "giorni rimanenti",
     "monthlyTrend": "Tendenza mensile",
     "noOrganizations": "Nessuna organizzazione",
+    "vsLastWeek": "vs settimana scorsa",
+    "vsLastMonth": "vs mese scorso",
+    "thisMonthHours": "Ore questo mese",
+    "absencesPending": "Assenze in attesa",
+    "absencesApproved": "Assenze approvate",
     "noTeamMembers": "Nessun membro del team",
     "employees": "dipendenti",
     "employee": "dipendente",
@@ -650,7 +655,8 @@
     "loadingProjects": "Caricamento dei progetti…",
     "noActiveProjects": "Nessun progetto attivo assegnato per questa data.",
     "chooseProject": "— Scegli un progetto —",
-    "error": "Errore durante il salvataggio."
+    "error": "Errore durante il salvataggio.",
+    "addType": "Aggiungi un tipo di inserimento"
   },
   "timeOffRequest": {
     "title": "Dichiara un'assenza",
@@ -870,5 +876,15 @@
     "tableConsumed": "Consumato (h)",
     "tableRemaining": "Rimanente (h)",
     "tableProgress": "Avanzamento"
+  },
+  "welcome": {
+    "greeting": "Buongiorno"
+  },
+  "roles": {
+    "admin": "Amministratore",
+    "manager": "Manager",
+    "employee": "Dipendente",
+    "finance": "Finanza",
+    "payroll": "Paghe"
   }
 }

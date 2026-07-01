@@ -89,6 +89,8 @@ class AuthService:
             "org_id": employee.org_id,
             "role": employee.role,
             "must_change_password": employee.must_change_password,
+            "first_name": employee.first_name,
+            "last_name": employee.last_name,
         })
         refresh_token, expires_at = await self._create_refresh_token(employee.employee_id)
         await self.db.commit()
@@ -137,6 +139,8 @@ class AuthService:
             "org_id": employee.org_id,
             "role": employee.role,
             "must_change_password": employee.must_change_password,
+            "first_name": employee.first_name,
+            "last_name": employee.last_name,
         })
         new_refresh_token, new_expires_at = await self._create_refresh_token(employee.employee_id)
         await self.db.commit()
