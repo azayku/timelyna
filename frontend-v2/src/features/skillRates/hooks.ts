@@ -12,7 +12,10 @@ export function useCreateSkillRate() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (payload: CreateSkillRatePayload) => createSkillRate(payload),
-    onSuccess: () => qc.invalidateQueries({ queryKey: QUERY_KEY }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: QUERY_KEY })
+      qc.invalidateQueries({ queryKey: ['manager-skill-rates'] })
+    },
   })
 }
 
@@ -21,7 +24,10 @@ export function useUpdateSkillRate() {
   return useMutation({
     mutationFn: ({ id, payload }: { id: number; payload: UpdateSkillRatePayload }) =>
       updateSkillRate(id, payload),
-    onSuccess: () => qc.invalidateQueries({ queryKey: QUERY_KEY }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: QUERY_KEY })
+      qc.invalidateQueries({ queryKey: ['manager-skill-rates'] })
+    },
   })
 }
 
@@ -29,6 +35,9 @@ export function useDeleteSkillRate() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (id: number) => deleteSkillRate(id),
-    onSuccess: () => qc.invalidateQueries({ queryKey: QUERY_KEY }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: QUERY_KEY })
+      qc.invalidateQueries({ queryKey: ['manager-skill-rates'] })
+    },
   })
 }

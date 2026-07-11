@@ -80,6 +80,7 @@ export default function TimesheetEntryPage() {
 
   const createMutation = useCreateEntry(week)
   const deleteMutation = useDeleteEntry(week)
+  const isDescriptionRequired = entryType === 'overtime'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -328,10 +329,10 @@ export default function TimesheetEntryPage() {
           {/* Description */}
           <Card>
             <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
-              {t('timesheet.description', 'Description')} *
+              {t('timesheet.description', 'Description')}{isDescriptionRequired ? ' *' : ''}
             </label>
             <textarea rows={3} value={description} onChange={e => setDescription(e.target.value)}
-              required
+              required={isDescriptionRequired}
               placeholder={t('timesheet.descriptionPlaceholder', 'Décrivez les tâches effectuées…')}
               className="w-full text-sm text-slate-800 dark:text-slate-200 bg-transparent border-0 outline-none focus:ring-0 resize-none placeholder-slate-300 dark:placeholder-slate-600" />
           </Card>

@@ -225,35 +225,35 @@ export default function CreateProjectModal({ open, onClose }: Props) {
       {step === 0 && (
         <div className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-1.5">Nom du projet *</label>
+            <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Nom du projet *</label>
             <input value={name} onChange={e => setName(e.target.value)}
               placeholder="Ex: Refonte site web"
-              className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              className="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-500 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-500 mb-1.5">Client *</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Client *</label>
               {loadingEmployees ? (
                 <div className="flex items-center gap-2 text-slate-400 text-xs py-2">
                   <Loader2 size={12} className="animate-spin" /> Chargement…
                 </div>
               ) : (
                 <select value={clientId} onChange={e => setClientId(e.target.value)}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  className="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                   <option value="">— Choisir —</option>
                   {clients.map(c => <option key={c.client_id} value={c.client_id}>{c.client_name}</option>)}
                 </select>
               )}
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-500 mb-1.5">Manager *</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Manager *</label>
               {loadingEmployees ? (
                 <div className="flex items-center gap-2 text-slate-400 text-xs py-2">
                   <Loader2 size={12} className="animate-spin" /> Chargement…
                 </div>
               ) : (
                 <select value={managerId} onChange={e => setManagerId(e.target.value)}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  className="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                   <option value="">— Choisir —</option>
                   {managers.map(m => <option key={m.employee_id} value={m.employee_id}>{m.first_name} {m.last_name}</option>)}
                 </select>
@@ -262,9 +262,9 @@ export default function CreateProjectModal({ open, onClose }: Props) {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-500 mb-1.5">Statut</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Statut</label>
               <select value={status} onChange={e => setStatus(e.target.value)}
-                className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                className="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 {STATUSES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
               </select>
             </div>
@@ -272,26 +272,26 @@ export default function CreateProjectModal({ open, onClose }: Props) {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-500 mb-1.5">Date de début *</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Date de début *</label>
               <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)}
-                className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                className="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-500 mb-1.5">Date de fin *</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Date de fin *</label>
               <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} min={startDate}
-                className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                className="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-500 mb-1.5">Budget (heures)</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Budget (heures)</label>
               <input type="number" value={budget} onChange={e => setBudget(e.target.value)} placeholder="Ex: 500"
-                className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                className="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-500 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-500 mb-1.5">Taux horaire (€)</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Taux horaire (€)</label>
               <input type="number" value={rate} onChange={e => setRate(e.target.value)} placeholder="Ex: 120"
-                className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                className="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-500 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
             </div>
           </div>
         </div>

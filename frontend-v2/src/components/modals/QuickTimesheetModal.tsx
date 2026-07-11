@@ -198,7 +198,8 @@ export default function QuickTimesheetModal({ open, onClose, defaultDate }: Quic
   })
 
   const canAddMore = availableTypes.length > 0
-  const canSubmit = !!projectId && rows.length > 0 && rows.every(r => Number(r.hours) > 0 && r.description.trim().length > 0)
+  const isDescriptionRequired = (type: EntryType) => type === 'overtime'
+  const canSubmit = !!projectId && rows.length > 0 && rows.every(r => Number(r.hours) > 0 && (!isDescriptionRequired(r.type) || r.description.trim().length > 0))
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
@@ -327,12 +328,14 @@ export default function QuickTimesheetModal({ open, onClose, defaultDate }: Quic
 
                     {/* Description */}
                     <div className="px-4 pb-3">
-                      <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">{t('timesheet.description', 'Description')} *</p>
+                      <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
+                        {t('timesheet.description', 'Description')}{isDescriptionRequired(row.type) ? ' *' : ''}
+                      </p>
                       <textarea
                         rows={2}
                         value={row.description}
                         onChange={e => updateRow(row.id, { description: e.target.value })}
-                        required
+                        required={isDescriptionRequired(row.type)}
                         placeholder={t('timesheet.descriptionPlaceholder', 'Décrivez les tâches effectuées…')}
                         className="w-full text-sm text-slate-800 dark:text-slate-200 bg-white/70 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none placeholder-slate-400 dark:placeholder-slate-500"
                       />

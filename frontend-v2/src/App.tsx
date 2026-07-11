@@ -76,7 +76,7 @@ export default function App() {
   }, [dark])
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.VITE_BASE_PATH || '/'}}>
       <Routes>
         {/* Setup wizard — only when not installed */}
         <Route path="/setup" element={<SetupPage />} />

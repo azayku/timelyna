@@ -1,0 +1,19 @@
+# docker-compose.proxy.yml — Top-level nginx router
+#
+# Routes /dev/, /uat/, /uat2/, /uat3/ to the correct env's frontend container.
+# Each env's frontend container handles /api/v1/ proxying to its own backend.
+#
+# Run once on the server (or alongside any env stack):
+#   docker compose -f docker-compose.proxy.yml up -d
+
+services:
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: timelyna-proxy
+    restart: unless-stopped
+    ports:
+      - "${PROXY_PORT:-80}:80"
+    volumes:
+      - ./nginx-proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

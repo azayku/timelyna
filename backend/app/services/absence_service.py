@@ -5,9 +5,11 @@ from datetime import date
 from typing import Optional
 
 from fastapi import HTTPException, status
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.notification import Notification
+from app.models.employee import Employee
 from app.repositories.absence_repository import AbsenceRepository
 from app.repositories.employee_repository import EmployeeRepository
 
@@ -21,6 +23,39 @@ class AbsenceService:
         self.db = db
         self.repo = AbsenceRepository(db)
         self.emp_repo = EmployeeRepository(db)
+
+    async def _notify_absence_submission(self, employee_id: int, absence_id: int, start_date: date, end_date: date) -> None:
+        employee = await self.emp_repo.get_by_id(employee_id)
+        if not employee:
+            return
+
+        recipients: set[int] = set()
+        if employee.manager_id:
+            recipients.add(employee.manager_id)
+
+        result = await self.db.execute(
+            select(Employee.employee_id).where(
+                Employee.org_id == employee.org_id,
+                Employee.role == "admin",
+                Employee.deleted_at.is_(None),
+            )
+        )
+        recipients.update(result.scalars().all())
+        recipients.discard(employee.employee_id)
+
+        for recipient_id in recipients:
+            notif = Notification(
+                employee_id=recipient_id,
+                type="absence_submitted",
+                title="Nouvelle demande d'absence",
+                message=(
+                    f"{employee.first_name} {employee.last_name} a soumis une demande d'absence "
+                    f"du {start_date.strftime('%d/%m/%Y')} au {end_date.strftime('%d/%m/%Y')}"
+                ),
+                metadata={"absence_id": absence_id},
+            )
+            self.db.add(notif)
+        await self.db.commit()
 
     async def create(
         self,
@@ -48,19 +83,7 @@ class AbsenceService:
         await self.db.commit()
         await self.db.refresh(absence)
 
-        # Send notification to manager
-        employee = await self.emp_repo.get_by_id(employee_id)
-        if employee and employee.manager_id:
-            from app.models.notification import Notification
-            notif = Notification(
-                employee_id=employee.manager_id,
-                type="absence_submitted",
-                title="Nouvelle demande d'absence",
-                message=f"{employee.first_name} {employee.last_name} a soumis une demande d'absence du {start_date.strftime('%d/%m/%Y')} au {end_date.strftime('%d/%m/%Y')}",
-                metadata={"absence_id": absence.id},
-            )
-            self.db.add(notif)
-            await self.db.commit()
+        await self._notify_absence_submission(employee_id, absence.id, start_date, end_date)
 
         return {
             "id": absence.id,

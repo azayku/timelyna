@@ -9,6 +9,17 @@ on:
   pull_request:
     branches:
       - main
+      - uat
+  workflow_dispatch:
+    inputs:
+      env_name:
+        description: 'UAT slot to deploy'
+        required: true
+        type: choice
+        options:
+          - uat
+          - uat2
+          - uat3
 
 env:
   REGISTRY: ghcr.io
@@ -185,11 +196,17 @@ jobs:
               fi
             fi
 
-            # Build fresh images for dev.
+            # Build fresh images for dev (path prefix /dev, port 3000).
+            FRONTEND_HOST_PORT=3000 BACKEND_HOST_PORT=8000 \
+            VITE_BASE_PATH=/dev VITE_API_URL=/dev/api/v1 \
             docker compose build --pull backend celery-worker celery-beat frontend
 
-            # Deploy/restart stack, including pgAdmin for database access on dev.
+            # Deploy/restart dev stack (pgAdmin included for dev).
+            FRONTEND_HOST_PORT=3000 BACKEND_HOST_PORT=8000 \
             docker compose up -d backend celery-worker celery-beat frontend pgadmin
+
+            # Ensure proxy is running (start if not already up).
+            docker compose -f docker-compose.proxy.yml up -d
 
             # Run DB migrations on the live backend container.
             docker compose exec -T backend sh -lc 'cd /app/migrations && python -m alembic -c alembic.ini upgrade heads'
@@ -208,6 +225,158 @@ jobs:
       - name: OVH build skipped
         if: steps.ovh_cfg.outputs.configured != 'true'
         run: echo "OVH deploy skipped because required SSH configuration is not available in this context."
+
+  # Job 2c: Deploy a UAT slot.
+  #   - Triggered automatically when a PR dev→uat is merged (deploys 'uat').
+  #   - Triggered manually via workflow_dispatch with an env_name input (uat/uat2/uat3).
+  deploy-uat:
+    name: Deploy to ${{ github.event.inputs.env_name || 'uat' }}
+    runs-on: ubuntu-latest
+    needs: test
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event_name == 'pull_request' &&
+        github.event.action == 'closed' &&
+        github.event.pull_request.merged == true &&
+        github.event.pull_request.base.ref == 'uat' &&
+        github.event.pull_request.head.ref == 'dev'
+      )
+    environment:
+      name: ${{ github.event.inputs.env_name || 'uat' }}
+      url: ${{ vars.UAT_URL }}
+
+    steps:
+      - name: Resolve env_name and port mapping
+        id: env_info
+        run: |
+          # env_name comes from workflow_dispatch input; PR merges always target 'uat'.
+          ENV_NAME="${{ github.event.inputs.env_name || 'uat' }}"
+          echo "env_name=${ENV_NAME}" >> "$GITHUB_OUTPUT"
+
+          # Port assignment: uat=3001/8001, uat2=3002/8002, uat3=3003/8003
+          case "${ENV_NAME}" in
+            uat)  FPORT=3001; BPORT=8001; REDIS_DB=1 ;;
+            uat2) FPORT=3002; BPORT=8002; REDIS_DB=2 ;;
+            uat3) FPORT=3003; BPORT=8003; REDIS_DB=3 ;;
+            *)    echo "Unknown env_name: ${ENV_NAME}"; exit 1 ;;
+          esac
+          echo "frontend_port=${FPORT}" >> "$GITHUB_OUTPUT"
+          echo "backend_port=${BPORT}"  >> "$GITHUB_OUTPUT"
+          echo "redis_db=${REDIS_DB}"   >> "$GITHUB_OUTPUT"
+          echo "db_name=timelyna_${ENV_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Validate OVH SSH configuration
+        id: uat_cfg
+        env:
+          OVH_HOST: ${{ secrets.OVH_HOST != '' && secrets.OVH_HOST || vars.OVH_HOST }}
+          OVH_USER: ${{ secrets.OVH_USER != '' && secrets.OVH_USER || vars.OVH_USER }}
+          OVH_SSH_KEY: ${{ secrets.OVH_SSH_KEY }}
+          OVH_REPO_TOKEN: ${{ secrets.OVH_REPO_TOKEN }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD != '' && secrets.POSTGRES_PASSWORD || vars.POSTGRES_PASSWORD }}
+        run: |
+          if [ -n "$OVH_HOST" ] && [ -n "$OVH_USER" ] && [ -n "$OVH_SSH_KEY" ] && [ -n "$OVH_REPO_TOKEN" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "OVH_HOST/OVH_USER/OVH_SSH_KEY/OVH_REPO_TOKEN missing: skipping UAT deployment."
+          fi
+
+      - name: Deploy UAT env on OVH VPS
+        if: steps.uat_cfg.outputs.configured == 'true'
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.OVH_HOST != '' && secrets.OVH_HOST || vars.OVH_HOST }}
+          username: ${{ secrets.OVH_USER != '' && secrets.OVH_USER || vars.OVH_USER }}
+          key: ${{ secrets.OVH_SSH_KEY }}
+          script: |
+            set -e
+            ENV_NAME="${{ steps.env_info.outputs.env_name }}"
+            FRONTEND_PORT="${{ steps.env_info.outputs.frontend_port }}"
+            BACKEND_PORT="${{ steps.env_info.outputs.backend_port }}"
+            REDIS_DB="${{ steps.env_info.outputs.redis_db }}"
+            DB_NAME="${{ steps.env_info.outputs.db_name }}"
+            POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD != '' && secrets.POSTGRES_PASSWORD || vars.POSTGRES_PASSWORD }}"
+
+            APP_DIR="/opt/timelyna-${ENV_NAME}"
+            REPO_URL="https://${{ github.repository_owner }}:${{ secrets.OVH_REPO_TOKEN }}@github.com/${{ github.repository }}.git"
+            PROJECT_NAME="timelyna-${ENV_NAME}"
+
+            git ls-remote "$REPO_URL" HEAD >/dev/null
+
+            sudo mkdir -p "$APP_DIR"
+            sudo chown -R "$USER":"$USER" "$APP_DIR"
+
+            if [ ! -d "$APP_DIR/.git" ]; then
+              git clone "$REPO_URL" "$APP_DIR"
+            fi
+
+            cd "$APP_DIR"
+            git remote set-url origin "$REPO_URL"
+            git fetch origin
+            # For 'uat' the branch is 'uat'; for uat2/uat3 fall back to dev branch.
+            BRANCH="${ENV_NAME}"
+            git ls-remote --exit-code origin "refs/heads/${BRANCH}" >/dev/null 2>&1 || BRANCH="dev"
+            git checkout "${BRANCH}"
+            git reset --hard "origin/${BRANCH}"
+            git remote set-url origin "https://github.com/${{ github.repository }}.git"
+
+            # Write backend .env for this slot.
+            cat > backend/.env <<EOF
+            APP_ENV=${ENV_NAME}
+            DATABASE_URL=postgresql+asyncpg://timelyna:${POSTGRES_PASSWORD}@host.docker.internal:5432/${DB_NAME}?ssl=disable
+            REDIS_URL=redis://host.docker.internal:6379/${REDIS_DB}
+            FRONTEND_URL=http://localhost/${ENV_NAME}
+            SECRET_KEY=${{ secrets.SECRET_KEY || 'change-me-in-production' }}
+            EOF
+
+            # Ensure the target DB exists in the shared postgres.
+            docker exec timelyna-db psql -U timelyna -tc \
+              "SELECT 1 FROM pg_database WHERE datname='${DB_NAME}'" | grep -q 1 || \
+              docker exec timelyna-db psql -U timelyna -c "CREATE DATABASE ${DB_NAME}"
+
+            # Build images for this env (with env-specific VITE_BASE_PATH).
+            ENV_NAME="${ENV_NAME}" \
+            FRONTEND_HOST_PORT="${FRONTEND_PORT}" \
+            BACKEND_HOST_PORT="${BACKEND_PORT}" \
+            DB_NAME="${DB_NAME}" \
+            REDIS_DB_INDEX="${REDIS_DB}" \
+            POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
+            docker compose -f docker-compose.yml -f docker-compose.uat.yml \
+              -p "${PROJECT_NAME}" build --pull backend celery-worker celery-beat frontend
+
+            # Bring up the env stack.
+            ENV_NAME="${ENV_NAME}" \
+            FRONTEND_HOST_PORT="${FRONTEND_PORT}" \
+            BACKEND_HOST_PORT="${BACKEND_PORT}" \
+            DB_NAME="${DB_NAME}" \
+            REDIS_DB_INDEX="${REDIS_DB}" \
+            POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
+            docker compose -f docker-compose.yml -f docker-compose.uat.yml \
+              -p "${PROJECT_NAME}" up -d backend celery-worker celery-beat frontend
+
+            # Ensure nginx proxy is running.
+            docker compose -f docker-compose.proxy.yml up -d
+
+            # Run DB migrations.
+            docker compose -f docker-compose.yml -f docker-compose.uat.yml \
+              -p "${PROJECT_NAME}" exec -T backend \
+              sh -lc 'cd /app/migrations && python -m alembic -c alembic.ini upgrade heads'
+
+            # Healthcheck via nginx proxy path.
+            for attempt in $(seq 1 30); do
+              if curl -fsS "http://localhost/${ENV_NAME}/health" >/dev/null; then
+                exit 0
+              fi
+              sleep 2
+            done
+
+            echo "Healthcheck failed for http://localhost/${ENV_NAME}/health"
+            curl -fsS "http://localhost/${ENV_NAME}/health" >/dev/null
+
+      - name: UAT deployment skipped
+        if: steps.uat_cfg.outputs.configured != 'true'
+        run: echo "UAT deployment skipped because required SSH configuration is not available."
 
   # Job 3: Deploy to staging (branch main)
   deploy-staging:
