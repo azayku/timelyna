@@ -73,39 +73,39 @@ function ClientFormModal({ open, onClose, initial }: ClientFormModalProps) {
     <Modal open={open} onClose={onClose} title={isEdit ? 'Modifier le client' : 'Nouveau client'} size="md">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-xs font-semibold text-slate-500 mb-1.5">Nom *</label>
+          <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Nom *</label>
           <input value={form.client_name} onChange={e => set('client_name', e.target.value)} required
-            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            className="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
         </div>
         <div>
-          <label className="block text-xs font-semibold text-slate-500 mb-1.5">Email *</label>
+          <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Email *</label>
           <input type="email" value={form.email} onChange={e => set('email', e.target.value)} required
-            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            className="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-1.5">Taux horaire *</label>
+            <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Taux horaire *</label>
             <input type="number" min={0} step={0.01} value={form.default_billing_rate}
               onChange={e => set('default_billing_rate', e.target.value)} required
-              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              className="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-1.5">Devise</label>
+            <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Devise</label>
             <select value={form.currency} onChange={e => set('currency', e.target.value)}
-              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              className="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
               {['EUR', 'USD', 'GBP', 'CHF', 'MAD'].map(c => <option key={c}>{c}</option>)}
             </select>
           </div>
         </div>
         <div>
-          <label className="block text-xs font-semibold text-slate-500 mb-1.5">Téléphone</label>
+          <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Téléphone</label>
           <input value={form.phone} onChange={e => set('phone', e.target.value)}
-            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            className="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
         </div>
         <div>
-          <label className="block text-xs font-semibold text-slate-500 mb-1.5">Adresse</label>
+          <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Adresse</label>
           <textarea value={form.address} onChange={e => set('address', e.target.value)} rows={2}
-            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            className="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-500 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500" />
         </div>
         {apiError && (
           <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">

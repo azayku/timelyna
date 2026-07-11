@@ -4,6 +4,8 @@ import { useThemeStore } from '../lib/themeStore'
 import GlobalSearch from './GlobalSearch'
 import NotificationBell from '../features/notifications/NotificationBell'
 import { useAuthStore } from '../lib/authStore'
+import { displayNameFromUser, initialsFromUser } from '../utils/userDisplay'
+import { NavLink } from 'react-router-dom'
 
 interface HeaderProps {
   title: string
@@ -13,7 +15,10 @@ interface HeaderProps {
 export default function Header({ title, breadcrumb }: HeaderProps) {
   const { dark, toggle } = useThemeStore()
   const { t } = useTranslation()
-  const role = useAuthStore(s => s.user?.role)
+  const user = useAuthStore(s => s.user)
+  const role = user?.role
+  const displayName = displayNameFromUser(user)
+  const initials = initialsFromUser(user)
 
   return (
     <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 px-6 py-3.5 flex items-center justify-between flex-shrink-0">
@@ -42,6 +47,19 @@ export default function Header({ title, breadcrumb }: HeaderProps) {
 
         {/* Notifications */}
         <NotificationBell />
+
+        {/* User avatar + name */}
+        <NavLink
+          to="/profile"
+          className="hidden sm:flex items-center gap-2 pl-2 border-l border-slate-200 dark:border-slate-700 ml-1 hover:opacity-80 transition-opacity"
+        >
+          <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+            {initials}
+          </div>
+          <span className="text-sm font-medium text-slate-700 dark:text-slate-300 max-w-[120px] truncate">
+            {displayName}
+          </span>
+        </NavLink>
       </div>
     </header>
   )

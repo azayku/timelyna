@@ -7,12 +7,15 @@ from unittest.mock import AsyncMock, MagicMock
 from app.tasks.reminder_tasks import _get_employees_with_missing_timesheets
 
 
-def _make_execute_result(scalars_all=None, scalar_one_or_none=None):
+_UNSET = object()
+
+
+def _make_execute_result(scalars_all=None, scalar_one_or_none=_UNSET):
     """Create a mock execute result that works synchronously."""
     result = MagicMock()
     if scalars_all is not None:
         result.scalars.return_value.all.return_value = scalars_all
-    if scalar_one_or_none is not None:
+    if scalar_one_or_none is not _UNSET:
         result.scalar_one_or_none.return_value = scalar_one_or_none
     return result
 

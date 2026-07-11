@@ -4,6 +4,9 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  // VITE_BASE_PATH is injected at build time per environment (/dev, /uat, /uat2…).
+  // Falls back to '/' for local development (npm run dev).
+  base: process.env.VITE_BASE_PATH || '/',
   server: { port: 5174 },
   build: {
     chunkSizeWarningLimit: 600,

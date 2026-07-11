@@ -162,7 +162,8 @@ export default function AdminOrganizationsPage() {
 
   const filtered = orgs.filter(o => o.org_name.toLowerCase().includes(search.toLowerCase()))
 
-  const managerName = (managerId: number) => {
+  const managerName = (managerId: number | null) => {
+    if (!managerId) return '—'
     const emp = employees.find(e => e.employee_id === managerId)
     return emp ? `${emp.first_name} ${emp.last_name}` : `#${managerId}`
   }

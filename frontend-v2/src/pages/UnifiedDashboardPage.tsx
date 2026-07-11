@@ -62,7 +62,7 @@ function isWednesdayOrLater(displayDay: number = 2): boolean {
 }
 
 export default function UnifiedDashboardPage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const role = useAuthStore((s) => s.user?.role ?? 'employee')
   const { dark } = useThemeStore()
@@ -199,7 +199,7 @@ export default function UnifiedDashboardPage() {
             {t('dashboard.welcome', 'Bienvenue')}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+            {new Date().toLocaleDateString(i18n.language, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
           </p>
         </div>
         
@@ -209,7 +209,7 @@ export default function UnifiedDashboardPage() {
             icon={<Plus size={16} />} 
             onClick={() => setShowQuickMenu(!showQuickMenu)}
           >
-            Saisie rapide
+            {t('dashboard.quickEntry', 'Saisie rapide')}
           </Button>
 
           {/* Quick menu popup */}
@@ -224,7 +224,7 @@ export default function UnifiedDashboardPage() {
                   className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-left"
                 >
                   <Clock size={18} />
-                  <span className="text-sm font-medium">Saisie rapide</span>
+                  <span className="text-sm font-medium">{t('dashboard.quickEntry', 'Saisie rapide')}</span>
                 </button>
                 <button
                   onClick={() => {
@@ -234,7 +234,7 @@ export default function UnifiedDashboardPage() {
                   className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-left"
                 >
                   <Calendar size={18} />
-                  <span className="text-sm font-medium">Déclarer absence</span>
+                  <span className="text-sm font-medium">{t('dashboard.declareAbsence', 'Déclarer absence')}</span>
                 </button>
               </div>
               <div
@@ -253,14 +253,14 @@ export default function UnifiedDashboardPage() {
           value={thisWeekHours.toFixed(1)}
           icon={<Clock size={18} className="sm:w-5 sm:h-5" />}
           trend={Math.round(weekTrend)}
-          trendLabel={`vs semaine dernière (${lastWeekHours.toFixed(1)}h)`}
+          trendLabel={`${t('dashboard.vsLastWeek', 'vs semaine dernière')} (${lastWeekHours.toFixed(1)}h)`}
         />
         <KpiCard
           label={t('dashboard.thisMonthHours', 'Heures ce mois')}
           value={thisMonthHours.toFixed(1)}
           icon={<TrendingUp size={18} className="sm:w-5 sm:h-5" />}
           trend={Math.round(monthTrend)}
-          trendLabel={`vs mois dernier (${lastMonthHours.toFixed(1)}h)`}
+          trendLabel={`${t('dashboard.vsLastMonth', 'vs mois dernier')} (${lastMonthHours.toFixed(1)}h)`}
         />
         <button onClick={() => navigate('/timesheet/my-timesheets')} className="text-left">
           <KpiCard
@@ -288,7 +288,7 @@ export default function UnifiedDashboardPage() {
             label={t('dashboard.absencesApproved', 'Absences approuvées')}
             value={approvedAbsences}
             icon={<Calendar size={18} className="sm:w-5 sm:h-5" />}
-            subtitle={`${25 - approvedAbsences} jours restants`}
+            subtitle={`${25 - approvedAbsences} ${t('dashboard.daysRemaining', 'jours restants')}`}
           />
         </button>
       </div>

@@ -1,6 +1,6 @@
 {
   "name": "Timelyna",
-  "short_name": "Timesheet",
+  "short_name": "Timelyna",
   "description": "Gestion des temps et absences",
   "start_url": "/",
   "display": "standalone",

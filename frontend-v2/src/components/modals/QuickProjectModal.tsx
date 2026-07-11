@@ -72,8 +72,8 @@ export default function QuickProjectModal({ open, onClose }: QuickProjectModalPr
                     onChange={e => setEstimatedTime(e.target.value)}
                     className="flex-1 bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   />
-                  <label className="flex items-center gap-2 text-sm text-slate-600">
-                    <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-indigo-600" />
+                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                    <input type="checkbox" className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-indigo-600 dark:bg-slate-700" />
                     {t('project.sumTasks', 'Estimation des tâches de somme')}
                   </label>
                 </div>
@@ -97,29 +97,29 @@ export default function QuickProjectModal({ open, onClose }: QuickProjectModalPr
 
             {/* Advanced Views */}
             <div>
-              <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+              <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={advancedViews}
                   onChange={e => setAdvancedViews(e.target.checked)}
-                  className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-2 focus:ring-indigo-500"
+                  className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-indigo-600 dark:bg-slate-700 focus:ring-2 focus:ring-indigo-500"
                 />
                 {t('project.advancedViews', 'Vues avancées des tâches')}
               </label>
-              <p className="text-xs text-slate-500 mt-1 ml-6">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 ml-6">
                 {t('project.advancedViewsDesc', 'Activer le tableau, les listes de tâches, les sous-tâches et la collaboration.')}
               </p>
             </div>
 
             {/* Tabs */}
-            <div className="border-b border-slate-200">
+            <div className="border-b border-slate-200 dark:border-slate-700">
               <div className="flex gap-6">
                 <button
                   onClick={() => setActiveTab('properties')}
                   className={`pb-3 text-sm font-medium transition-colors ${
                     activeTab === 'properties'
                       ? 'text-indigo-600 border-b-2 border-indigo-600'
-                      : 'text-slate-500 hover:text-slate-700'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
                   }`}
                 >
                   {t('project.properties', 'Propriétés')}
@@ -129,7 +129,7 @@ export default function QuickProjectModal({ open, onClose }: QuickProjectModalPr
                   className={`pb-3 text-sm font-medium transition-colors ${
                     activeTab === 'billing'
                       ? 'text-indigo-600 border-b-2 border-indigo-600'
-                      : 'text-slate-500 hover:text-slate-700'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
                   }`}
                 >
                   {t('project.billing', 'Facturation')}
@@ -139,7 +139,7 @@ export default function QuickProjectModal({ open, onClose }: QuickProjectModalPr
                   className={`pb-3 text-sm font-medium transition-colors ${
                     activeTab === 'privacy'
                       ? 'text-indigo-600 border-b-2 border-indigo-600'
-                      : 'text-slate-500 hover:text-slate-700'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
                   }`}
                 >
                   {t('project.privacy', 'Confidentialité (Privé)')}
@@ -166,7 +166,7 @@ export default function QuickProjectModal({ open, onClose }: QuickProjectModalPr
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-3">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
                     {t('project.usersWithAccess', 'Utilisateurs ayant accès à tous les projets')}
                   </label>
                   <div className="flex items-center gap-3">
@@ -174,7 +174,7 @@ export default function QuickProjectModal({ open, onClose }: QuickProjectModalPr
                       A
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-slate-800">ds ff</p>
+                      <p className="text-sm font-medium text-slate-800 dark:text-slate-200">ds ff</p>
                     </div>
                   </div>
                 </div>

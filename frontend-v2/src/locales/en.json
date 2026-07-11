@@ -681,7 +681,8 @@
     "loadingProjects": "Loading projects…",
     "noActiveProjects": "No active projects assigned for this date.",
     "chooseProject": "— Choose a project —",
-    "error": "Error saving."
+    "error": "Error saving.",
+    "addType": "Add an entry type"
   },
   "timeOffRequest": {
     "title": "Declare an absence",
@@ -870,5 +871,15 @@
     "validated": "Validated successfully",
     "deleted": "Deleted successfully",
     "updated": "Updated successfully"
+  },
+  "welcome": {
+    "greeting": "Hello"
+  },
+  "roles": {
+    "admin": "Administrator",
+    "manager": "Manager",
+    "employee": "Employee",
+    "finance": "Finance",
+    "payroll": "Payroll"
   }
 }

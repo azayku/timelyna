@@ -5,11 +5,17 @@ from datetime import date
 from typing import Optional
 
 from fastapi import HTTPException, status
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.notification import Notification
+from app.models.employee import Employee
 from app.repositories.absence_repository import AbsenceRepository
 from app.repositories.employee_repository import EmployeeRepository
+
+
+def _fmt_fr_date(value: date | None) -> str:
+    return value.strftime('%d/%m/%Y') if value else "date inconnue"
 
 
 class AbsenceService:
@@ -17,6 +23,39 @@ class AbsenceService:
         self.db = db
         self.repo = AbsenceRepository(db)
         self.emp_repo = EmployeeRepository(db)
+
+    async def _notify_absence_submission(self, employee_id: int, absence_id: int, start_date: date, end_date: date) -> None:
+        employee = await self.emp_repo.get_by_id(employee_id)
+        if not employee:
+            return
+
+        recipients: set[int] = set()
+        if employee.manager_id:
+            recipients.add(employee.manager_id)
+
+        result = await self.db.execute(
+            select(Employee.employee_id).where(
+                Employee.org_id == employee.org_id,
+                Employee.role == "admin",
+                Employee.deleted_at.is_(None),
+            )
+        )
+        recipients.update(result.scalars().all())
+        recipients.discard(employee.employee_id)
+
+        for recipient_id in recipients:
+            notif = Notification(
+                employee_id=recipient_id,
+                type="absence_submitted",
+                title="Nouvelle demande d'absence",
+                message=(
+                    f"{employee.first_name} {employee.last_name} a soumis une demande d'absence "
+                    f"du {start_date.strftime('%d/%m/%Y')} au {end_date.strftime('%d/%m/%Y')}"
+                ),
+                metadata={"absence_id": absence_id},
+            )
+            self.db.add(notif)
+        await self.db.commit()
 
     async def create(
         self,
@@ -44,19 +83,7 @@ class AbsenceService:
         await self.db.commit()
         await self.db.refresh(absence)
 
-        # Send notification to manager
-        employee = await self.emp_repo.get_by_id(employee_id)
-        if employee and employee.manager_id:
-            from app.models.notification import Notification
-            notif = Notification(
-                employee_id=employee.manager_id,
-                type="absence_submitted",
-                title="Nouvelle demande d'absence",
-                message=f"{employee.first_name} {employee.last_name} a soumis une demande d'absence du {start_date.strftime('%d/%m/%Y')} au {end_date.strftime('%d/%m/%Y')}",
-                metadata={"absence_id": absence.id},
-            )
-            self.db.add(notif)
-            await self.db.commit()
+        await self._notify_absence_submission(employee_id, absence.id, start_date, end_date)
 
         return {
             "id": absence.id,
@@ -102,13 +129,14 @@ class AbsenceService:
             Organization.deleted_at.is_(None)
         )
         org_result = await self.db.execute(org_stmt)
-        manages_org = org_result.scalar_one_or_none() is not None
+        org_obj = org_result.scalar_one_or_none()
+        manages_org = isinstance(org_obj, Organization)
 
         # Allow if manages organization OR is direct manager
         if not manages_org and employee.manager_id != manager_id:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="You are not authorized to approve this absence",
+                detail="You are not the manager of this employee",
             )
 
         absence = await self.repo.update_status(
@@ -123,7 +151,10 @@ class AbsenceService:
             employee_id=absence.employee_id,
             type="absence_approved",
             title="Absence approuvée",
-            message=f"Votre demande d'absence du {absence.start_date.strftime('%d/%m/%Y')} au {absence.end_date.strftime('%d/%m/%Y')} a été approuvée",
+            message=(
+                f"Votre demande d'absence du {_fmt_fr_date(absence.start_date)} "
+                f"au {_fmt_fr_date(absence.end_date)} a été approuvée"
+            ),
             metadata={"absence_id": absence.id},
         )
         self.db.add(notif)
@@ -169,13 +200,14 @@ class AbsenceService:
             Organization.deleted_at.is_(None)
         )
         org_result = await self.db.execute(org_stmt)
-        manages_org = org_result.scalar_one_or_none() is not None
+        org_obj = org_result.scalar_one_or_none()
+        manages_org = isinstance(org_obj, Organization)
 
         # Allow if manages organization OR is direct manager
         if not manages_org and employee.manager_id != manager_id:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="You are not authorized to reject this absence",
+                detail="You are not the manager of this employee",
             )
 
         absence = await self.repo.update_status(
@@ -191,7 +223,11 @@ class AbsenceService:
             employee_id=absence.employee_id,
             type="absence_rejected",
             title="Absence refusée",
-            message=f"Votre demande d'absence du {absence.start_date.strftime('%d/%m/%Y')} au {absence.end_date.strftime('%d/%m/%Y')} a été refusée. Raison: {reason or 'Non spécifiée'}",
+            message=(
+                f"Votre demande d'absence du {_fmt_fr_date(absence.start_date)} "
+                f"au {_fmt_fr_date(absence.end_date)} a été refusée. "
+                f"Raison: {reason or 'Non spécifiée'}"
+            ),
             metadata={"absence_id": absence.id, "reason": reason},
         )
         self.db.add(notif)
@@ -236,13 +272,14 @@ class AbsenceService:
             Organization.deleted_at.is_(None)
         )
         org_result = await self.db.execute(org_stmt)
-        manages_org = org_result.scalar_one_or_none() is not None
+        org_obj = org_result.scalar_one_or_none()
+        manages_org = isinstance(org_obj, Organization)
 
         # Allow if manages organization OR is direct manager
         if not manages_org and employee.manager_id != manager_id:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="You are not authorized to modify this absence",
+                detail="You are not the manager of this employee",
             )
 
         # Revert to pending
@@ -259,7 +296,10 @@ class AbsenceService:
             employee_id=absence.employee_id,
             type="absence_reverted",
             title="Absence remise en attente",
-            message=f"Votre demande d'absence du {absence.start_date.strftime('%d/%m/%Y')} au {absence.end_date.strftime('%d/%m/%Y')} a été remise en attente",
+            message=(
+                f"Votre demande d'absence du {_fmt_fr_date(absence.start_date)} "
+                f"au {_fmt_fr_date(absence.end_date)} a été remise en attente"
+            ),
             metadata={"absence_id": absence.id},
         )
         self.db.add(notif)

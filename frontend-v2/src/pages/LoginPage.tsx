@@ -3,7 +3,9 @@ import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { Eye, EyeOff, AlertCircle, CheckSquare } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '../lib/authStore'
+import type { AuthUser } from '../lib/authStore'
 import { ApiError } from '../lib/apiClient'
+import WelcomeSplash from '../components/WelcomeSplash'
 
 const LANGS = ['fr', 'en', 'it', 'es'] as const
 
@@ -14,6 +16,7 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [splashUser, setSplashUser] = useState<AuthUser | null>(null)
 
   const { t, i18n } = useTranslation()
   const login = useAuthStore((s) => s.login)
@@ -28,7 +31,12 @@ export default function LoginPage() {
     setLoading(true)
     try {
       await login(identifier, password)
-      navigate(from, { replace: true })
+      const loggedUser = useAuthStore.getState().user
+      if (loggedUser) {
+        setSplashUser(loggedUser)
+      } else {
+        navigate(from, { replace: true })
+      }
     } catch (err) {
       if (err instanceof ApiError && err.status === 401) {
         setError(t('login.errorInvalidCredentials'))
@@ -38,6 +46,10 @@ export default function LoginPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  if (splashUser) {
+    return <WelcomeSplash user={splashUser} onComplete={() => navigate(from, { replace: true })} />
   }
 
   return (

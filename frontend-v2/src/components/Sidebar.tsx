@@ -10,7 +10,7 @@ import { useProxyStore } from '../lib/proxyStore'
 import { useManagerApprovals } from '../features/approvals/hooks'
 import { useFinanceLicense } from '../features/finance/useFinanceLicense'
 import Avatar from './ui/Avatar'
-import { displayNameFromEmail, initialsFromEmail } from '../utils/userDisplay'
+import { displayNameFromUser, initialsFromUser } from '../utils/userDisplay'
 
 type Role = 'employee' | 'manager' | 'admin' | 'finance' | 'payroll'
 
@@ -131,8 +131,8 @@ export default function Sidebar() {
     }))
     .filter(section => section.items.length > 0)
 
-  const displayName = displayNameFromEmail(user?.email)
-  const initials = initialsFromEmail(user?.email)
+  const displayName = displayNameFromUser(user)
+  const initials = initialsFromUser(user)
 
   return (
     <aside className="w-60 flex-shrink-0 flex flex-col h-screen bg-slate-900 dark:bg-slate-950 overflow-y-auto">

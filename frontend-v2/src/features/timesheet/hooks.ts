@@ -21,7 +21,11 @@ export function useCreateEntry(week: string) {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (payload: CreateEntryPayload) => createEntry(payload),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['timesheet-week', week] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['timesheet-week', week] })
+      qc.invalidateQueries({ queryKey: ['timesheet-all-entries'] })
+      qc.invalidateQueries({ queryKey: ['timesheet-drafts'] })
+    },
   })
 }
 
@@ -33,6 +37,7 @@ export function useUpdateEntry(week: string) {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['timesheet-week', week] })
       qc.invalidateQueries({ queryKey: ['timesheet-all-entries'] })
+      qc.invalidateQueries({ queryKey: ['timesheet-drafts'] })
     },
   })
 }
@@ -44,6 +49,7 @@ export function useDeleteEntry(week: string) {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['timesheet-week', week] })
       qc.invalidateQueries({ queryKey: ['timesheet-all-entries'] })
+      qc.invalidateQueries({ queryKey: ['timesheet-drafts'] })
     },
   })
 }
@@ -52,6 +58,10 @@ export function useSubmitWeek() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (week: string) => submitWeek(week),
-    onSuccess: (_data, week) => qc.invalidateQueries({ queryKey: ['timesheet-week', week] }),
+    onSuccess: (_data, week) => {
+      qc.invalidateQueries({ queryKey: ['timesheet-week', week] })
+      qc.invalidateQueries({ queryKey: ['timesheet-all-entries'] })
+      qc.invalidateQueries({ queryKey: ['timesheet-drafts'] })
+    },
   })
 }

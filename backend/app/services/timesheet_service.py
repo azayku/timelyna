@@ -12,6 +12,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.org_settings import OrgSettings
+from app.models.employee import Employee
 from app.models.timesheet_entry import TimesheetEntry
 from app.repositories.employee_repository import EmployeeRepository
 from app.repositories.project_repository import ProjectRepository
@@ -45,6 +46,42 @@ class TimesheetService:
             select(OrgSettings).where(OrgSettings.org_id == self.org_id)
         )
         return result.scalar_one_or_none()
+
+    async def _notify_timesheet_submission(self, employee_id: int, week_start: date, approval_id: int) -> None:
+        employee = await self.emp_repo.get_by_id(employee_id)
+        if not employee:
+            return
+
+        recipients: set[int] = set()
+        if employee.manager_id:
+            recipients.add(employee.manager_id)
+
+        admin_result = await self.db.execute(
+            select(Employee.employee_id).where(
+                Employee.org_id == employee.org_id,
+                Employee.role == "admin",
+                Employee.deleted_at.is_(None),
+            )
+        )
+        recipients.update(admin_result.scalars().all())
+        recipients.discard(employee.employee_id)
+
+        if not recipients:
+            return
+
+        from app.tasks.notification_tasks import run_create_in_app_notification
+
+        for recipient_id in recipients:
+            await run_create_in_app_notification(
+                employee_id=recipient_id,
+                type="approval_submitted",
+                title="Timesheet submitted for approval",
+                message=f"A timesheet for week {week_start} has been submitted for review.",
+                entity_type="approval",
+                entity_id=approval_id,
+                db=self.db,
+            )
+        await self.db.commit()
 
     # ------------------------------------------------------------------
     # 2.10 — get_week
@@ -324,6 +361,7 @@ class TimesheetService:
             await self.repo.update_status(existing_approval.approval_id, status="pending")
             await self.repo.submit_week_entries(employee_id, start_date, end_date)
             await self.db.commit()
+            await self._notify_timesheet_submission(employee_id, start_date, existing_approval.approval_id)
             
             logger.info(
                 "Timesheet resubmitted: employee=%s week=%s approval=%s",
@@ -348,6 +386,7 @@ class TimesheetService:
                 existing_approval.status = "pending"
             
             await self.db.commit()
+            await self._notify_timesheet_submission(employee_id, start_date, existing_approval.approval_id)
             
             logger.info(
                 "Additional entries submitted: employee=%s week=%s approval=%s count=%s",
@@ -397,22 +436,10 @@ class TimesheetService:
             employee_id, week_str, manager_id, approval.approval_id,
         )
 
-        # Notification to manager (10.6)
-        if manager_id:
-            try:
-                from app.tasks.notification_tasks import run_create_in_app_notification
-                await run_create_in_app_notification(
-                    employee_id=manager_id,
-                    type="approval_submitted",
-                    title="Timesheet submitted for approval",
-                    message=f"A timesheet for week {start_date} has been submitted for your approval.",
-                    entity_type="approval",
-                    entity_id=approval.approval_id,
-                    db=self.db,
-                )
-                await self.db.commit()
-            except Exception:
-                logger.warning("Timesheet notification to manager failed", exc_info=True)
+        try:
+            await self._notify_timesheet_submission(employee_id, start_date, approval.approval_id)
+        except Exception:
+            logger.warning("Timesheet notification fan-out failed", exc_info=True)
 
         return {
             "week": week_str,

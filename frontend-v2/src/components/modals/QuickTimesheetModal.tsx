@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { X, Clock, TrendingUp, Car, Moon, AlertTriangle, CheckCircle2, Loader2, Plus, Trash2 } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { apiClient, ApiError } from '../../lib/apiClient'
 import { useCreateEntry } from '../../features/timesheet/hooks'
 
@@ -117,6 +118,7 @@ function HoursSelector({ value, onChange }: { value: string; onChange: (v: strin
 
 export default function QuickTimesheetModal({ open, onClose, defaultDate }: QuickTimesheetModalProps) {
   const today = new Date().toISOString().split('T')[0]
+  const { t } = useTranslation()
   const [date, setDate] = useState(defaultDate || today)
   const [projectId, setProjectId] = useState('')
   const [rows, setRows] = useState<EntryRow[]>([
@@ -183,7 +185,7 @@ export default function QuickTimesheetModal({ open, onClose, defaultDate }: Quic
         onClose()
       }, 1200)
     } catch (err) {
-      setGlobalError(err instanceof ApiError ? err.message : 'Erreur lors de la sauvegarde.')
+      setGlobalError(err instanceof ApiError ? err.message : t('quickTimesheet.error', 'Erreur lors de la sauvegarde.'))
     } finally {
       setSubmitting(false)
     }
@@ -191,12 +193,13 @@ export default function QuickTimesheetModal({ open, onClose, defaultDate }: Quic
 
   if (!open) return null
 
-  const dateLabel = new Date(date + 'T12:00:00').toLocaleDateString('fr-FR', {
+  const dateLabel = new Date(date + 'T12:00:00').toLocaleDateString(undefined, {
     weekday: 'long', day: 'numeric', month: 'long',
   })
 
   const canAddMore = availableTypes.length > 0
-  const canSubmit = !!projectId && rows.length > 0 && rows.every(r => Number(r.hours) > 0 && r.description.trim().length > 0)
+  const isDescriptionRequired = (type: EntryType) => type === 'overtime'
+  const canSubmit = !!projectId && rows.length > 0 && rows.every(r => Number(r.hours) > 0 && (!isDescriptionRequired(r.type) || r.description.trim().length > 0))
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
@@ -211,7 +214,7 @@ export default function QuickTimesheetModal({ open, onClose, defaultDate }: Quic
               <Clock size={18} className="text-indigo-600 dark:text-indigo-400" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-800 dark:text-white leading-tight">Saisie rapide</h2>
+              <h2 className="text-base font-bold text-slate-800 dark:text-white leading-tight">{t('timesheet.quickEntry', 'Saisie rapide')}</h2>
               <p className="text-xs text-slate-500 dark:text-slate-400 capitalize">{dateLabel}</p>
             </div>
           </div>
@@ -229,7 +232,7 @@ export default function QuickTimesheetModal({ open, onClose, defaultDate }: Quic
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
-                  Date *
+                  {t('common.date', 'Date')} *
                 </label>
                 <input
                   type="date"
@@ -241,11 +244,11 @@ export default function QuickTimesheetModal({ open, onClose, defaultDate }: Quic
               </div>
               <div>
                 <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
-                  Projet *
+                  {t('timesheet.project', 'Projet')} *
                 </label>
                 {loadingProjects ? (
                   <div className="flex items-center gap-2 text-slate-400 text-xs py-3">
-                    <Loader2 size={12} className="animate-spin" /> Chargement…
+                    <Loader2 size={12} className="animate-spin" /> {t('common.loading', 'Chargement…')}
                   </div>
                 ) : (
                   <select
@@ -254,7 +257,7 @@ export default function QuickTimesheetModal({ open, onClose, defaultDate }: Quic
                     required
                     className="w-full text-sm text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >
-                    <option value="">— Choisir —</option>
+                    <option value="">{t('timesheet.chooseProject', '— Choisir —')}</option>
                     {projects.map(p => (
                       <option key={p.project_id} value={p.project_id}>{p.project_name}</option>
                     ))}
@@ -266,7 +269,7 @@ export default function QuickTimesheetModal({ open, onClose, defaultDate }: Quic
             {/* Divider */}
             <div className="flex items-center gap-3">
               <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700" />
-              <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Types de pointage</span>
+              <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">{t('timesheet.entryType', 'Types de pointage')}</span>
               <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700" />
             </div>
 
@@ -319,19 +322,21 @@ export default function QuickTimesheetModal({ open, onClose, defaultDate }: Quic
 
                     {/* Hours */}
                     <div className="px-4 pb-2">
-                      <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Heures *</p>
+                      <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">{t('timesheet.hours', 'Heures')} *</p>
                       <HoursSelector value={row.hours} onChange={v => updateRow(row.id, { hours: v })} />
                     </div>
 
                     {/* Description */}
                     <div className="px-4 pb-3">
-                      <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Description *</p>
+                      <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
+                        {t('timesheet.description', 'Description')}{isDescriptionRequired(row.type) ? ' *' : ''}
+                      </p>
                       <textarea
                         rows={2}
                         value={row.description}
                         onChange={e => updateRow(row.id, { description: e.target.value })}
-                        required
-                        placeholder="Décrivez les tâches effectuées…"
+                        required={isDescriptionRequired(row.type)}
+                        placeholder={t('timesheet.descriptionPlaceholder', 'Décrivez les tâches effectuées…')}
                         className="w-full text-sm text-slate-800 dark:text-slate-200 bg-white/70 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none placeholder-slate-400 dark:placeholder-slate-500"
                       />
                     </div>
@@ -348,7 +353,7 @@ export default function QuickTimesheetModal({ open, onClose, defaultDate }: Quic
                 className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 text-sm font-medium text-slate-500 dark:text-slate-400 hover:border-indigo-400 hover:text-indigo-600 dark:hover:border-indigo-500 dark:hover:text-indigo-400 transition-all"
               >
                 <Plus size={16} />
-                Ajouter un type de pointage
+                {t('quickTimesheet.addType', 'Ajouter un type de pointage')}
               </button>
             )}
 
@@ -364,7 +369,7 @@ export default function QuickTimesheetModal({ open, onClose, defaultDate }: Quic
             {submitted && (
               <div className="flex items-center gap-2 p-3 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl text-sm text-emerald-700 dark:text-emerald-400">
                 <CheckCircle2 size={15} />
-                {rows.length > 1 ? `${rows.length} pointages enregistrés !` : 'Pointage enregistré !'}
+                {rows.length > 1 ? `${rows.length} ${t('common.entries', 'pointages')} ${t('success.saved', 'enregistrés')} !` : `${t('common.entry', 'Pointage')} ${t('success.saved', 'enregistré')} !`}
               </div>
             )}
           </div>
@@ -377,12 +382,12 @@ export default function QuickTimesheetModal({ open, onClose, defaultDate }: Quic
                 <Clock size={15} className="text-indigo-600 dark:text-indigo-400" />
               </div>
               <div>
-                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider leading-tight">Total</p>
+                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider leading-tight">{t('common.total', 'Total')}</p>
                 <p className="text-base font-bold text-slate-800 dark:text-white leading-tight">
                   {totalHours % 1 === 0 ? totalHours : totalHours.toFixed(2)}h
                   {rows.length > 1 && (
                     <span className="text-xs font-normal text-slate-400 ml-1.5">
-                      ({rows.length} lignes)
+                      ({rows.length} {t('common.entries', 'lignes')})
                     </span>
                   )}
                 </p>
@@ -395,7 +400,7 @@ export default function QuickTimesheetModal({ open, onClose, defaultDate }: Quic
                 onClick={onClose}
                 className="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition-colors"
               >
-                Annuler
+                {t('common.cancel', 'Annuler')}
               </button>
               <button
                 type="submit"
@@ -404,7 +409,7 @@ export default function QuickTimesheetModal({ open, onClose, defaultDate }: Quic
               >
                 {submitting && <Loader2 size={14} className="animate-spin" />}
                 {submitted ? <CheckCircle2 size={14} /> : null}
-                {submitted ? 'Enregistré !' : submitting ? 'Envoi…' : `Enregistrer${rows.length > 1 ? ` (${rows.length})` : ''}`}
+                {submitted ? t('success.saved', 'Enregistré !') : submitting ? t('common.submitting', 'Envoi…') : `${t('common.save', 'Enregistrer')}${rows.length > 1 ? ` (${rows.length})` : ''}`}
               </button>
             </div>
           </div>

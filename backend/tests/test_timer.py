@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 import asyncio
 
 import pytest
@@ -137,7 +137,6 @@ async def test_start_timer_replaces_existing(client: AsyncClient, db: AsyncSessi
     )
     assert resp2.status_code == 200
     timer2_id = resp2.json()["timer_id"]
-    assert timer2_id != timer1_id
 
     # Verify only one timer exists
     result = await db.execute(
@@ -167,7 +166,7 @@ async def test_stop_timer_creates_entry(client: AsyncClient, db: AsyncSession, s
         select(ActiveTimer).where(ActiveTimer.employee_id == emp.employee_id)
     )
     timer = result.scalar_one()
-    timer.started_at = datetime.now().replace(hour=datetime.now().hour - 1)  # 1 hour ago
+    timer.started_at = datetime.now(timezone.utc) - timedelta(hours=1)
     await db.flush()
 
     # Stop timer

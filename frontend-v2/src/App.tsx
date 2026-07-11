@@ -76,7 +76,7 @@ export default function App() {
   }, [dark])
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.VITE_BASE_PATH || '/'}>
       <Routes>
         {/* Setup wizard — only when not installed */}
         <Route path="/setup" element={<SetupPage />} />
@@ -118,6 +118,7 @@ export default function App() {
             <Route path="/finance/invoices" element={<RoleRoute roles={['finance','admin']}><FinanceLicenseRoute><InvoicesPage /></FinanceLicenseRoute></RoleRoute>} />
             <Route path="/finance/invoices/:id" element={<RoleRoute roles={['finance','admin']}><FinanceLicenseRoute><InvoiceDetailPage /></FinanceLicenseRoute></RoleRoute>} />
             <Route path="/finance/reports" element={<RoleRoute roles={['finance','admin']}><FinanceLicenseRoute><FinancialReportsPage /></FinanceLicenseRoute></RoleRoute>} />
+            <Route path="/finance/advanced-reports" element={<Navigate to="/finance/reports" replace />} />
             <Route path="/finance/license" element={<RoleRoute roles={['finance','admin']}><FinanceLicensePage /></RoleRoute>} />
 
             {/* Admin — admin only */}

@@ -1,0 +1,66 @@
+# docker-compose.uat.yml — Override for UAT environments (uat, uat2, uat3…)
+#
+# Required env vars:
+#   ENV_NAME            e.g. uat | uat2 | uat3
+#   FRONTEND_HOST_PORT  e.g. 3001 | 3002 | 3003
+#   BACKEND_HOST_PORT   e.g. 8001 | 8002 | 8003
+#   DB_NAME             e.g. timelyna_uat | timelyna_uat2
+#   REDIS_DB_INDEX      e.g. 1 | 2 | 3
+#   POSTGRES_PASSWORD   same value used by the running dev postgres
+#
+# Usage:
+#   ENV_NAME=uat FRONTEND_HOST_PORT=3001 BACKEND_HOST_PORT=8001 \
+#   DB_NAME=timelyna_uat REDIS_DB_INDEX=1 \
+#   docker compose -f docker-compose.yml -f docker-compose.uat.yml \
+#   -p timelyna-uat up -d
+
+services:
+  # ── Disable shared infrastructure — reuse the running dev postgres/redis ──
+  postgres:
+    profiles: ["disabled-in-uat"]
+
+  redis:
+    profiles: ["disabled-in-uat"]
+
+  mailpit:
+    profiles: ["disabled-in-uat"]
+
+  pgadmin:
+    profiles: ["disabled-in-uat"]
+
+  # ── Backend ────────────────────────────────────────────────────────────────
+  backend:
+    container_name: timelyna-${ENV_NAME:-uat}-backend
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      APP_ENV: ${ENV_NAME:-uat}
+      DATABASE_URL: postgresql+asyncpg://timelyna:${POSTGRES_PASSWORD:-changeme}@host.docker.internal:5432/${DB_NAME:-timelyna_uat}?ssl=disable
+      REDIS_URL: redis://host.docker.internal:6379/${REDIS_DB_INDEX:-1}
+      FRONTEND_URL: http://localhost/${ENV_NAME:-uat}
+
+  # ── Celery worker ──────────────────────────────────────────────────────────
+  celery-worker:
+    container_name: timelyna-${ENV_NAME:-uat}-celery
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://timelyna:${POSTGRES_PASSWORD:-changeme}@host.docker.internal:5432/${DB_NAME:-timelyna_uat}?ssl=disable
+      REDIS_URL: redis://host.docker.internal:6379/${REDIS_DB_INDEX:-1}
+
+  # ── Celery beat ────────────────────────────────────────────────────────────
+  celery-beat:
+    container_name: timelyna-${ENV_NAME:-uat}-celery-beat
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://timelyna:${POSTGRES_PASSWORD:-changeme}@host.docker.internal:5432/${DB_NAME:-timelyna_uat}?ssl=disable
+      REDIS_URL: redis://host.docker.internal:6379/${REDIS_DB_INDEX:-1}
+
+  # ── Frontend ───────────────────────────────────────────────────────────────
+  frontend:
+    container_name: timelyna-${ENV_NAME:-uat}-frontend
+    build:
+      args:
+        VITE_BASE_PATH: /${ENV_NAME:-uat}
+        VITE_API_URL: /${ENV_NAME:-uat}/api/v1
