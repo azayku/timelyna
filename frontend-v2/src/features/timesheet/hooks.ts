@@ -21,7 +21,6 @@ export function useCreateEntry(week: string) {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (payload: CreateEntryPayload) => createEntry(payload),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['timesheet-week', week] }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['timesheet-week', week] })
       qc.invalidateQueries({ queryKey: ['timesheet-all-entries'] })
