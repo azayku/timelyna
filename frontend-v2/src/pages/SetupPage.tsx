@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { Building2, User, CheckCircle, Upload, X, Eye, EyeOff, ChevronRight, ChevronLeft } from 'lucide-react'
 import { runSetup, fetchSetupStatus } from '../features/setup/api'
 import { ApiError } from '../lib/apiClient'
-import { useAppConfig } from '../features/app-config/hooks'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -39,7 +38,6 @@ const STEPS = [
 
 export default function SetupPage() {
   const navigate = useNavigate()
-  const { data: appConfig } = useAppConfig()
   const [step, setStep] = useState(1)
   const [form, setForm] = useState<FormData>(INITIAL)
   const [errors, setErrors] = useState<Partial<Record<keyof FormData | 'global', string>>>({})

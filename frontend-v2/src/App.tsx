@@ -39,6 +39,7 @@ import ManagerOrganizationsPage from './pages/ManagerOrganizationsPage'
 import ManagerTeamPage from './pages/ManagerTeamPage'
 import ManagerProjectsPage from './pages/ManagerProjectsPage'
 import BudgetDashboardPage from './pages/BudgetDashboardPage'
+import { EmergencyContactsPage } from './pages/EmergencyContactsPage'
 import { fetchSetupStatus } from './features/setup/api'
 
 // ─── Role-based route guard ───────────────────────────────────────────────────
@@ -130,6 +131,7 @@ export default function App() {
             <Route path="/admin/hours-report" element={<RoleRoute roles={['admin','manager']}><HoursReportPage /></RoleRoute>} />
             <Route path="/admin/skill-rates" element={<RoleRoute roles={['admin']}><SkillRatesPage /></RoleRoute>} />
             <Route path="/admin/email-templates" element={<RoleRoute roles={['admin']}><EmailTemplatesPage /></RoleRoute>} />
+            <Route path="/admin/emergency-contacts" element={<RoleRoute roles={['admin','manager']}><EmergencyContactsPage /></RoleRoute>} />
             <Route path="/admin/license" element={<RoleRoute roles={['admin']}><LicenseSettingsPage /></RoleRoute>} />
             <Route path="/admin/license/settings" element={<RoleRoute roles={['admin']}><LicenseSettingsPage /></RoleRoute>} />
             <Route path="/licenses" element={<LicenseSettingsPage />} />

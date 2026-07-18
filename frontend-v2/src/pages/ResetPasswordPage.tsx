@@ -3,12 +3,10 @@ import { Link, useSearchParams, useNavigate } from 'react-router-dom'
 import { AlertCircle, CheckCircle, Eye, EyeOff } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { apiClient, ApiError } from '../lib/apiClient'
-import { useAppConfig } from '../features/app-config/hooks'
 
 export default function ResetPasswordPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
-  const { data: appConfig } = useAppConfig()
   const token = searchParams.get('token')
 
   const [password, setPassword] = useState('')

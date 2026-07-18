@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom'
 import {
   LayoutDashboard, Clock, CheckSquare, Users, FolderOpen,
   Building2, BarChart2, CalendarDays, Settings,
-  Star, Shield, Mail, TrendingUp, Calendar, ScrollText, LogOut, User
+  Star, Shield, Mail, TrendingUp, Calendar, ScrollText, LogOut, User, Phone
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '../lib/authStore'
@@ -101,6 +101,7 @@ export default function Sidebar() {
         { to: '/admin/hours-report', label: t('nav.hoursReport'), icon: <BarChart2 size={16} /> },
         { to: '/admin/skill-rates', label: t('nav.skillRates'), icon: <Star size={16} /> },
         { to: '/admin/email-templates', label: t('nav.emailTemplates'), icon: <Mail size={16} /> },
+        { to: '/admin/emergency-contacts', label: t('nav.emergencyContacts'), icon: <Phone size={16} /> },
         { to: '/admin/license', label: t('nav.license'), icon: <Shield size={16} /> },
         { to: '/admin/settings', label: t('nav.orgSettings'), icon: <Settings size={16} /> },
         { to: '/admin/proxy/logs', label: t('nav.proxyLogs'), icon: <ScrollText size={16} /> },

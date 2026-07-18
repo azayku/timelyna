@@ -24,6 +24,7 @@ from app.models.project_required_skill import ProjectRequiredSkill
 from app.models.employee_mutation_log import EmployeeMutationLog
 from app.models.timer import ActiveTimer
 from app.models.entry_template import EntryTemplate
+from app.models.emergency_contact import EmergencyContact
 
 __all__ = [
     "Base",
@@ -53,4 +54,5 @@ __all__ = [
     "ActiveTimer",
     "EmployeeMutationLog",
     "EntryTemplate",
+    "EmergencyContact",
 ]

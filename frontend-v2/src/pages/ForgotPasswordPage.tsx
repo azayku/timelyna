@@ -12,9 +12,6 @@ export default function ForgotPasswordPage() {
   const [success, setSuccess] = useState(false)
   const { t } = useTranslation()
   const { data: appConfig } = useAppConfig()
-  const [success, setSuccess] = useState(false)
-
-  const { t } = useTranslation()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
