@@ -124,7 +124,7 @@
     "resetFilters": "Reset filters"
   },
   "login": {
-    "title": "Timelyn",
+    "title": "Timelyna",
     "heading": "Sign in",
     "subtitle": "Sign in to your workspace",
     "signIn": "Sign in",
@@ -145,7 +145,7 @@
     "hidePassword": "Hide password",
     "noAccount": "Don't have an account yet?",
     "contactAdmin": "Contact your administrator",
-    "welcomeTitle": "Timelyn",
+    "welcomeTitle": "Timelyna",
     "welcomeSubtitle": "Manage your time and projects efficiently"
   },
   "dashboard": {

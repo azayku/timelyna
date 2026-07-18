@@ -30,7 +30,7 @@ class SetupStatusResponse(BaseModel):
 class SetupPayload(BaseModel):
     # Organisation / branding
     company_name: str
-    app_name: str = "Timelyn"
+    app_name: str = "Timelyna"
     company_logo: str | None = None  # base64 data-URL or empty
 
     # Admin account
@@ -70,7 +70,7 @@ async def _get_config(db: AsyncSession):
     result = await db.execute(select(AppConfig).limit(1))
     cfg = result.scalar_one_or_none()
     if cfg is None:
-        cfg = AppConfig(is_installed=False, app_name="Timelyn")
+        cfg = AppConfig(is_installed=False, app_name="Timelyna")
         db.add(cfg)
         await db.flush()
     return cfg
@@ -235,7 +235,7 @@ async def run_setup(
     # ------------------------------------------------------------------
     cfg.is_installed = True
     cfg.company_name = payload.company_name
-    cfg.app_name = payload.app_name.strip() or "Timelyn"
+    cfg.app_name = payload.app_name.strip() or "Timelyna"
     cfg.company_logo = logo
     cfg.installed_at = datetime.now(timezone.utc)
 

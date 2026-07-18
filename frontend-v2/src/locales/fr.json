@@ -611,7 +611,7 @@
     "preferencesSaved": "Préférences enregistrées"
   },
   "login": {
-    "title": "Timelyn",
+    "title": "Timelyna",
     "heading": "Connexion",
     "subtitle": "Connectez-vous à votre espace",
     "signIn": "Connexion",
@@ -632,7 +632,7 @@
     "hidePassword": "Masquer le mot de passe",
     "noAccount": "Vous n'avez pas encore de compte ?",
     "contactAdmin": "Contactez votre administrateur",
-    "welcomeTitle": "Timelyn",
+    "welcomeTitle": "Timelyna",
     "welcomeSubtitle": "Gérez vos temps et projets efficacement"
   },
   "errors": {

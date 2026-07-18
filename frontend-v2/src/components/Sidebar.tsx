@@ -141,7 +141,7 @@ export default function Sidebar() {
         <div className="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center">
           <Clock size={16} className="text-white" />
         </div>
-        <span className="text-white font-bold text-base tracking-tight">Timelyn</span>
+        <span className="text-white font-bold text-base tracking-tight">Timelyna</span>
       </div>
 
       {/* Nav */}

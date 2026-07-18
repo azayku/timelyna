@@ -19,7 +19,7 @@ interface FormData {
 
 const INITIAL: FormData = {
   company_name: '',
-  app_name: 'Timelyn',
+  app_name: 'Timelyna',
   company_logo: null,
   admin_first_name: '',
   admin_last_name: '',
@@ -166,7 +166,7 @@ export default function SetupPage() {
                 <path d="M12 6v6l4 2" />
               </svg>
             </div>
-            <span className="text-white text-2xl font-bold tracking-tight">Timelyn</span>
+            <span className="text-white text-2xl font-bold tracking-tight">Timelyna</span>
           </div>
           <p className="text-indigo-300 mt-2 text-sm">Assistant de première installation</p>
         </div>
@@ -215,7 +215,7 @@ export default function SetupPage() {
                   type="text"
                   value={form.app_name}
                   onChange={e => set('app_name', e.target.value)}
-                  placeholder="Timelyn"
+                  placeholder="Timelyna"
                   className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
                 />
                 <p className="text-xs text-slate-400 mt-1">Affiché dans le navigateur et les emails.</p>
@@ -294,7 +294,7 @@ export default function SetupPage() {
                   </div>
                 )}
                 <span className="text-sm font-semibold text-slate-700">
-                  {form.company_name || 'Nom de l\'entreprise'} <span className="text-slate-400 font-normal">by {form.app_name || 'Timelyn'}</span>
+                  {form.company_name || 'Nom de l\'entreprise'} <span className="text-slate-400 font-normal">by {form.app_name || 'Timelyna'}</span>
                 </span>
               </div>
             </div>

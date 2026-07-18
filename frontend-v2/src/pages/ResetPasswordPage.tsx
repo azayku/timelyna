@@ -68,7 +68,7 @@ export default function ResetPasswordPage() {
           <div className="w-10 h-10 rounded-xl bg-indigo-500 flex items-center justify-center">
             <Clock size={20} className="text-white" />
           </div>
-          <span className="text-white text-xl font-bold">Timelyn</span>
+          <span className="text-white text-xl font-bold">Timelyna</span>
         </div>
 
         {/* Card */}
@@ -171,7 +171,7 @@ export default function ResetPasswordPage() {
           )}
         </div>
 
-        <p className="text-center text-slate-500 text-xs mt-6">© 2026 Timelyn</p>
+        <p className="text-center text-slate-500 text-xs mt-6">© 2026 Timelyna</p>
       </div>
     </div>
   )

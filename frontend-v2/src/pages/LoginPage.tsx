@@ -63,7 +63,7 @@ export default function LoginPage() {
             </div>
           </div>
           <h1 className="text-3xl font-bold text-slate-800 mb-4">
-            {t('login.welcomeTitle', 'Timelyn')}
+            {t('login.welcomeTitle', 'Timelyna')}
           </h1>
           <p className="text-lg text-slate-600 mb-8">
             {t('login.welcomeSubtitle', "Gérez vos temps et projets efficacement")}

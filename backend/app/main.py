@@ -24,7 +24,7 @@ from app.api.v1.mfa import router as mfa_router
 from app.api.v1.imports import router as imports_router
 from app.api.v1.setup import router as setup_router
 
-app = FastAPI(title="Timelyn API", version="1.0.0")
+app = FastAPI(title="Timelyna API", version="1.0.0")
 
 
 # ── Global error handlers — never expose stack traces to clients ──────────────

@@ -48,7 +48,7 @@ export default function Layout() {
   const meta = routes ? {
     title: t(routes.titleKey),
     breadcrumb: routes.breadcrumbKeys.map(key => t(key))
-  } : { title: 'Timelyn', breadcrumb: [] }
+  } : { title: 'Timelyna', breadcrumb: [] }
   const isProxy = useProxyStore(s => s.isProxy)
   const role = useAuthStore(s => s.user?.role)
   const { show: showOnboarding, complete: completeOnboarding } = useOnboarding(role === 'admin')

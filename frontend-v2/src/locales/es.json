@@ -687,7 +687,7 @@
     "adminHintIcon": "💡 Para modificar su información personal, contacte a su administrador."
   },
   "login": {
-    "title": "Timelyn",
+    "title": "Timelyna",
     "heading": "Iniciar sesión",
     "subtitle": "Inicie sesión en su espacio",
     "signIn": "Iniciar sesión",
@@ -708,7 +708,7 @@
     "hidePassword": "Ocultar contraseña",
     "noAccount": "¿Aún no tiene una cuenta?",
     "contactAdmin": "Contacte a su administrador",
-    "welcomeTitle": "Timelyn",
+    "welcomeTitle": "Timelyna",
     "welcomeSubtitle": "Gestione su tiempo y proyectos de manera eficiente"
   },
   "errors": {

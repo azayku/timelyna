@@ -18,7 +18,7 @@ def upgrade() -> None:
         "app_config",
         sa.Column("id", sa.Integer, primary_key=True, autoincrement=True),
         sa.Column("is_installed", sa.Boolean, nullable=False, server_default="false"),
-        sa.Column("app_name", sa.String(255), nullable=False, server_default="Timelyn"),
+        sa.Column("app_name", sa.String(255), nullable=False, server_default="Timelyna"),
         sa.Column("company_name", sa.String(255), nullable=True),
         sa.Column("company_logo", sa.Text, nullable=True),
         sa.Column("installed_at", sa.TIMESTAMP(timezone=True), nullable=True),
@@ -37,7 +37,7 @@ def upgrade() -> None:
     )
     # Insert the initial (not-installed) row
     op.execute(
-        "INSERT INTO app_config (is_installed, app_name) VALUES (false, 'Timelyn')"
+        "INSERT INTO app_config (is_installed, app_name) VALUES (false, 'Timelyna')"
     )
 
     # Add logo column to org_settings if missing (for future use)

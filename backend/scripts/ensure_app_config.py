@@ -50,7 +50,7 @@ async def ensure_app_config() -> None:
 
             r = await db.execute(select(AppConfig).limit(1))
             if not r.scalar_one_or_none():
-                db.add(AppConfig(is_installed=False, app_name="Timelyn"))
+                db.add(AppConfig(is_installed=False, app_name="Timelyna"))
                 print("app_config row created.")
         except Exception as exc:
             print(f"app_config init skipped: {exc}")
