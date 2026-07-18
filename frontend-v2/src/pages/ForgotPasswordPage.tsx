@@ -35,9 +35,11 @@ export default function ForgotPasswordPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-xl bg-indigo-500 flex items-center justify-center">
-            <Clock size={20} className="text-white" />
-          </div>
+          <img 
+            src="https://img.icons8.com/?size=100&id=20935&format=png&color=ffffff" 
+            alt="Timelyna Logo"
+            className="w-10 h-10 rounded-xl"
+          />
           <span className="text-white text-xl font-bold">Timelyna</span>
         </div>
 

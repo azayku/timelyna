@@ -160,12 +160,11 @@ export default function SetupPage() {
         {/* Logo / Title */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-500 flex items-center justify-center">
-              <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-white" stroke="currentColor" strokeWidth={2}>
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 6v6l4 2" />
-              </svg>
-            </div>
+            <img 
+              src="https://img.icons8.com/?size=100&id=20935&format=png&color=ffffff" 
+              alt="Timelyna Logo"
+              className="w-10 h-10 rounded-xl"
+            />
             <span className="text-white text-2xl font-bold tracking-tight">Timelyna</span>
           </div>
           <p className="text-indigo-300 mt-2 text-sm">Assistant de première installation</p>

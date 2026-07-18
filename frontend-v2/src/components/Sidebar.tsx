@@ -138,9 +138,11 @@ export default function Sidebar() {
     <aside className="w-60 flex-shrink-0 flex flex-col h-screen bg-slate-900 dark:bg-slate-950 overflow-y-auto">
       {/* Logo */}
       <div className="flex items-center gap-3 px-5 py-5 border-b border-slate-800">
-        <div className="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center">
-          <Clock size={16} className="text-white" />
-        </div>
+        <img 
+          src="https://img.icons8.com/?size=100&id=20935&format=png&color=ffffff" 
+          alt="Timelyna Logo"
+          className="w-8 h-8 rounded-lg"
+        />
         <span className="text-white font-bold text-base tracking-tight">Timelyna</span>
       </div>
 

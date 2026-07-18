@@ -27,6 +27,13 @@ class SetupStatusResponse(BaseModel):
     app_name: str
 
 
+class AppConfigResponse(BaseModel):
+    """Response containing app branding and configuration."""
+    app_name: str
+    company_name: str | None
+    company_logo: str | None
+
+
 class SetupPayload(BaseModel):
     # Organisation / branding
     company_name: str
@@ -85,6 +92,21 @@ async def setup_status(db: AsyncSession = Depends(get_db)) -> SetupStatusRespons
     """Public endpoint — tells the frontend whether the wizard must be shown."""
     cfg = await _get_config(db)
     return SetupStatusResponse(is_installed=cfg.is_installed, app_name=cfg.app_name)
+
+
+# ---------------------------------------------------------------------------
+# GET /api/v1/setup/config
+# ---------------------------------------------------------------------------
+
+@router.get("/config", response_model=AppConfigResponse)
+async def get_app_config(db: AsyncSession = Depends(get_db)) -> AppConfigResponse:
+    """Public endpoint — returns the app branding and configuration."""
+    cfg = await _get_config(db)
+    return AppConfigResponse(
+        app_name=cfg.app_name,
+        company_name=cfg.company_name,
+        company_logo=cfg.company_logo,
+    )
 
 
 # ---------------------------------------------------------------------------

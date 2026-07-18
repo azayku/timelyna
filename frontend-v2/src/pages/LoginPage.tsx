@@ -71,25 +71,11 @@ export default function LoginPage() {
           
           {/* Illustration placeholder */}
           <div className="relative">
-            <svg viewBox="0 0 400 300" className="w-full">
-              {/* Simple illustration */}
-              <rect x="50" y="80" width="80" height="100" rx="8" fill="#e0e7ff" />
-              <rect x="160" y="80" width="80" height="100" rx="8" fill="#ddd6fe" />
-              <rect x="270" y="80" width="80" height="100" rx="8" fill="#fef3c7" />
-              
-              {/* Person 1 */}
-              <circle cx="90" cy="60" r="15" fill="#fbbf24" />
-              <path d="M 70 80 L 70 120 M 70 95 L 55 110 M 70 95 L 85 110" stroke="#fbbf24" strokeWidth="4" strokeLinecap="round" />
-              
-              {/* Person 2 */}
-              <circle cx="200" cy="60" r="15" fill="#f97316" />
-              <path d="M 180 80 L 180 120 M 180 95 L 165 110 M 180 95 L 195 110" stroke="#f97316" strokeWidth="4" strokeLinecap="round" />
-              
-              {/* Sticky notes */}
-              <rect x="75" y="100" width="30" height="30" rx="2" fill="#818cf8" />
-              <rect x="185" y="110" width="30" height="30" rx="2" fill="#a78bfa" />
-              <rect x="295" y="105" width="30" height="30" rx="2" fill="#fbbf24" />
-            </svg>
+            <img 
+              src="https://media.licdn.com/dms/image/v2/D4E12AQGmmjgu_HHCYQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1658479901339?e=1785974400&v=beta&t=7Qc1ox6EFUm_Bd-J60eopMKZlGl8V2pYTTnTO_7Vr5U"
+              alt="Timelyna - Gestion des temps"
+              className="w-full rounded-lg shadow-md"
+            />
           </div>
         </div>
       </div>
