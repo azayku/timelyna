@@ -23,8 +23,9 @@ from app.api.v1.entry_templates import router as entry_templates_router
 from app.api.v1.mfa import router as mfa_router
 from app.api.v1.imports import router as imports_router
 from app.api.v1.setup import router as setup_router
+from app.api.v1.emergency_contacts import router as emergency_contacts_router
 
-app = FastAPI(title="Timelyn API", version="1.0.0")
+app = FastAPI(title="Timelyna API", version="1.0.0")
 
 
 # ── Global error handlers — never expose stack traces to clients ──────────────
@@ -85,6 +86,7 @@ app.include_router(entry_templates_router, prefix="/api/v1")
 app.include_router(imports_router, prefix="/api/v1")
 app.include_router(mfa_router, prefix="/api/v1")
 app.include_router(setup_router, prefix="/api/v1")
+app.include_router(emergency_contacts_router, prefix="/api/v1")
 
 
 @app.get("/health")

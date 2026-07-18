@@ -27,10 +27,17 @@ class SetupStatusResponse(BaseModel):
     app_name: str
 
 
+class AppConfigResponse(BaseModel):
+    """Response containing app branding and configuration."""
+    app_name: str
+    company_name: str | None
+    company_logo: str | None
+
+
 class SetupPayload(BaseModel):
     # Organisation / branding
     company_name: str
-    app_name: str = "Timelyn"
+    app_name: str = "Timelyna"
     company_logo: str | None = None  # base64 data-URL or empty
 
     # Admin account
@@ -70,7 +77,7 @@ async def _get_config(db: AsyncSession):
     result = await db.execute(select(AppConfig).limit(1))
     cfg = result.scalar_one_or_none()
     if cfg is None:
-        cfg = AppConfig(is_installed=False, app_name="Timelyn")
+        cfg = AppConfig(is_installed=False, app_name="Timelyna")
         db.add(cfg)
         await db.flush()
     return cfg
@@ -85,6 +92,21 @@ async def setup_status(db: AsyncSession = Depends(get_db)) -> SetupStatusRespons
     """Public endpoint — tells the frontend whether the wizard must be shown."""
     cfg = await _get_config(db)
     return SetupStatusResponse(is_installed=cfg.is_installed, app_name=cfg.app_name)
+
+
+# ---------------------------------------------------------------------------
+# GET /api/v1/setup/config
+# ---------------------------------------------------------------------------
+
+@router.get("/config", response_model=AppConfigResponse)
+async def get_app_config(db: AsyncSession = Depends(get_db)) -> AppConfigResponse:
+    """Public endpoint — returns the app branding and configuration."""
+    cfg = await _get_config(db)
+    return AppConfigResponse(
+        app_name=cfg.app_name,
+        company_name=cfg.company_name,
+        company_logo=cfg.company_logo,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -235,7 +257,7 @@ async def run_setup(
     # ------------------------------------------------------------------
     cfg.is_installed = True
     cfg.company_name = payload.company_name
-    cfg.app_name = payload.app_name.strip() or "Timelyn"
+    cfg.app_name = payload.app_name.strip() or "Timelyna"
     cfg.company_logo = logo
     cfg.installed_at = datetime.now(timezone.utc)
 

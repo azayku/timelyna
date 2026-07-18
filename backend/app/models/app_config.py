@@ -21,7 +21,7 @@ class AppConfig(Base):
     is_installed: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
 
     # Branding
-    app_name: Mapped[str] = mapped_column(String(255), nullable=False, default="Timelyn")
+    app_name: Mapped[str] = mapped_column(String(255), nullable=False, default="Timelyna")
     company_name: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     # Logo stored as base64 data-URL (small image) or a path/URL
     company_logo: Mapped[Optional[str]] = mapped_column(Text, nullable=True)

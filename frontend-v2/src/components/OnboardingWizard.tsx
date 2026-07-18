@@ -9,7 +9,7 @@ const STEPS = [
   {
     id: 1,
     icon: Building2,
-    title: 'Bienvenue dans Timelyn !',
+    title: 'Bienvenue dans Timelyna !',
     description: 'Configurez votre organisation en quelques étapes simples.',
     action: 'Paramètres organisation',
     href: '/admin/settings',

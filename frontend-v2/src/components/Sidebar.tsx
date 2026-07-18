@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom'
 import {
   LayoutDashboard, Clock, CheckSquare, Users, FolderOpen,
   Building2, BarChart2, CalendarDays, Settings,
-  Star, Shield, Mail, TrendingUp, Calendar, ScrollText, LogOut, User
+  Star, Shield, Mail, TrendingUp, Calendar, ScrollText, LogOut, User, Phone
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '../lib/authStore'
@@ -101,6 +101,7 @@ export default function Sidebar() {
         { to: '/admin/hours-report', label: t('nav.hoursReport'), icon: <BarChart2 size={16} /> },
         { to: '/admin/skill-rates', label: t('nav.skillRates'), icon: <Star size={16} /> },
         { to: '/admin/email-templates', label: t('nav.emailTemplates'), icon: <Mail size={16} /> },
+        { to: '/admin/emergency-contacts', label: t('nav.emergencyContacts'), icon: <Phone size={16} /> },
         { to: '/admin/license', label: t('nav.license'), icon: <Shield size={16} /> },
         { to: '/admin/settings', label: t('nav.orgSettings'), icon: <Settings size={16} /> },
         { to: '/admin/proxy/logs', label: t('nav.proxyLogs'), icon: <ScrollText size={16} /> },
@@ -138,10 +139,12 @@ export default function Sidebar() {
     <aside className="w-60 flex-shrink-0 flex flex-col h-screen bg-slate-900 dark:bg-slate-950 overflow-y-auto">
       {/* Logo */}
       <div className="flex items-center gap-3 px-5 py-5 border-b border-slate-800">
-        <div className="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center">
-          <Clock size={16} className="text-white" />
-        </div>
-        <span className="text-white font-bold text-base tracking-tight">Timelyn</span>
+        <img 
+          src="https://img.icons8.com/?size=100&id=20935&format=png&color=ffffff" 
+          alt="Timelyna Logo"
+          className="w-8 h-8 rounded-lg"
+        />
+        <span className="text-white font-bold text-base tracking-tight">Timelyna</span>
       </div>
 
       {/* Nav */}

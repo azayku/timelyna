@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useSearchParams, useNavigate } from 'react-router-dom'
-import { Clock, AlertCircle, CheckCircle, Eye, EyeOff } from 'lucide-react'
+import { AlertCircle, CheckCircle, Eye, EyeOff } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { apiClient, ApiError } from '../lib/apiClient'
 
@@ -65,10 +65,12 @@ export default function ResetPasswordPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-xl bg-indigo-500 flex items-center justify-center">
-            <Clock size={20} className="text-white" />
-          </div>
-          <span className="text-white text-xl font-bold">Timelyn</span>
+          <img 
+            src="https://img.icons8.com/?size=100&id=20935&format=png&color=ffffff" 
+            alt="Timelyna Logo"
+            className="w-10 h-10 rounded-xl"
+          />
+          <span className="text-white text-xl font-bold">Timelyna</span>
         </div>
 
         {/* Card */}
@@ -171,7 +173,7 @@ export default function ResetPasswordPage() {
           )}
         </div>
 
-        <p className="text-center text-slate-500 text-xs mt-6">© 2026 Timelyn</p>
+        <p className="text-center text-slate-500 text-xs mt-6">© 2026 Timelyna</p>
       </div>
     </div>
   )

@@ -1,16 +1,17 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Clock, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react'
+import { AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { apiClient, ApiError } from '../lib/apiClient'
+import { useAppConfig } from '../features/app-config/hooks'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
-
   const { t } = useTranslation()
+  const { data: appConfig } = useAppConfig()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -35,10 +36,12 @@ export default function ForgotPasswordPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-xl bg-indigo-500 flex items-center justify-center">
-            <Clock size={20} className="text-white" />
-          </div>
-          <span className="text-white text-xl font-bold">Timelyn</span>
+          <img 
+            src={appConfig?.company_logo || "https://img.icons8.com/?size=100&id=20935&format=png&color=ffffff"} 
+            alt="Logo"
+            className="w-10 h-10 rounded-xl"
+          />
+          <span className="text-white text-xl font-bold">{appConfig?.app_name === 'Timelyna' ? 'Timelyna' : `${appConfig?.app_name} by Timelyna`}</span>
         </div>
 
         {/* Card */}
@@ -115,7 +118,7 @@ export default function ForgotPasswordPage() {
           )}
         </div>
 
-        <p className="text-center text-slate-500 text-xs mt-6">© 2026 Timelyn</p>
+        <p className="text-center text-slate-500 text-xs mt-6">© 2026 Timelyna</p>
       </div>
     </div>
   )

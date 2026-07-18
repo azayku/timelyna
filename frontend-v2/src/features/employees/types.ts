@@ -10,6 +10,8 @@ export interface Employee {
   org_name?: string
   birth_date: string | null
   address: string | null
+  phone?: string | null
+  department?: string | null
   deactivation_scheduled_at: string | null
   hire_date?: string | null
   created_at?: string

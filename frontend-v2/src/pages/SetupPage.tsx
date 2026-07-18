@@ -19,7 +19,7 @@ interface FormData {
 
 const INITIAL: FormData = {
   company_name: '',
-  app_name: 'Timelyn',
+  app_name: 'Timelyna',
   company_logo: null,
   admin_first_name: '',
   admin_last_name: '',
@@ -160,13 +160,12 @@ export default function SetupPage() {
         {/* Logo / Title */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-500 flex items-center justify-center">
-              <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-white" stroke="currentColor" strokeWidth={2}>
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 6v6l4 2" />
-              </svg>
-            </div>
-            <span className="text-white text-2xl font-bold tracking-tight">Timelyn</span>
+            <img 
+              src="https://img.icons8.com/?size=100&id=20935&format=png&color=ffffff" 
+              alt="Timelyna Logo"
+              className="w-10 h-10 rounded-xl"
+            />
+            <span className="text-white text-2xl font-bold tracking-tight">Timelyna</span>
           </div>
           <p className="text-indigo-300 mt-2 text-sm">Assistant de première installation</p>
         </div>
@@ -215,7 +214,7 @@ export default function SetupPage() {
                   type="text"
                   value={form.app_name}
                   onChange={e => set('app_name', e.target.value)}
-                  placeholder="Timelyn"
+                  placeholder="Timelyna"
                   className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
                 />
                 <p className="text-xs text-slate-400 mt-1">Affiché dans le navigateur et les emails.</p>
@@ -294,7 +293,7 @@ export default function SetupPage() {
                   </div>
                 )}
                 <span className="text-sm font-semibold text-slate-700">
-                  {form.company_name || 'Nom de l\'entreprise'} <span className="text-slate-400 font-normal">by {form.app_name || 'Timelyn'}</span>
+                  {form.company_name || 'Nom de l\'entreprise'} <span className="text-slate-400 font-normal">by {form.app_name || 'Timelyna'}</span>
                 </span>
               </div>
             </div>

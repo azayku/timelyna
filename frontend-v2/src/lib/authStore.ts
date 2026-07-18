@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { apiClient, ApiError } from './apiClient'
 import { tokenStore } from './tokenStore'
+import { getBasePath, addBasePath } from './pathUtils'
 
 export interface AuthUser {
   employee_id: number
@@ -72,7 +73,7 @@ export const useAuthStore = create<AuthState>()(
         }
         tokenStore.set(null)
         set({ user: null, isAuthenticated: false })
-        window.location.href = '/login'
+        window.location.href = addBasePath('/login', getBasePath())
       },
 
       setUser: (user: AuthUser) => set({ user, isAuthenticated: true }),
@@ -118,6 +119,6 @@ export const useAuthStore = create<AuthState>()(
 if (typeof window !== 'undefined') {
   window.addEventListener('auth:unauthorized', () => {
     useAuthStore.getState().clearUser()
-    window.location.href = '/login'
+    window.location.href = addBasePath('/login', getBasePath())
   })
 }

@@ -6,6 +6,7 @@ import { useAuthStore } from '../lib/authStore'
 import type { AuthUser } from '../lib/authStore'
 import { ApiError } from '../lib/apiClient'
 import WelcomeSplash from '../components/WelcomeSplash'
+import { useAppConfig } from '../features/app-config/hooks'
 
 const LANGS = ['fr', 'en', 'it', 'es'] as const
 
@@ -22,6 +23,7 @@ export default function LoginPage() {
   const login = useAuthStore((s) => s.login)
   const navigate = useNavigate()
   const location = useLocation()
+  const { data: appConfig } = useAppConfig()
 
   const from = (location.state as { from?: Location } | null)?.from?.pathname ?? '/'
 
@@ -63,7 +65,7 @@ export default function LoginPage() {
             </div>
           </div>
           <h1 className="text-3xl font-bold text-slate-800 mb-4">
-            {t('login.welcomeTitle', 'Timelyn')}
+            {t('login.welcomeTitle', 'Timelyna')}
           </h1>
           <p className="text-lg text-slate-600 mb-8">
             {t('login.welcomeSubtitle', "Gérez vos temps et projets efficacement")}
@@ -71,25 +73,11 @@ export default function LoginPage() {
           
           {/* Illustration placeholder */}
           <div className="relative">
-            <svg viewBox="0 0 400 300" className="w-full">
-              {/* Simple illustration */}
-              <rect x="50" y="80" width="80" height="100" rx="8" fill="#e0e7ff" />
-              <rect x="160" y="80" width="80" height="100" rx="8" fill="#ddd6fe" />
-              <rect x="270" y="80" width="80" height="100" rx="8" fill="#fef3c7" />
-              
-              {/* Person 1 */}
-              <circle cx="90" cy="60" r="15" fill="#fbbf24" />
-              <path d="M 70 80 L 70 120 M 70 95 L 55 110 M 70 95 L 85 110" stroke="#fbbf24" strokeWidth="4" strokeLinecap="round" />
-              
-              {/* Person 2 */}
-              <circle cx="200" cy="60" r="15" fill="#f97316" />
-              <path d="M 180 80 L 180 120 M 180 95 L 165 110 M 180 95 L 195 110" stroke="#f97316" strokeWidth="4" strokeLinecap="round" />
-              
-              {/* Sticky notes */}
-              <rect x="75" y="100" width="30" height="30" rx="2" fill="#818cf8" />
-              <rect x="185" y="110" width="30" height="30" rx="2" fill="#a78bfa" />
-              <rect x="295" y="105" width="30" height="30" rx="2" fill="#fbbf24" />
-            </svg>
+            <img 
+              src={appConfig?.company_logo || "https://ik.imagekit.io/apps365/Apps365/Blogs%20/Timesheet-blog.webp"}
+              alt="Timelyna - Gestion des temps"
+              className="w-full rounded-lg shadow-md"
+            />
           </div>
         </div>
       </div>
