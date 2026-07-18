@@ -6,6 +6,7 @@ import { useAuthStore } from '../lib/authStore'
 import type { AuthUser } from '../lib/authStore'
 import { ApiError } from '../lib/apiClient'
 import WelcomeSplash from '../components/WelcomeSplash'
+import { useAppConfig } from '../features/app-config/hooks'
 
 const LANGS = ['fr', 'en', 'it', 'es'] as const
 
@@ -22,6 +23,7 @@ export default function LoginPage() {
   const login = useAuthStore((s) => s.login)
   const navigate = useNavigate()
   const location = useLocation()
+  const { data: appConfig } = useAppConfig()
 
   const from = (location.state as { from?: Location } | null)?.from?.pathname ?? '/'
 
@@ -71,7 +73,7 @@ export default function LoginPage() {
           
           {/* Illustration placeholder */}
           <div className="relative">
-            <img 
+            <img {appConfig?.company_logo || "https://media.licdn.com/dms/image/v2/D4E12AQGmmjgu_HHCYQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1658479901339?e=1785974400&v=beta&t=7Qc1ox6EFUm_Bd-J60eopMKZlGl8V2pYTTnTO_7Vr5U"}
               src="https://media.licdn.com/dms/image/v2/D4E12AQGmmjgu_HHCYQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1658479901339?e=1785974400&v=beta&t=7Qc1ox6EFUm_Bd-J60eopMKZlGl8V2pYTTnTO_7Vr5U"
               alt="Timelyna - Gestion des temps"
               className="w-full rounded-lg shadow-md"
